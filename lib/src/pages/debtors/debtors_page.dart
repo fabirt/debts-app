@@ -22,7 +22,7 @@ class DebtorsPage extends StatelessWidget {
       floatingActionButton: Container(
         margin: EdgeInsets.only(bottom: 30.0),
         child: AddButton(
-          onPressed: (){},
+          onPressed: _addDebtor,
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -82,13 +82,24 @@ class DebtorsPage extends StatelessWidget {
 
   Widget _buildContent() {
     return ListView.builder(
-      itemCount: 13,
+      itemCount: 1,
       padding: EdgeInsets.only(bottom: 110.0, top: 20.0),
       itemBuilder: (BuildContext context, int i) {
         return DebtorCard();
       },
     );
   }
- 
+  
+  Widget _buildEmptyState() {
+    return EmptyState(
+      icon: Icons.sentiment_very_satisfied,
+      message: 'No tienes deudas pendientes',
+    );
+  }
+
+
+  void _addDebtor() {
+
+  }
 
 }
