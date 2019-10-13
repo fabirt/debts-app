@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:debts_app/src/pages/index.dart';
+import 'package:debts_app/src/widgets/index.dart';
 import 'package:debts_app/src/utils/index.dart' as utils;
 
 
@@ -22,6 +23,12 @@ class MyApp extends StatelessWidget {
           body1: TextStyle(color: utils.Colors.brightGray)
         )
       ),
+      builder: (BuildContext context, child) {
+        return ScrollConfiguration(
+          child: child,
+          behavior: NeverOverScrollBehavior(),
+        );
+      },
     );
   }
 }

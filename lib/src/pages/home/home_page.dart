@@ -104,7 +104,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   }
 
   void _pushDebtorsPage(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (c) => DebtorsPage()));
+    Navigator.push(context, FadeRoute(page: DebtorsPage()));
   }
 
 }
