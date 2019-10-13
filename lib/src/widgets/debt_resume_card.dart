@@ -53,25 +53,28 @@ class DebtResumeCard extends StatelessWidget {
   final String title;
   final String value;
   final String label;
-  final Function onPressed;
+  final Function onTap;
 
   DebtResumeCard(
-      {this.theme, this.title, this.value, this.label, this.onPressed});
+      {this.theme, this.title, this.value, this.label, this.onTap});
 
   @override
   Widget build(BuildContext context) {
     final theme = new _DebtCardTheme(this.theme);
 
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 24.0),
-      child: Column(
-        children: <Widget>[
-          _buildHeader(),
-          SizedBox(
-            height: 14.0,
-          ),
-          _buildCard(theme)
-        ],
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 24.0),
+        child: Column(
+          children: <Widget>[
+            _buildHeader(),
+            SizedBox(
+              height: 14.0,
+            ),
+            _buildCard(theme)
+          ],
+        ),
       ),
     );
   }
@@ -110,7 +113,7 @@ class DebtResumeCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           _buildDeptColumn(theme),
-          _buildIconButton(theme),
+          _buildIcon(theme),
         ],
       ),
     );
@@ -155,14 +158,11 @@ class DebtResumeCard extends StatelessWidget {
     );
   }
 
-  Widget _buildIconButton(_DebtCardTheme theme) {
-    return InkWell(
-      onTap: onPressed,
-      child: Icon(
-        Icons.fingerprint,
-        color: theme.iconColor,
-        size: 50.0,
-      ),
+  Widget _buildIcon(_DebtCardTheme theme) {
+    return Icon(
+      Icons.fingerprint,
+      color: theme.iconColor,
+      size: 50.0,
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:debts_app/src/pages/debtors/debtors_page.dart';
 import 'package:flutter/material.dart';
 import 'package:debts_app/src/widgets/index.dart';
 import 'package:debts_app/src/utils/index.dart' as utils;
@@ -8,7 +9,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
-
   AnimationController _animationController;
   Animation<double> _scaleAnimation;
   Animation<Offset> _cardsOffset;
@@ -23,54 +23,31 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   void _initAnimations() {
     _animationController = new AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 1400)
-    )..addListener((){
-      setState(() {});
-    });
+        vsync: this, duration: Duration(milliseconds: 1400))
+      ..addListener(() {
+        setState(() {});
+      });
 
     _scaleAnimation = Tween<double>(begin: 3.0, end: 1.0).animate(
-      CurvedAnimation(
+        CurvedAnimation(
+            parent: _animationController,
+            curve: Interval(0.6, 1.0, curve: Curves.easeInOut)));
+    _fabOffset = Tween<Offset>(begin: Offset(0.0, 1.0), end: Offset.zero)
+        .animate(CurvedAnimation(
+            parent: _animationController,
+            curve: Interval(0.6, 1.0, curve: Curves.easeInOut)));
+    _cardsOffset = Tween<Offset>(begin: Offset(0.0, -0.20), end: Offset.zero)
+        .animate(CurvedAnimation(
+            parent: _animationController,
+            curve: Interval(0.2, 0.5, curve: Curves.easeInOut)));
+    _cardsOpacity = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
         parent: _animationController,
-        curve: Interval(
-          0.6, 1.0,
-          curve: Curves.easeInOut
-        )
-      )
-    );
-    _fabOffset = Tween<Offset>(begin: Offset(0.0, 1.0), end: Offset.zero).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: Interval(
-          0.6, 1.0,
-          curve: Curves.easeInOut
-        )
-      )
-    );
-    _cardsOffset = Tween<Offset>(begin: Offset(0.0, -0.20), end: Offset.zero).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: Interval(
-          0.2, 0.5,
-          curve: Curves.easeInOut
-        )
-      )
-    );
-    _cardsOpacity = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: Interval(
-          0.2, 0.44,
-          curve: Curves.easeInOut
-        )
-      )
-    );
+        curve: Interval(0.2, 0.44, curve: Curves.easeInOut)));
     _animationController.forward();
   }
 
   @override
   Widget build(BuildContext context) {
-
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -94,7 +71,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                       title: 'Me deben',
                       value: '\$ 200.000',
                       label: '1 persona',
-                      onPressed: () {},
+                      onTap: () => _pushDebtorsPage(context),
                     ),
                     SizedBox(
                       height: size.height * 0.05,
@@ -104,7 +81,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                       title: 'Debo',
                       value: '\$ 0.00',
                       label: 'a 0 personas',
-                      onPressed: () {},
+                      onTap: (){},
                     ),
                   ],
                 ),
@@ -118,13 +95,16 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         child: Container(
           margin: EdgeInsets.only(bottom: 30.0),
           child: AddButton(
-            onPressed: (){
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (c)=>HomePage()));
-            },
+            onPressed: () => _pushDebtorsPage(context),
           ),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
+
+  void _pushDebtorsPage(BuildContext context) {
+    Navigator.push(context, MaterialPageRoute(builder: (c) => DebtorsPage()));
+  }
+
 }
