@@ -5,6 +5,12 @@ import 'package:debts_app/src/utils/index.dart' as utils;
 
 
 class Background extends StatelessWidget {
+  final Animation<double> scaleAnimation;
+
+  Background({
+    this.scaleAnimation
+  });
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -16,11 +22,14 @@ class Background extends StatelessWidget {
             heightFactor: 1.0,
           ),
         ),
-        CustomPaint(
-          painter: _BluePainter(),
-          child: FractionallySizedBox(
-            widthFactor: 1.0,
-            heightFactor: 1.0,
+        Transform.scale(
+          scale: scaleAnimation.value,
+          child: CustomPaint(
+            painter: _BluePainter(),
+            child: FractionallySizedBox(
+              widthFactor: 1.0,
+              heightFactor: 1.0,
+            ),
           ),
         ),
       ],
