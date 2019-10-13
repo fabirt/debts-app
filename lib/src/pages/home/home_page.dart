@@ -12,6 +12,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   AnimationController _animationController;
   Animation<double> _scaleAnimation;
   Animation<Offset> _cardsOffset;
+  Animation<double> _cardsOpacity;
   Animation<Offset> _fabOffset;
 
   @override
@@ -23,7 +24,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   void _initAnimations() {
     _animationController = new AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 1800)
+      duration: Duration(milliseconds: 1400)
     )..addListener((){
       setState(() {});
     });
@@ -37,7 +38,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         )
       )
     );
-    _fabOffset = Tween<Offset>(begin: Offset(0.0, 84.0), end: Offset.zero).animate(
+    _fabOffset = Tween<Offset>(begin: Offset(0.0, 1.0), end: Offset.zero).animate(
       CurvedAnimation(
         parent: _animationController,
         curve: Interval(
@@ -46,11 +47,20 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         )
       )
     );
-    _cardsOffset = Tween<Offset>(begin: Offset(0.0, -30.0), end: Offset.zero).animate(
+    _cardsOffset = Tween<Offset>(begin: Offset(0.0, -0.20), end: Offset.zero).animate(
       CurvedAnimation(
         parent: _animationController,
         curve: Interval(
-          0.0, 0.5,
+          0.2, 0.5,
+          curve: Curves.easeInOut
+        )
+      )
+    );
+    _cardsOpacity = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Interval(
+          0.2, 0.44,
           curve: Curves.easeInOut
         )
       )
@@ -70,31 +80,34 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             scaleAnimation: _scaleAnimation,
           ),
           SafeArea(
-            child: SlideTransition(
-              position: _cardsOffset,
-              child: Column(
-                children: <Widget>[
-                  SizedBox(
-                    height: size.height * 0.05,
-                  ),
-                  DebtResumeCard(
-                    theme: DebtCardTheme.light,
-                    title: 'Me deben',
-                    value: '\$ 200.000',
-                    label: '1 persona',
-                    onPressed: () {},
-                  ),
-                  SizedBox(
-                    height: size.height * 0.05,
-                  ),
-                  DebtResumeCard(
-                    theme: DebtCardTheme.dark,
-                    title: 'Debo',
-                    value: '\$ 0.00',
-                    label: 'a 0 personas',
-                    onPressed: () {},
-                  ),
-                ],
+            child: FadeTransition(
+              opacity: _cardsOpacity,
+              child: SlideTransition(
+                position: _cardsOffset,
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: size.height * 0.05,
+                    ),
+                    DebtResumeCard(
+                      theme: DebtCardTheme.light,
+                      title: 'Me deben',
+                      value: '\$ 200.000',
+                      label: '1 persona',
+                      onPressed: () {},
+                    ),
+                    SizedBox(
+                      height: size.height * 0.05,
+                    ),
+                    DebtResumeCard(
+                      theme: DebtCardTheme.dark,
+                      title: 'Debo',
+                      value: '\$ 0.00',
+                      label: 'a 0 personas',
+                      onPressed: () {},
+                    ),
+                  ],
+                ),
               ),
             ),
           )
