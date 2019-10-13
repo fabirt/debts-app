@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
- 
+import 'package:debts_app/src/pages/index.dart';
+import 'package:debts_app/src/utils/index.dart' as utils;
+
+
 void main() {
   runApp(MyApp());
 } 
@@ -8,19 +11,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Material App',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Material App Bar'),
-        ),
-        body: Center(
-          child: Container(
-            child: Text('Hello World'),
-          ),
-        ),
-      ),
+      debugShowCheckedModeBanner: false,
+      title: 'Debty',
+      home: HomePage(),
       theme: ThemeData(
-        fontFamily: 'Proximanova'
+        fontFamily: 'Proximanova',
+        primaryColor: utils.Colors.apple,
+        scaffoldBackgroundColor: utils.Colors.athensGray,
+        textTheme: TextTheme(
+          body1: TextStyle(color: utils.Colors.brightGray)
+        )
       ),
     );
   }
