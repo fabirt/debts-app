@@ -1,17 +1,23 @@
-import 'package:debts_app/src/pages/debtors/widgets/debtor_card.dart';
 import 'package:flutter/material.dart';
 import 'package:debts_app/src/widgets/index.dart';
+import 'package:debts_app/src/pages/debtors/widgets/debtor_card.dart';
 import 'package:debts_app/src/utils/index.dart' as utils;
 
 class DebtorsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: <Widget>[
-          _buildHeader(context),
-          Expanded(child: _buildContent()),
-        ],
+      body: GreenHeaderContainer(
+        child: Column(
+          children: <Widget>[
+            _buildHeader(context),
+            Expanded(
+              child: RoundedShadowContainer(
+                child: _buildContent(),
+              ),
+            ),
+          ],
+        ),
       ),
       floatingActionButton: Container(
         margin: EdgeInsets.only(bottom: 30.0),
@@ -26,13 +32,6 @@ class DebtorsPage extends StatelessWidget {
   Widget _buildHeader(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 0.0),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: FractionalOffset(0.0, 0.0),
-          end: FractionalOffset(0.5, 1.0),
-          colors: [Color(0xFF51F27D), Color(0xFF00D3A5)],
-        ),
-      ),
       child: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,23 +51,24 @@ class DebtorsPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+                  
                   Text(
-                    '\$ 200.000',
+                    'Me deben en total',
                     style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 28.0,
-                      fontWeight: FontWeight.w700,
+                      color: Color.fromRGBO(255, 255, 255, 0.7),
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                   SizedBox(
                     height: 8.0,
                   ),
                   Text(
-                    'Cantidad total',
+                    '\$ 200.000',
                     style: TextStyle(
-                      color: Color.fromRGBO(255, 255, 255, 0.7),
-                      fontSize: 15.0,
-                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                      fontSize: 28.0,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                 ],
