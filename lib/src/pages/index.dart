@@ -5,3 +5,5 @@ export 'package:debts_app/src/pages/debtor_debts/debtor_debts_page.dart';
 export 'package:debts_app/src/pages/add_debt/add_debt_page.dart';
 export 'package:debts_app/src/pages/lenders/lenders_page.dart';
 export 'package:debts_app/src/pages/add_lender/add_lender_page.dart';
+export 'package:debts_app/src/pages/loans/loans_page.dart';
+

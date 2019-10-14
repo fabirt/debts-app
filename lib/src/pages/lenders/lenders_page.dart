@@ -173,7 +173,7 @@ class _LendersPageState extends State<LendersPage> with SingleTickerProviderStat
   }
 
   void _onTapDebtor(Debtor d) {
-    Navigator.push(context, FadeRoute(page: DebtorDebtsPage(debtor: d,)));
+    Navigator.push(context, FadeRoute(page: LoansPage(debtor: d,)));
   }
 
   void _addLender(BuildContext context) {
