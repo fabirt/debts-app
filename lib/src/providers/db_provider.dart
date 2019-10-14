@@ -63,12 +63,6 @@ class DBProvider {
 
   // SELECT - Obtener información ====================================
 
-  // Future<ScanModel> getScanById( int id ) async {
-  //   final db  = await database;
-  //   final res = await db.query('Scans', where: 'id = ?', whereArgs: [id]);
-  //   return res.isNotEmpty ? ScanModel.fromJson(res.first) : null;
-  // }
-
   Future<List<Debtor>> getDebtors() async {
     final db = await database;
     final res = await db.query('Debtors');
@@ -80,6 +74,14 @@ class DBProvider {
   Future<List<Debt>> getDebts() async {
     final db = await database;
     final res = await db.query('Debts');
+    List<Debt> list =
+        res.isNotEmpty ? res.map((c) => Debt.fromJson(c)).toList() : [];
+    return list;
+  }
+  
+  Future<List<Debt>> getDebtsByDebtor(Debtor debtor) async {
+    final db = await database;
+    final res = await db.rawQuery("SELECT * FROM Debts WHERE debtor_id='${debtor.id}'");
     List<Debt> list =
         res.isNotEmpty ? res.map((c) => Debt.fromJson(c)).toList() : [];
     return list;

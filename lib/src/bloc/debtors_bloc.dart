@@ -21,6 +21,11 @@ class DebtorsBloc {
     _debts = await DBProvider.db.getDebts();
     _debtsController.sink.add(_debts);
   }
+  
+  void getDebtsByDebtor(Debtor debtor) async {
+    _debts = await DBProvider.db.getDebtsByDebtor(debtor);
+    _debtsController.sink.add(_debts);
+  }
 
   Future<void> addDebtor(Debtor debtor) async {
     final res = await DBProvider.db.addDeptor(debtor);
@@ -29,7 +34,6 @@ class DebtorsBloc {
   
   Future<void> addDebt(Debt debt) async {
     final res = await DBProvider.db.addDept(debt);
-    getDebts();
   }
 
   dispose() {

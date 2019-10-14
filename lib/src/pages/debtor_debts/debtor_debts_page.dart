@@ -14,7 +14,7 @@ class DebtorDebtsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = InheritedBloc.of(context);
-    bloc.debtorsBloc.getDebts();
+    bloc.debtorsBloc.getDebtsByDebtor(debtor);
 
     return Scaffold(
       body: GreenHeaderContainer(
