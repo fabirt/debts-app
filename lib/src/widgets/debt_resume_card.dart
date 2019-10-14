@@ -112,7 +112,8 @@ class DebtResumeCard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          _buildDeptColumn(theme),
+          Expanded(child: _buildDeptColumn(theme)),
+          SizedBox(width: 10.0,),
           _buildIcon(theme),
         ],
       ),
@@ -123,12 +124,14 @@ class DebtResumeCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
-          value,
-          style: TextStyle(
-            color: theme.valueColor,
-            fontSize: 26.0,
-            fontWeight: FontWeight.w700,
+        FittedBox(
+          child: Text(
+            value,
+            style: TextStyle(
+              color: theme.valueColor,
+              fontSize: 26.0,
+              fontWeight: FontWeight.w700,
+            ),
           ),
         ),
         SizedBox(

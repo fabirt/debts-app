@@ -19,6 +19,7 @@ class DebtorsBloc {
   // Get all debtors
   Future<void> getDebtors() async {
     _debtors = await DBProvider.db.getDebtors();
+    _debtors.sort((a, b) => b.debt.compareTo(a.debt));
     _debtorsController.sink.add(_debtors);
   }
   
@@ -31,6 +32,7 @@ class DebtorsBloc {
   // Get debts for corresponding debtor
   Future<void> getDebtsByDebtor(Debtor debtor) async {
     _debts = await DBProvider.db.getDebtsByDebtor(debtor);
+    _debts.sort((a, b) => b.date.compareTo(a.date));
     _debtsController.sink.add(_debts);
   }
 

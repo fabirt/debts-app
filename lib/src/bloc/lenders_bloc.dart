@@ -19,12 +19,14 @@ class LendersBloc {
   // Get all lenders
   Future<void> getLenders() async {
     _lenders = await DBProvider.db.getLenders();
+    _lenders.sort((a, b) => b.loan.compareTo(a.loan));
     _lendersController.sink.add(_lenders);
   }
   
   // Get loans for corresponding lender
   Future<void> getLoansByLender(Lender lender) async {
     _loans = await DBProvider.db.getLoansByLender(lender);
+    _loans.sort((a, b) => b.date.compareTo(a.date));
     _loansController.sink.add(_loans);
   }
 
