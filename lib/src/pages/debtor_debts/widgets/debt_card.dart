@@ -40,6 +40,7 @@ class DebtCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           _buildRow(),
           SizedBox(height: 10.0,),
@@ -69,6 +70,7 @@ class DebtCard extends StatelessWidget {
   }
 
   Widget _buildDate() {
+    final formattedDate = utils.formatDate(DateTime.parse(debt.date));
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
       decoration: BoxDecoration(
@@ -76,7 +78,7 @@ class DebtCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(20.0),
       ),
       child: Text(
-        debt.date,
+        formattedDate,
         style: TextStyle(
           fontSize: 11.0,
           fontWeight: FontWeight.w600,
