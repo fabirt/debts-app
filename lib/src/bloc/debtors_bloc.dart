@@ -36,13 +36,13 @@ class DebtorsBloc {
 
   // Add debtor
   Future<void> addDebtor(Debtor debtor) async {
-    final res = await DBProvider.db.addDeptor(debtor);
+    final res = await DBProvider.db.addDebtor(debtor);
     await getDebtors();
   }
   
   // Add debt
   Future<void> addDebt(Debt debt, Debtor debtor) async {
-    final res = await DBProvider.db.addDept(debt);
+    final res = await DBProvider.db.addDebt(debt);
     debtor.debt += debt.value;
     await DBProvider.db.updateDebtor(debtor);
     await getDebtors();

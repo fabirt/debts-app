@@ -65,13 +65,13 @@ class DBProvider {
 
   // CREAR registros ====================================
 
-  Future<int> addDeptor(Debtor debtor) async {
+  Future<int> addDebtor(Debtor debtor) async {
     final db = await database;
     final res = await db.insert('Debtors', debtor.toJson());
     return res;
   }
   
-  Future<int> addDept(Debt debt) async {
+  Future<int> addDebt(Debt debt) async {
     final db = await database;
     final res = await db.insert('Debts', debt.toJson());
     return res;

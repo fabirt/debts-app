@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:debts_app/src/bloc/debtors_bloc.dart';
+import 'package:debts_app/src/bloc/lenders_bloc.dart';
 
 class InheritedBloc extends InheritedWidget {
 
   static InheritedBloc _instance;
 
   final DebtorsBloc debtorsBloc = new DebtorsBloc();
+  final LendersBloc lendersBloc = new LendersBloc();
 
   factory InheritedBloc({ Key key, Widget child }) {
     if (_instance == null) {
