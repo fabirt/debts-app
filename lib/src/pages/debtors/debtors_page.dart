@@ -143,8 +143,7 @@ class _DebtorsPageState extends State<DebtorsPage> with SingleTickerProviderStat
             itemBuilder: (BuildContext context, int i) {
               return DebtorCard(
                 debtor: data[i],
-                onTap: (Debtor d) {
-                },
+                onTap: _onTapDebtor,
               );
             },
           );
@@ -160,6 +159,10 @@ class _DebtorsPageState extends State<DebtorsPage> with SingleTickerProviderStat
       icon: Icons.sentiment_very_satisfied,
       message: 'No tienes deudas pendientes',
     );
+  }
+
+  void _onTapDebtor(Debtor d) {
+    Navigator.push(context, FadeRoute(page: DebtorDebtsPage(debtor: d,)));
   }
 
   void _addDebtor(BuildContext context) {

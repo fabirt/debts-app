@@ -1,6 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:debts_app/src/bloc/inherited_bloc.dart';
 import 'package:debts_app/src/models/index.dart';
-import 'package:flutter/material.dart';
 import 'package:debts_app/src/widgets/index.dart';
 import 'package:debts_app/src/utils/index.dart' as utils;
 
