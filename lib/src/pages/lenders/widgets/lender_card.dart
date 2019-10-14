@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:debts_app/src/models/index.dart';
 import 'package:debts_app/src/utils/index.dart' as utils;
 
-class DebtorCard extends StatelessWidget {
+class LenderCard extends StatelessWidget {
   final Debtor debtor;
   final Function(Debtor) onTap;
 
-  DebtorCard({this.debtor, this.onTap});
+  LenderCard({this.debtor, this.onTap});
 
   void _onTap() {
     onTap(debtor);

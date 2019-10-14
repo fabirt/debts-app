@@ -3,7 +3,7 @@ import 'package:debts_app/src/widgets/index.dart';
 import 'package:debts_app/src/bloc/inherited_bloc.dart';
 import 'package:debts_app/src/models/index.dart';
 import 'package:debts_app/src/pages/index.dart';
-import 'package:debts_app/src/pages/debtors/widgets/debtor_card.dart';
+import 'package:debts_app/src/pages/lenders/widgets/lender_card.dart';
 import 'package:debts_app/src/utils/index.dart' as utils;
 
 class LendersPage extends StatefulWidget {
@@ -73,7 +73,7 @@ class _LendersPageState extends State<LendersPage> with SingleTickerProviderStat
       floatingActionButton: Container(
         margin: EdgeInsets.only(bottom: 30.0),
         child: AddButton(
-          onPressed: () => _addDebtor(context),
+          onPressed: () => _addLender(context),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -152,7 +152,7 @@ class _LendersPageState extends State<LendersPage> with SingleTickerProviderStat
             itemCount: data.length,
             padding: EdgeInsets.only(bottom: 110.0, top: 20.0),
             itemBuilder: (BuildContext context, int i) {
-              return DebtorCard(
+              return LenderCard(
                 debtor: data[i],
                 onTap: _onTapDebtor,
               );
@@ -176,7 +176,7 @@ class _LendersPageState extends State<LendersPage> with SingleTickerProviderStat
     Navigator.push(context, FadeRoute(page: DebtorDebtsPage(debtor: d,)));
   }
 
-  void _addDebtor(BuildContext context) {
-    Navigator.push(context, FadeRoute(page: AddDebtorPage()));
+  void _addLender(BuildContext context) {
+    Navigator.push(context, FadeRoute(page: AddLenderPage()));
   }
 }
