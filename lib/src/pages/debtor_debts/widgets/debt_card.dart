@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:debts_app/src/models/index.dart';
 import 'package:debts_app/src/utils/index.dart' as utils;
 
@@ -54,6 +53,7 @@ class DebtCard extends StatelessWidget {
   }
 
   Widget _buildRow() {
+    final value = utils.formatCurrency(200000);
     return Row(
       children: <Widget>[
         _buildDate(),
@@ -61,7 +61,7 @@ class DebtCard extends StatelessWidget {
           child: SizedBox(),
         ),
         Text(
-          '200.000',
+          value,
           style: TextStyle(fontWeight: FontWeight.w700),
         ),
       ],

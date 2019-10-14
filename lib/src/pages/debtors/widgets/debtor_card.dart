@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import 'package:debts_app/src/models/index.dart';
 import 'package:debts_app/src/utils/index.dart' as utils;
@@ -41,8 +40,7 @@ class DebtorCard extends StatelessWidget {
   }
 
   Container _buildContent() {
-    final nf = NumberFormat('\$ #,##0.00#', 'en_US');
-    final debt = nf.format(debtor.debt);
+    final debt = utils.formatCurrency(debtor.debt);
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
