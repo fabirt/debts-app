@@ -45,7 +45,7 @@ class DebtorDebtsPage extends StatelessWidget {
       itemCount: 10,
       padding: EdgeInsets.only(bottom: 110.0, top: 20.0),
       itemBuilder: (BuildContext context, int i) {
-        return DebtCard(debtor: debtor,);
+        return DebtCard();
       },
     );
   }

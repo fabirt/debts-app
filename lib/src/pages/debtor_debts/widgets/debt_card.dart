@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import 'package:debts_app/src/models/index.dart';
 import 'package:debts_app/src/utils/index.dart' as utils;
 
 class DebtCard extends StatelessWidget {
-  final Debtor debtor;
-  final Function(Debtor) onTap;
+  
 
-  DebtCard({this.debtor, this.onTap});
+  DebtCard();
 
   void _onTap() {
-    onTap(debtor);
   }
 
   @override
@@ -41,40 +38,50 @@ class DebtCard extends StatelessWidget {
   }
 
   Container _buildContent() {
-    final nf = NumberFormat('\$ #,##0.00#', 'en_US');
-    final debt = nf.format(debtor.debt);
-
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-      child: Row(
+      child: Column(
         children: <Widget>[
-          CircleAvatar(
-            backgroundColor: utils.Colors.athensGray,
-            child: Text(
-              debtor.getInitials(),
-              style: TextStyle(
-                color: utils.Colors.towerGray,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 12.0,
-          ),
-          Expanded(
-            child: Text(
-              debtor.name,
-              style: TextStyle(fontWeight: FontWeight.w500),
-            ),
-          ),
-          SizedBox(
-            width: 12.0,
-          ),
+          _buildRow(),
+          SizedBox(height: 10.0,),
           Text(
-            debt,
-            style: TextStyle(fontWeight: FontWeight.w700),
+            'Commodo ipsum dolore dolor ullamco mollit aliquip voluptate in adipisicing magna magna.',
+            textAlign: TextAlign.justify,
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildRow() {
+    return Row(
+      children: <Widget>[
+        _buildDate(),
+        Expanded(
+          child: SizedBox(),
+        ),
+        Text(
+          '200.000',
+          style: TextStyle(fontWeight: FontWeight.w700),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDate() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+      decoration: BoxDecoration(
+        color: Color(0x0F154FC2),
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      child: Text(
+        '10-12-2019',
+        style: TextStyle(
+          fontSize: 11.0,
+          fontWeight: FontWeight.w600,
+          color: utils.Colors.denim,
+        ),
       ),
     );
   }
