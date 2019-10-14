@@ -87,22 +87,14 @@ class DBProvider {
     return list;
   }
 
-  // Future<List<ScanModel>> getScansByType( String type ) async {
-  //   final db  = await database;
-  //   final res = await db.rawQuery("SELECT * FROM Scans WHERE type='$type'");
-  //   List<ScanModel> list = res.isNotEmpty
-  //                             ? res.map((c) => ScanModel.fromJson(c) ).toList()
-  //                             : [];
-  //   return list;
-  // }
 
   // UPDATE - Actualizar ====================================
 
-  // Future<int> updateScan( ScanModel scan ) async {
-  //   final db  = await database;
-  //   final res = await db.update('Scans', scan.toJson(), where: 'id = ?', whereArgs: [scan.id] );
-  //   return res;
-  // }
+  Future<int> updateDebtor(Debtor debtor) async {
+    final db  = await database;
+    final res = await db.update('Debtors', debtor.toJson(), where: 'id = ?', whereArgs: [debtor.id] );
+    return res;
+  }
 
   // DELETE - Eliminar ====================================
 

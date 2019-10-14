@@ -35,7 +35,7 @@ class _AddDebtPageState extends State<AddDebtPage> {
       description: description,
       date: DateTime.now().toString()
     );
-    await bloc.debtorsBloc.addDebt(debt);
+    await bloc.debtorsBloc.addDebt(debt, widget.debtor);
     Navigator.pop(context);
   }
 
