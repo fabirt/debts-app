@@ -50,32 +50,7 @@ class _AddDebtorPageState extends State<AddDebtorPage> {
   }
 
   Widget _buildHeader(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 10.0),
-        child: Row(
-          children: <Widget>[
-            IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              color: Colors.white,
-              icon: Icon(Icons.arrow_back_ios),
-            ),
-            SizedBox(
-              width: 16.0,
-            ),
-            Text(
-              'Agregar deudor',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.w600),
-            ),
-          ],
-        ),
-      ),
-    );
+    return CustomAppBar(titleText: 'Agregar deudor');
   }
 
   Widget _buildContent() {
