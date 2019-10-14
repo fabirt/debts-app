@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:debts_app/src/widgets/index.dart';
+import 'package:intl/intl.dart';
+
+import 'package:debts_app/src/models/index.dart';
 import 'package:debts_app/src/utils/index.dart' as utils;
 
 class DebtorCard extends StatelessWidget {
-  final String name;
-  final String value;
-  final Function onTap;
+  final Debtor debtor;
+  final Function(Debtor) onTap;
 
-  DebtorCard({this.name, this.value, this.onTap});
+  DebtorCard({this.debtor, this.onTap});
 
   void _onTap() {
-    // onTap();
+    onTap(debtor);
   }
 
   @override
@@ -40,20 +41,39 @@ class DebtorCard extends StatelessWidget {
   }
 
   Container _buildContent() {
+    final nf = NumberFormat('\$ #,##0.00#', 'en_US');
+    final debt = nf.format(debtor.debt);
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
       child: Row(
         children: <Widget>[
           CircleAvatar(
             backgroundColor: utils.Colors.athensGray,
-            child: Text('FD', style: TextStyle(color: utils.Colors.towerGray, fontWeight: FontWeight.w700),),
+            child: Text(
+              debtor.getInitials(),
+              style: TextStyle(
+                color: utils.Colors.towerGray,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
           ),
-          SizedBox(width: 12.0,),
+          SizedBox(
+            width: 12.0,
+          ),
           Expanded(
-            child: Text('Fabian Diartt ', style: TextStyle( fontWeight: FontWeight.w500),),
+            child: Text(
+              debtor.name,
+              style: TextStyle(fontWeight: FontWeight.w500),
+            ),
           ),
-          SizedBox(width: 12.0,),
-          Text('\$ 200.000', style: TextStyle( fontWeight: FontWeight.w700),),
+          SizedBox(
+            width: 12.0,
+          ),
+          Text(
+            debt,
+            style: TextStyle(fontWeight: FontWeight.w700),
+          ),
         ],
       ),
     );

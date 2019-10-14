@@ -1,12 +1,19 @@
-import 'package:debts_app/src/pages/index.dart';
 import 'package:flutter/material.dart';
 import 'package:debts_app/src/widgets/index.dart';
+import 'package:debts_app/src/bloc/inherited_bloc.dart';
+import 'package:debts_app/src/models/index.dart';
+import 'package:debts_app/src/pages/index.dart';
 import 'package:debts_app/src/pages/debtors/widgets/debtor_card.dart';
 import 'package:debts_app/src/utils/index.dart' as utils;
 
 class DebtorsPage extends StatelessWidget {
+
+
   @override
   Widget build(BuildContext context) {
+  
+    final bloc = InheritedBloc.of(context);
+
     return Scaffold(
       body: GreenHeaderContainer(
         child: Column(
@@ -14,7 +21,7 @@ class DebtorsPage extends StatelessWidget {
             _buildHeader(context),
             Expanded(
               child: RoundedShadowContainer(
-                child: _buildContent(),
+                child: _buildContent(bloc),
               ),
             ),
           ],
@@ -81,12 +88,27 @@ class DebtorsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildContent() {
-    return ListView.builder(
-      itemCount: 1,
-      padding: EdgeInsets.only(bottom: 110.0, top: 20.0),
-      itemBuilder: (BuildContext context, int i) {
-        return DebtorCard();
+  Widget _buildContent(InheritedBloc bloc) {
+    return StreamBuilder(
+      stream: bloc.debtorsBloc.debtorsStream,
+      builder: (BuildContext context, AsyncSnapshot<List<Debtor>> snapshot){
+        if (snapshot.hasData) {
+          final data = snapshot.data;
+          if (data.isEmpty) return _buildEmptyState(); 
+          return ListView.builder(
+            itemCount: data.length,
+            padding: EdgeInsets.only(bottom: 110.0, top: 20.0),
+            itemBuilder: (BuildContext context, int i) {
+              return DebtorCard(
+                debtor: data[i],
+                onTap: (Debtor d) {
+                },
+              );
+            },
+          );
+        } else {
+          return _buildEmptyState();
+        }
       },
     );
   }

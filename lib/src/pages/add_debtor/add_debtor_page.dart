@@ -1,3 +1,5 @@
+import 'package:debts_app/src/bloc/inherited_bloc.dart';
+import 'package:debts_app/src/models/index.dart';
 import 'package:flutter/material.dart';
 import 'package:debts_app/src/widgets/index.dart';
 import 'package:debts_app/src/utils/index.dart' as utils;
@@ -16,7 +18,10 @@ class _AddDebtorPageState extends State<AddDebtorPage> {
     name = '';
   }
 
-  void _saveDebtor() {
+  void _saveDebtor() async {
+    final bloc = InheritedBloc.of(context);
+    final debtor = new Debtor(name: name);
+    await bloc.debtorsBloc.addDebtor(debtor);
     Navigator.pop(context);
   }
 
