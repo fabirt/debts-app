@@ -4,13 +4,13 @@ import 'package:debts_app/src/models/index.dart';
 import 'package:debts_app/src/utils/index.dart' as utils;
 
 class LenderCard extends StatelessWidget {
-  final Debtor debtor;
-  final Function(Debtor) onTap;
+  final Lender lender;
+  final Function(Lender) onTap;
 
-  LenderCard({this.debtor, this.onTap});
+  LenderCard({this.lender, this.onTap});
 
   void _onTap() {
-    onTap(debtor);
+    onTap(lender);
   }
 
   @override
@@ -40,7 +40,7 @@ class LenderCard extends StatelessWidget {
   }
 
   Container _buildContent() {
-    final debt = utils.formatCurrency(debtor.debt);
+    final debt = utils.formatCurrency(lender.loan);
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
@@ -49,7 +49,7 @@ class LenderCard extends StatelessWidget {
           CircleAvatar(
             backgroundColor: utils.Colors.athensGray,
             child: Text(
-              debtor.getInitials(),
+              lender.getInitials(),
               style: TextStyle(
                 color: utils.Colors.towerGray,
                 fontWeight: FontWeight.w700,
@@ -61,7 +61,7 @@ class LenderCard extends StatelessWidget {
           ),
           Expanded(
             child: Text(
-              debtor.name,
+              lender.name,
               style: TextStyle(fontWeight: FontWeight.w500),
             ),
           ),

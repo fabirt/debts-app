@@ -114,12 +114,20 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   }
 
   Widget _buildIOweCard(InheritedBloc bloc) {
-    return DebtResumeCard(
-      theme: DebtCardTheme.dark,
-      title: 'Debo',
-      value: '\$ 0.00',
-      label: 'a 0 personas',
-      onTap: () => _pushLendersPage(context),
+    return StreamBuilder(
+      stream: bloc.lendersBloc.resumeStream,
+      initialData: DebtorsResume(),
+      builder: (BuildContext context, AsyncSnapshot<DebtorsResume> snapshot){
+        final people = snapshot.data.people;
+        final label = people == 1 ? 'persona' : 'personas';
+        return DebtResumeCard(
+          theme: DebtCardTheme.dark,
+          title: 'Debo',
+          value: utils.formatCurrency(snapshot.data.value),
+          label: 'a $people $label',
+          onTap: () => _pushLendersPage(context),
+        );
+      },
     );
   }
 

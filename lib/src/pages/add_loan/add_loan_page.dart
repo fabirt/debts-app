@@ -5,10 +5,10 @@ import 'package:debts_app/src/widgets/index.dart';
 import 'package:debts_app/src/utils/index.dart' as utils;
 
 class AddLoanPage extends StatefulWidget {
-  final Debtor debtor;
+  final Lender lender;
   AddLoanPage({
     Key key,
-    @required this.debtor
+    @required this.lender
   }): super(key: key);
   @override
   _AddLoanPageState createState() => _AddLoanPageState();
@@ -27,15 +27,15 @@ class _AddLoanPageState extends State<AddLoanPage> {
     valid = false;
   }
 
-  void _saveDebt() async {
+  void _saveLoan() async {
     final bloc = InheritedBloc.of(context);
-    final debt = Debt(
-      debtorId: widget.debtor.id,
+    final loan = Loan(
+      lenderId: widget.lender.id,
       value: double.parse(value),
       description: description,
       date: DateTime.now().toString()
     );
-    await bloc.debtorsBloc.addDebt(debt, widget.debtor);
+    await bloc.lendersBloc.addLoan(loan, widget.lender);
     Navigator.pop(context);
   }
 
@@ -156,7 +156,7 @@ class _AddLoanPageState extends State<AddLoanPage> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(30.0),
         child: FlatButton(
-          onPressed: valid ? _saveDebt : null,
+          onPressed: valid ? _saveLoan : null,
           color: utils.Colors.brightGray,
           textColor: Colors.white,
           child: FractionallySizedBox(

@@ -7,21 +7,21 @@ import 'package:debts_app/src/pages/loans/widgets/loan_card.dart';
 import 'package:debts_app/src/utils/index.dart' as utils;
 
 class LoansPage extends StatelessWidget {
-  final Debtor debtor;
+  final Lender lender;
 
-  LoansPage({@required this.debtor});
+  LoansPage({@required this.lender});
 
   @override
   Widget build(BuildContext context) {
     final bloc = InheritedBloc.of(context);
-    bloc.debtorsBloc.getDebtsByDebtor(debtor);
+    bloc.lendersBloc.getLoansByLender(lender);
 
     return Scaffold(
       body: BlueHeaderContainer(
         child: Column(
           children: <Widget>[
             CustomAppBar(
-              titleText: debtor.name,
+              titleText: lender.name,
             ),
             Expanded(
               child: RoundedShadowContainer(
@@ -34,7 +34,7 @@ class LoansPage extends StatelessWidget {
       floatingActionButton: Container(
         margin: EdgeInsets.only(bottom: 30.0),
         child: AddButton(
-          onPressed: () => _addDebt(context),
+          onPressed: () => _addLoan(context),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -43,8 +43,8 @@ class LoansPage extends StatelessWidget {
 
   Widget _buildContent(InheritedBloc bloc) {
     return StreamBuilder(
-      stream: bloc.debtorsBloc.debtsStream,
-      builder: (BuildContext context, AsyncSnapshot<List<Debt>> snapshot) {
+      stream: bloc.lendersBloc.loansStream,
+      builder: (BuildContext context, AsyncSnapshot<List<Loan>> snapshot) {
         if (snapshot.hasData) {
           final data = snapshot.data;
           if (data.isEmpty) return _buildEmptyState();
@@ -53,8 +53,8 @@ class LoansPage extends StatelessWidget {
             padding: EdgeInsets.only(bottom: 110.0, top: 20.0),
             itemBuilder: (BuildContext context, int i) {
               return LoanCard(
-                debt: data[i],
-                onDismissed: (Debt d) => _deleteDebt(d, bloc),
+                loan: data[i],
+                onDismissed: (Loan l) => _deleteLoan(l, bloc),
               );
             },
           );
@@ -65,13 +65,13 @@ class LoansPage extends StatelessWidget {
     );
   }
 
-  void _addDebt(BuildContext context) {
-    Navigator.push(context, FadeRoute(page: AddLoanPage(debtor: debtor)));
+  void _addLoan(BuildContext context) {
+    Navigator.push(context, FadeRoute(page: AddLoanPage(lender: lender)));
   }
 
-  void _deleteDebt(Debt debt, InheritedBloc bloc) async {
-    await bloc.debtorsBloc.deleteDebt(debt, debtor);
-    await bloc.debtorsBloc.getDebtsByDebtor(debtor);
+  void _deleteLoan(Loan loan, InheritedBloc bloc) async {
+    await bloc.lendersBloc.deleteLoan(loan, lender);
+    await bloc.lendersBloc.getLoansByLender(lender);
   }
 
   Widget _buildEmptyState() {

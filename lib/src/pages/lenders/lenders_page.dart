@@ -42,8 +42,8 @@ class _LendersPageState extends State<LendersPage> with SingleTickerProviderStat
   Widget build(BuildContext context) {
   
     final bloc = InheritedBloc.of(context);
-    bloc.debtorsBloc.getDebtors();
-    bloc.debtorsBloc.updateResume();
+    bloc.lendersBloc.getLenders();
+    bloc.lendersBloc.updateResume();
 
     return Scaffold(
       body: BlueHeaderContainer(
@@ -109,7 +109,7 @@ class _LendersPageState extends State<LendersPage> with SingleTickerProviderStat
 
   Widget _buildHeaderDebt(InheritedBloc bloc) {
     return StreamBuilder(
-      stream: bloc.debtorsBloc.resumeStream,
+      stream: bloc.lendersBloc.resumeStream,
       initialData: DebtorsResume(),
       builder: (BuildContext context, AsyncSnapshot<DebtorsResume> snapshot){
         return Column(
@@ -142,8 +142,8 @@ class _LendersPageState extends State<LendersPage> with SingleTickerProviderStat
 
   Widget _buildContent(InheritedBloc bloc) {
     return StreamBuilder(
-      stream: bloc.debtorsBloc.debtorsStream,
-      builder: (BuildContext context, AsyncSnapshot<List<Debtor>> snapshot){
+      stream: bloc.lendersBloc.lendersStream,
+      builder: (BuildContext context, AsyncSnapshot<List<Lender>> snapshot){
         if (snapshot.hasData) {
           final data = snapshot.data;
           if (data.isEmpty) return _buildEmptyState(); 
@@ -153,8 +153,8 @@ class _LendersPageState extends State<LendersPage> with SingleTickerProviderStat
             padding: EdgeInsets.only(bottom: 110.0, top: 20.0),
             itemBuilder: (BuildContext context, int i) {
               return LenderCard(
-                debtor: data[i],
-                onTap: _onTapDebtor,
+                lender: data[i],
+                onTap: _onTapLender,
               );
             },
           );
@@ -172,8 +172,8 @@ class _LendersPageState extends State<LendersPage> with SingleTickerProviderStat
     );
   }
 
-  void _onTapDebtor(Debtor d) {
-    Navigator.push(context, FadeRoute(page: LoansPage(debtor: d,)));
+  void _onTapLender(Lender l) {
+    Navigator.push(context, FadeRoute(page: LoansPage(lender: l,)));
   }
 
   void _addLender(BuildContext context) {

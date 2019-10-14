@@ -18,10 +18,10 @@ class _AddLenderPageState extends State<AddLenderPage> {
     name = '';
   }
 
-  void _saveDebtor() async {
+  void _saveLender() async {
     final bloc = InheritedBloc.of(context);
-    final debtor = new Debtor(name: name);
-    await bloc.debtorsBloc.addDebtor(debtor);
+    final lender = new Lender(name: name);
+    await bloc.lendersBloc.addLender(lender);
     Navigator.pop(context);
   }
 
@@ -99,7 +99,7 @@ class _AddLenderPageState extends State<AddLenderPage> {
     return ClipRRect(
       borderRadius: BorderRadius.circular(30.0),
       child: FlatButton(
-        onPressed: name.isEmpty ? null : _saveDebtor,
+        onPressed: name.isEmpty ? null : _saveLender,
         color: utils.Colors.brightGray,
         textColor: Colors.white,
         child: FractionallySizedBox(

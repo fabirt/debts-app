@@ -3,16 +3,16 @@ import 'package:debts_app/src/models/index.dart';
 import 'package:debts_app/src/utils/index.dart' as utils;
 
 class LoanCard extends StatelessWidget {
-  final Debt debt;
-  final Function(Debt debt) onDismissed;
+  final Loan loan;
+  final Function(Loan loan) onDismissed;
 
-  LoanCard({this.debt, this.onDismissed});
+  LoanCard({this.loan, this.onDismissed});
 
   void _onTap() {
   }
 
   void _onDismissed(DismissDirection direction) {
-    onDismissed(debt);
+    onDismissed(loan);
   }
 
   @override
@@ -67,7 +67,7 @@ class LoanCard extends StatelessWidget {
           _buildRow(),
           SizedBox(height: 10.0,),
           Text(
-            debt.description,
+            loan.description,
             textAlign: TextAlign.justify,
           ),
         ],
@@ -76,7 +76,7 @@ class LoanCard extends StatelessWidget {
   }
 
   Widget _buildRow() {
-    final value = utils.formatCurrency(debt.value);
+    final value = utils.formatCurrency(loan.value);
     return Row(
       children: <Widget>[
         _buildDate(),
@@ -92,7 +92,7 @@ class LoanCard extends StatelessWidget {
   }
 
   Widget _buildDate() {
-    final formattedDate = utils.formatDate(DateTime.parse(debt.date));
+    final formattedDate = utils.formatDate(DateTime.parse(loan.date));
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
       decoration: BoxDecoration(
