@@ -3,6 +3,7 @@ import 'package:debts_app/src/widgets/index.dart';
 import 'package:debts_app/src/bloc/inherited_bloc.dart';
 import 'package:debts_app/src/models/index.dart';
 import 'package:debts_app/src/pages/debtors/debtors_page.dart';
+import 'package:debts_app/src/pages/lenders/lenders_page.dart';
 import 'package:debts_app/src/utils/index.dart' as utils;
 
 class HomePage extends StatefulWidget {
@@ -118,12 +119,16 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       title: 'Debo',
       value: '\$ 0.00',
       label: 'a 0 personas',
-      onTap: (){},
+      onTap: () => _pushLendersPage(context),
     );
   }
 
   void _pushDebtorsPage(BuildContext context) {
     Navigator.push(context, FadeRoute(page: DebtorsPage()));
+  }
+  
+  void _pushLendersPage(BuildContext context) {
+    Navigator.push(context, FadeRoute(page: LendersPage()));
   }
 
 }

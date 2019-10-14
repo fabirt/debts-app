@@ -8,4 +8,4 @@ export 'package:debts_app/src/widgets/rounded_shadow_container.dart';
 export 'package:debts_app/src/widgets/green_header_container.dart';
 export 'package:debts_app/src/widgets/empty_state.dart';
 export 'package:debts_app/src/widgets/custom_appbar.dart';
-
+export 'package:debts_app/src/widgets/blue_header_container.dart';
