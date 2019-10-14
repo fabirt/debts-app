@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:debts_app/src/bloc/inherited_bloc.dart';
 import 'package:debts_app/src/models/index.dart';
 import 'package:debts_app/src/widgets/index.dart';
+import 'package:debts_app/src/pages/add_debt/add_debt_page.dart';
 import 'package:debts_app/src/pages/debtor_debts/widgets/debt_card.dart';
 import 'package:debts_app/src/utils/index.dart' as utils;
+
 
 class DebtorDebtsPage extends StatelessWidget {
 
@@ -33,7 +35,7 @@ class DebtorDebtsPage extends StatelessWidget {
       floatingActionButton: Container(
         margin: EdgeInsets.only(bottom: 30.0),
         child: AddButton(
-          onPressed: () {},
+          onPressed: () => _addDebt(context),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -50,5 +52,9 @@ class DebtorDebtsPage extends StatelessWidget {
         );
       },
     );
+  }
+
+  void _addDebt(BuildContext context) {
+    Navigator.push(context, FadeRoute(page: AddDebtPage()));
   }
 }
