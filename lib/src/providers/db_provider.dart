@@ -149,9 +149,21 @@ class DBProvider {
 
   // DELETE - Eliminar ====================================
 
+  Future<int> deleteDebtor(Debtor debtor) async {
+    final db  = await database;
+    final res = await db.delete('Debtors', where: 'id = ?', whereArgs: [debtor.id]);
+    return res;
+  }
+  
   Future<int> deleteDebt(Debt debt) async {
     final db  = await database;
     final res = await db.delete('Debts', where: 'id = ?', whereArgs: [debt.id]);
+    return res;
+  }
+
+  Future<int> deleteLender(Lender lender) async {
+    final db  = await database;
+    final res = await db.delete('Lenders', where: 'id = ?', whereArgs: [lender.id]);
     return res;
   }
   
@@ -161,10 +173,16 @@ class DBProvider {
     return res;
   }
 
-  // Future<int> deleteAll() async {
-  //   final db  = await database;
-  //   final res = await db.rawDelete('DELETE FROM Scans');
-  //   return res;
-  // }
+  Future<int> deleteAllDebtsByDebtor(Debtor debtor) async {
+    final db  = await database;
+    final res = await db.delete('Debts', where: 'debtor_id = ?', whereArgs: [debtor.id]);
+    return res;
+  }
+
+  Future<int> deleteAllLoansByLender(Lender lender) async {
+    final db  = await database;
+    final res = await db.delete('Loans', where: 'lender_id = ?', whereArgs: [lender.id]);
+    return res;
+  }
 
 }
