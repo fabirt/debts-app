@@ -155,6 +155,7 @@ class _LendersPageState extends State<LendersPage> with SingleTickerProviderStat
               return LenderCard(
                 lender: data[i],
                 onTap: _onTapLender,
+                onDismissed: (Lender l) => _deleteLender(bloc, l),
               );
             },
           );
@@ -170,6 +171,10 @@ class _LendersPageState extends State<LendersPage> with SingleTickerProviderStat
       icon: Icons.sentiment_very_satisfied,
       message: 'No tienes deudas pendientes',
     );
+  }
+
+  Future<void> _deleteLender(InheritedBloc bloc, Lender lender) async {
+    await bloc.lendersBloc.deleteLender(lender);
   }
 
   void _onTapLender(Lender l) {

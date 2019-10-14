@@ -155,6 +155,7 @@ class _DebtorsPageState extends State<DebtorsPage> with SingleTickerProviderStat
               return DebtorCard(
                 debtor: data[i],
                 onTap: _onTapDebtor,
+                onDismissed: (Debtor d) => _deleteDebtor(bloc, d),
               );
             },
           );
@@ -170,6 +171,10 @@ class _DebtorsPageState extends State<DebtorsPage> with SingleTickerProviderStat
       icon: Icons.sentiment_very_satisfied,
       message: 'No tienes deudas pendientes',
     );
+  }
+
+  void _deleteDebtor(InheritedBloc bloc, Debtor debtor) async {
+    await bloc.debtorsBloc.deleteDebtor(debtor);
   }
 
   void _onTapDebtor(Debtor d) {
