@@ -5,6 +5,11 @@ import 'package:debts_app/src/widgets/index.dart';
 import 'package:debts_app/src/utils/index.dart' as utils;
 
 class AddDebtPage extends StatefulWidget {
+  final Debtor debtor;
+  AddDebtPage({
+    Key key,
+    @required this.debtor
+  }): super(key: key);
   @override
   _AddDebtPageState createState() => _AddDebtPageState();
 }
@@ -25,6 +30,7 @@ class _AddDebtPageState extends State<AddDebtPage> {
   void _saveDebt() async {
     final bloc = InheritedBloc.of(context);
     final debt = Debt(
+      debtorId: widget.debtor.id,
       value: double.parse(value),
       description: description,
       date: DateTime.now().toString()

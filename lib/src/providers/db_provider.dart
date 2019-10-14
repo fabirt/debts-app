@@ -35,6 +35,15 @@ class DBProvider {
           ' debt DOUBLE'
           ')',
         );
+        await db.execute(
+          'CREATE TABLE Debts ('
+          ' id INTEGER PRIMARY KEY,'
+          ' debtor_id INTEGER,'
+          ' description TEXT,'
+          ' date TEXT,'
+          ' value DOUBLE'
+          ')',
+        );
     });
   }
 
@@ -43,6 +52,12 @@ class DBProvider {
   addDeptor(Debtor debtor) async {
     final db = await database;
     final res = await db.insert('Debtors', debtor.toJson());
+    return res;
+  }
+  
+  addDept(Debt debt) async {
+    final db = await database;
+    final res = await db.insert('Debts', debt.toJson());
     return res;
   }
 
@@ -59,6 +74,14 @@ class DBProvider {
     final res = await db.query('Debtors');
     List<Debtor> list =
         res.isNotEmpty ? res.map((c) => Debtor.fromJson(c)).toList() : [];
+    return list;
+  }
+  
+  Future<List<Debt>> getDebts() async {
+    final db = await database;
+    final res = await db.query('Debts');
+    List<Debt> list =
+        res.isNotEmpty ? res.map((c) => Debt.fromJson(c)).toList() : [];
     return list;
   }
 

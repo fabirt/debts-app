@@ -55,6 +55,6 @@ class DebtorDebtsPage extends StatelessWidget {
   }
 
   void _addDebt(BuildContext context) {
-    Navigator.push(context, FadeRoute(page: AddDebtPage()));
+    Navigator.push(context, FadeRoute(page: AddDebtPage(debtor: debtor,)));
   }
 }
