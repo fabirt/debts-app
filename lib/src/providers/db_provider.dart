@@ -98,11 +98,11 @@ class DBProvider {
 
   // DELETE - Eliminar ====================================
 
-  // Future<int> deleteScan( int id ) async {
-  //   final db  = await database;
-  //   final res = await db.delete('Scans', where: 'id = ?', whereArgs: [id]);
-  //   return res;
-  // }
+  Future<int> deleteDebt(Debt debt) async {
+    final db  = await database;
+    final res = await db.delete('Debts', where: 'id = ?', whereArgs: [debt.id]);
+    return res;
+  }
 
   // Future<int> deleteAll() async {
   //   final db  = await database;

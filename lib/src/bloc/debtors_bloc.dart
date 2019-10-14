@@ -59,6 +59,14 @@ class DebtorsBloc {
     _resumeController.sink.add(resume);
   }
 
+  // Delete debt
+  Future<void> deleteDebt(Debt debt, Debtor debtor) async {
+    final res = await DBProvider.db.deleteDebt(debt);
+    debtor.debt -= debt.value;
+    await DBProvider.db.updateDebtor(debtor);
+    await getDebtors();
+  }
+
 
   // Dispose
   dispose() {
