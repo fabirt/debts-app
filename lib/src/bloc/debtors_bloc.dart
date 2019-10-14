@@ -69,6 +69,14 @@ class DebtorsBloc {
     await getDebtors();
   }
 
+  // Delete debtor and corresponding debts
+  Future<void> deleteDebtor(Debtor debtor) async {
+    await DBProvider.db.deleteDebtor(debtor);
+    await DBProvider.db.deleteAllDebtsByDebtor(debtor);
+    getDebtors();
+    updateResume();
+  }
+
 
   // Dispose
   dispose() {

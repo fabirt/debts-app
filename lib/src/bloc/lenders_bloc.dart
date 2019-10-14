@@ -63,6 +63,14 @@ class LendersBloc {
     await getLenders();
   }
 
+  // Delete lender and corresponding loans
+  Future<void> deleteLender(Lender lender) async {
+    await DBProvider.db.deleteLender(lender);
+    await DBProvider.db.deleteAllLoansByLender(lender);
+    getLenders();
+    updateResume();
+  }
+
 
   // Dispose
   dispose() {
