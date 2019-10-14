@@ -1,6 +1,8 @@
-import 'package:debts_app/src/pages/debtors/debtors_page.dart';
 import 'package:flutter/material.dart';
 import 'package:debts_app/src/widgets/index.dart';
+import 'package:debts_app/src/bloc/inherited_bloc.dart';
+import 'package:debts_app/src/models/index.dart';
+import 'package:debts_app/src/pages/debtors/debtors_page.dart';
 import 'package:debts_app/src/utils/index.dart' as utils;
 
 class HomePage extends StatefulWidget {
@@ -49,6 +51,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final bloc = InheritedBloc.of(context);
+    bloc.debtorsBloc.updateResume();
 
     return Scaffold(
       body: Stack(
@@ -66,23 +70,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     SizedBox(
                       height: size.height * 0.05,
                     ),
-                    DebtResumeCard(
-                      theme: DebtCardTheme.light,
-                      title: 'Me deben',
-                      value: '\$ 200.000',
-                      label: '1 persona',
-                      onTap: () => _pushDebtorsPage(context),
-                    ),
+                    _buildOweMeCard(bloc),
                     SizedBox(
                       height: size.height * 0.05,
                     ),
-                    DebtResumeCard(
-                      theme: DebtCardTheme.dark,
-                      title: 'Debo',
-                      value: '\$ 0.00',
-                      label: 'a 0 personas',
-                      onTap: (){},
-                    ),
+                    _buildIOweCard(bloc),
                   ],
                 ),
               ),
@@ -100,6 +92,33 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+    );
+  }
+
+  Widget _buildOweMeCard(InheritedBloc bloc) {
+    return StreamBuilder(
+      stream: bloc.debtorsBloc.resumeStream,
+      initialData: DebtorsResume(),
+      builder: (BuildContext context, AsyncSnapshot<DebtorsResume> snapshot){
+        final label = snapshot.data.people == 1 ? 'persona' : 'personas';
+        return DebtResumeCard(
+          theme: DebtCardTheme.light,
+          title: 'Me deben',
+          value: utils.formatCurrency(snapshot.data.value),
+          label: '${snapshot.data.people} $label',
+          onTap: () => _pushDebtorsPage(context),
+        );
+      },
+    );
+  }
+
+  Widget _buildIOweCard(InheritedBloc bloc) {
+    return DebtResumeCard(
+      theme: DebtCardTheme.dark,
+      title: 'Debo',
+      value: '\$ 0.00',
+      label: 'a 0 personas',
+      onTap: (){},
     );
   }
 

@@ -9,25 +9,27 @@ class DebtorsBloc {
   List<Debt> _debts = new List();
   final _debtorsController = new BehaviorSubject<List<Debtor>>();
   final _debtsController = new BehaviorSubject<List<Debt>>();
+  final _resumeController = new BehaviorSubject<DebtorsResume>();
 
   // Getters
   Stream<List<Debtor>> get debtorsStream => _debtorsController.stream;
   Stream<List<Debt>> get debtsStream => _debtsController.stream;
+  Stream<DebtorsResume> get resumeStream => _resumeController.stream;
 
   // Get all debtors
-  void getDebtors() async {
+  Future<void> getDebtors() async {
     _debtors = await DBProvider.db.getDebtors();
     _debtorsController.sink.add(_debtors);
   }
   
   // Get all debts
-  void getDebts() async {
+  Future<void> getDebts() async {
     _debts = await DBProvider.db.getDebts();
     _debtsController.sink.add(_debts);
   }
   
   // Get debts for corresponding debtor
-  void getDebtsByDebtor(Debtor debtor) async {
+  Future<void> getDebtsByDebtor(Debtor debtor) async {
     _debts = await DBProvider.db.getDebtsByDebtor(debtor);
     _debtsController.sink.add(_debts);
   }
@@ -35,7 +37,7 @@ class DebtorsBloc {
   // Add debtor
   Future<void> addDebtor(Debtor debtor) async {
     final res = await DBProvider.db.addDeptor(debtor);
-    getDebtors();
+    await getDebtors();
   }
   
   // Add debt
@@ -43,7 +45,18 @@ class DebtorsBloc {
     final res = await DBProvider.db.addDept(debt);
     debtor.debt += debt.value;
     await DBProvider.db.updateDebtor(debtor);
-    getDebtors();
+    await getDebtors();
+  }
+
+  // Update debtors total debt
+  Future<void> updateResume() async {
+    final resume = DebtorsResume();
+    final debtors = await DBProvider.db.getDebtors();
+    debtors.forEach((d) {
+      if (d.debt > 0) resume.people++;
+      resume.value += d.debt;
+    });
+    _resumeController.sink.add(resume);
   }
 
 
@@ -51,6 +64,7 @@ class DebtorsBloc {
   dispose() {
     _debtorsController?.close();
     _debtsController?.close();
+    _resumeController?.close();
   } 
   
 }

@@ -43,12 +43,13 @@ class _DebtorsPageState extends State<DebtorsPage> with SingleTickerProviderStat
   
     final bloc = InheritedBloc.of(context);
     bloc.debtorsBloc.getDebtors();
+    bloc.debtorsBloc.updateResume();
 
     return Scaffold(
       body: GreenHeaderContainer(
         child: Column(
           children: <Widget>[
-            _buildHeader(context),
+            _buildHeader(context, bloc),
             Expanded(
               child: AnimatedBuilder(
                 animation: _animationController,
@@ -79,7 +80,7 @@ class _DebtorsPageState extends State<DebtorsPage> with SingleTickerProviderStat
     );
   }
 
-  Widget _buildHeader(BuildContext context) {
+  Widget _buildHeader(BuildContext context, InheritedBloc bloc) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 0.0),
       child: SafeArea(
@@ -98,34 +99,44 @@ class _DebtorsPageState extends State<DebtorsPage> with SingleTickerProviderStat
             ),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 34.0, vertical: 10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    'Me deben en total',
-                    style: TextStyle(
-                      color: Color.fromRGBO(255, 255, 255, 0.7),
-                      fontSize: 15.0,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 8.0,
-                  ),
-                  Text(
-                    '\$ 200.000',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 28.0,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ],
-              ),
+              child: _buildHeaderDebt(bloc),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildHeaderDebt(InheritedBloc bloc) {
+    return StreamBuilder(
+      stream: bloc.debtorsBloc.resumeStream,
+      initialData: DebtorsResume(),
+      builder: (BuildContext context, AsyncSnapshot<DebtorsResume> snapshot){
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              'Me deben en total',
+              style: TextStyle(
+                color: Color.fromRGBO(255, 255, 255, 0.7),
+                fontSize: 15.0,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            SizedBox(
+              height: 8.0,
+            ),
+            Text(
+              utils.formatCurrency(snapshot.data.value),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 28.0,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 
