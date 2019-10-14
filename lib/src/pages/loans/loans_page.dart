@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:debts_app/src/bloc/inherited_bloc.dart';
 import 'package:debts_app/src/models/index.dart';
 import 'package:debts_app/src/widgets/index.dart';
-import 'package:debts_app/src/pages/add_debt/add_debt_page.dart';
+import 'package:debts_app/src/pages/add_loan/add_loan_page.dart';
 import 'package:debts_app/src/pages/loans/widgets/loan_card.dart';
 import 'package:debts_app/src/utils/index.dart' as utils;
 
@@ -66,7 +66,7 @@ class LoansPage extends StatelessWidget {
   }
 
   void _addDebt(BuildContext context) {
-    Navigator.push(context, FadeRoute(page: AddDebtPage(debtor: debtor)));
+    Navigator.push(context, FadeRoute(page: AddLoanPage(debtor: debtor)));
   }
 
   void _deleteDebt(Debt debt, InheritedBloc bloc) async {
