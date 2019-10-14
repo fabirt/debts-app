@@ -6,13 +6,43 @@ import 'package:debts_app/src/pages/index.dart';
 import 'package:debts_app/src/pages/debtors/widgets/debtor_card.dart';
 import 'package:debts_app/src/utils/index.dart' as utils;
 
-class DebtorsPage extends StatelessWidget {
+class DebtorsPage extends StatefulWidget {
+  @override
+  _DebtorsPageState createState() => _DebtorsPageState();
+}
 
+class _DebtorsPageState extends State<DebtorsPage> with SingleTickerProviderStateMixin {
+
+  AnimationController _animationController;
+  Animation<double> _opacityAnimation;
+  Animation<Offset> _offsetAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _initAnimations();
+  }
+
+  void _initAnimations() {
+    _animationController = new AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 700)
+    );
+    _opacityAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
+    _offsetAnimation = Tween<Offset>(begin: Offset(0.0, 0.3), end: Offset.zero).animate(
+      CurvedAnimation(
+        curve: Curves.elasticInOut,
+        parent: _animationController
+      )
+    );
+    _animationController.forward();
+  }
 
   @override
   Widget build(BuildContext context) {
   
     final bloc = InheritedBloc.of(context);
+    bloc.debtorsBloc.getDebtors();
 
     return Scaffold(
       body: GreenHeaderContainer(
@@ -20,8 +50,20 @@ class DebtorsPage extends StatelessWidget {
           children: <Widget>[
             _buildHeader(context),
             Expanded(
-              child: RoundedShadowContainer(
-                child: _buildContent(bloc),
+              child: AnimatedBuilder(
+                animation: _animationController,
+                builder: (BuildContext context, child) {
+                  return FadeTransition(
+                    opacity: _opacityAnimation,
+                    child: SlideTransition(
+                      position: _offsetAnimation,
+                      child: child
+                    ),
+                  );
+                },
+                child: RoundedShadowContainer(
+                  child: _buildContent(bloc),
+                ),
               ),
             ),
           ],
@@ -59,7 +101,6 @@ class DebtorsPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  
                   Text(
                     'Me deben en total',
                     style: TextStyle(
@@ -96,6 +137,7 @@ class DebtorsPage extends StatelessWidget {
           final data = snapshot.data;
           if (data.isEmpty) return _buildEmptyState(); 
           return ListView.builder(
+            key: Key('debtors-list'),
             itemCount: data.length,
             padding: EdgeInsets.only(bottom: 110.0, top: 20.0),
             itemBuilder: (BuildContext context, int i) {
@@ -112,7 +154,7 @@ class DebtorsPage extends StatelessWidget {
       },
     );
   }
-  
+
   Widget _buildEmptyState() {
     return EmptyState(
       icon: Icons.sentiment_very_satisfied,
@@ -120,9 +162,7 @@ class DebtorsPage extends StatelessWidget {
     );
   }
 
-
   void _addDebtor(BuildContext context) {
     Navigator.push(context, FadeRoute(page: AddDebtorPage()));
   }
-
 }
