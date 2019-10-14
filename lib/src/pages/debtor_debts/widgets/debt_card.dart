@@ -3,9 +3,9 @@ import 'package:debts_app/src/models/index.dart';
 import 'package:debts_app/src/utils/index.dart' as utils;
 
 class DebtCard extends StatelessWidget {
-  
+  final Debt debt;  
 
-  DebtCard();
+  DebtCard({this.debt});
 
   void _onTap() {
   }
@@ -44,7 +44,7 @@ class DebtCard extends StatelessWidget {
           _buildRow(),
           SizedBox(height: 10.0,),
           Text(
-            'Commodo ipsum dolore dolor ullamco mollit aliquip voluptate in adipisicing magna magna.',
+            debt.description,
             textAlign: TextAlign.justify,
           ),
         ],
@@ -53,7 +53,7 @@ class DebtCard extends StatelessWidget {
   }
 
   Widget _buildRow() {
-    final value = utils.formatCurrency(200000);
+    final value = utils.formatCurrency(debt.value);
     return Row(
       children: <Widget>[
         _buildDate(),
@@ -76,7 +76,7 @@ class DebtCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(20.0),
       ),
       child: Text(
-        '10-12-2019',
+        debt.date,
         style: TextStyle(
           fontSize: 11.0,
           fontWeight: FontWeight.w600,

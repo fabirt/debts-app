@@ -45,7 +45,9 @@ class DebtorDebtsPage extends StatelessWidget {
       itemCount: 10,
       padding: EdgeInsets.only(bottom: 110.0, top: 20.0),
       itemBuilder: (BuildContext context, int i) {
-        return DebtCard();
+        return DebtCard(
+          debt: Debt(date: '10-12-2019', value: 50000, description: 'Tempor do occaecat magna ullamco nostrud incididunt ut proident voluptate.'),
+        );
       },
     );
   }
