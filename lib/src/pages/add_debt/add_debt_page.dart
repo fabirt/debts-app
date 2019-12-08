@@ -6,7 +6,14 @@ import 'package:debts_app/src/utils/index.dart' as utils;
 
 class AddDebtPage extends StatefulWidget {
   final Debtor debtor;
-  AddDebtPage({Key key, @required this.debtor}) : super(key: key);
+  final Debt debt;
+  
+  AddDebtPage({
+    Key key,
+    this.debt,
+    @required this.debtor,
+  }) : super(key: key);
+
   @override
   _AddDebtPageState createState() => _AddDebtPageState();
 }
@@ -19,9 +26,15 @@ class _AddDebtPageState extends State<AddDebtPage> {
   @override
   void initState() {
     super.initState();
-    value = '';
-    description = '';
-    valid = false;
+    if (widget.debt != null) {
+      value = widget.debt.value.toString();
+      description = widget.debt.description;
+      valid = true;
+    } else {
+      value = '';
+      description = '';
+      valid = false;
+    }
   }
 
   void _saveDebt() async {
@@ -113,8 +126,9 @@ class _AddDebtPageState extends State<AddDebtPage> {
   Widget _buildValueTextField() {
     return Theme(
       data: Theme.of(context).copyWith(primaryColor: utils.Colors.towerGray),
-      child: TextField(
+      child: TextFormField(
         autofocus: true,
+        initialValue: value,
         keyboardType: TextInputType.number,
         cursorColor: utils.Colors.towerGray,
         onChanged: _onValueTextChanged,
@@ -128,7 +142,8 @@ class _AddDebtPageState extends State<AddDebtPage> {
   Widget _buildNoteTextField() {
     return Theme(
       data: Theme.of(context).copyWith(primaryColor: utils.Colors.towerGray),
-      child: TextField(
+      child: TextFormField(
+        initialValue: description,
         textCapitalization: TextCapitalization.sentences,
         cursorColor: utils.Colors.towerGray,
         onChanged: _onNoteTextChanged,

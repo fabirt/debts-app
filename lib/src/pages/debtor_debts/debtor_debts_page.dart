@@ -11,6 +11,27 @@ class DebtorDebtsPage extends StatelessWidget {
 
   DebtorDebtsPage({@required this.debtor});
 
+  void _addDebt(BuildContext context) {
+    Navigator.push(context, FadeRoute(page: AddDebtPage(debtor: debtor)));
+  }
+
+  void _updateDebt(BuildContext context, Debt debt) {
+    Navigator.push(
+      context,
+      FadeRoute(
+        page: AddDebtPage(
+          debtor: debtor,
+          debt: debt,
+        ),
+      ),
+    );
+  }
+
+  void _deleteDebt(Debt debt, InheritedBloc bloc) async {
+    await bloc.debtorsBloc.deleteDebt(debt, debtor);
+    await bloc.debtorsBloc.getDebtsByDebtor(debtor);
+  }
+
   @override
   Widget build(BuildContext context) {
     final bloc = InheritedBloc.of(context);
@@ -54,6 +75,7 @@ class DebtorDebtsPage extends StatelessWidget {
             itemBuilder: (BuildContext context, int i) {
               return DebtCard(
                 debt: data[i],
+                onTap: (Debt d) => _updateDebt(context, d),
                 onDismissed: (Debt d) => _deleteDebt(d, bloc),
               );
             },
@@ -63,15 +85,6 @@ class DebtorDebtsPage extends StatelessWidget {
         }
       },
     );
-  }
-
-  void _addDebt(BuildContext context) {
-    Navigator.push(context, FadeRoute(page: AddDebtPage(debtor: debtor)));
-  }
-
-  void _deleteDebt(Debt debt, InheritedBloc bloc) async {
-    await bloc.debtorsBloc.deleteDebt(debt, debtor);
-    await bloc.debtorsBloc.getDebtsByDebtor(debtor);
   }
 
   Widget _buildEmptyState() {
