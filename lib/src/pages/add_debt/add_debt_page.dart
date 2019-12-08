@@ -27,7 +27,7 @@ class _AddDebtPageState extends State<AddDebtPage> {
   void initState() {
     super.initState();
     if (widget.debt != null) {
-      value = widget.debt.value.toString();
+      value = widget.debt.value.toString().replaceAll('.', '');
       description = widget.debt.description;
       valid = true;
     } else {
@@ -37,7 +37,15 @@ class _AddDebtPageState extends State<AddDebtPage> {
     }
   }
 
-  void _saveDebt() async {
+  void _onSavePressed() {
+    if (widget.debt != null) {
+      _updateDebt();
+    } else {
+      _addDebt();
+    }
+  }
+
+  void _addDebt() async {
     final bloc = InheritedBloc.of(context);
     final debt = Debt(
       debtorId: widget.debtor.id,
@@ -46,6 +54,19 @@ class _AddDebtPageState extends State<AddDebtPage> {
       date: DateTime.now().toString(),
     );
     await bloc.debtorsBloc.addDebt(debt, widget.debtor);
+    Navigator.pop(context);
+  }
+  
+  void _updateDebt() async {
+    final bloc = InheritedBloc.of(context);
+    final debt = Debt(
+      id: widget.debt.id,
+      debtorId: widget.debtor.id,
+      value: double.parse(value),
+      description: description,
+      date: widget.debt.date,
+    );
+    await bloc.debtorsBloc.updateDebt(debt, widget.debtor);
     Navigator.pop(context);
   }
 
@@ -94,7 +115,11 @@ class _AddDebtPageState extends State<AddDebtPage> {
   }
 
   Widget _buildHeader(BuildContext context) {
-    return CustomAppBar(titleText: 'Agregar deuda');
+    return CustomAppBar(
+      titleText: widget.debt != null
+        ? 'Editar deuda'
+        : 'Agregar deuda',
+    );
   }
 
   Widget _buildContent() {
@@ -160,7 +185,7 @@ class _AddDebtPageState extends State<AddDebtPage> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(30.0),
         child: FlatButton(
-          onPressed: valid ? _saveDebt : null,
+          onPressed: valid ? _onSavePressed : null,
           color: utils.Colors.brightGray,
           textColor: Colors.white,
           child: FractionallySizedBox(

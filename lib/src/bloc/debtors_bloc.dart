@@ -3,7 +3,6 @@ import 'package:debts_app/src/models/index.dart';
 import 'package:debts_app/src/providers/index.dart';
 
 class DebtorsBloc {
-
   // Properties
   List<Debtor> _debtors = new List();
   List<Debt> _debts = new List();
@@ -49,6 +48,19 @@ class DebtorsBloc {
     await DBProvider.db.updateDebtor(debtor);
     await getDebtors();
   }
+  
+  // Update debt
+  Future<void> updateDebt(Debt debt, Debtor debtor) async {
+    await DBProvider.db.updateDebt(debt);
+    final debts = await DBProvider.db.getDebtsByDebtor(debtor);
+    double totalDebt = 0.0;
+    for (Debt d in debts) {
+      totalDebt += d.value;
+    }
+    debtor.debt = totalDebt;
+    await DBProvider.db.updateDebtor(debtor);
+    await getDebtors();
+  }
 
   // Update debtors total debt
   Future<void> updateResume() async {
@@ -77,12 +89,10 @@ class DebtorsBloc {
     updateResume();
   }
 
-
   // Dispose
   dispose() {
     _debtorsController?.close();
     _debtsController?.close();
     _resumeController?.close();
-  } 
-  
+  }   
 }

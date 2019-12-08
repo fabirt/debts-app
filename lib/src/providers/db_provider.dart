@@ -146,6 +146,19 @@ class DBProvider {
     final res = await db.update('Lenders', lender.toJson(), where: 'id = ?', whereArgs: [lender.id] );
     return res;
   }
+  
+  Future<int> updateDebt(Debt debt) async {
+    final db  = await database;
+    final res = await db.update('Debts', debt.toJson(), where: 'id = ?', whereArgs: [debt.id] );
+    print(res);
+    return res;
+  }
+  
+  Future<int> updateLoan(Loan loan) async {
+    final db  = await database;
+    final res = await db.update('Loans', loan.toJson(), where: 'id = ?', whereArgs: [loan.id] );
+    return res;
+  }
 
   // DELETE - Eliminar ====================================
 
