@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           fontFamily: 'Proximanova',
           primaryColor: Color(0xFF00D3A5),
+          primarySwatch: utils.Swatchs.greenSwatch,
           scaffoldBackgroundColor: utils.Colors.athensGray,
           textTheme: TextTheme(
             body1: TextStyle(color: utils.Colors.brightGray)
