@@ -150,7 +150,6 @@ class DBProvider {
   Future<int> updateDebt(Debt debt) async {
     final db  = await database;
     final res = await db.update('Debts', debt.toJson(), where: 'id = ?', whereArgs: [debt.id] );
-    print(res);
     return res;
   }
   

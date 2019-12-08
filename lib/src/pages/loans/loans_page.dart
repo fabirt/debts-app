@@ -11,6 +11,27 @@ class LoansPage extends StatelessWidget {
 
   LoansPage({@required this.lender});
 
+  void _addLoan(BuildContext context) {
+    Navigator.push(context, FadeRoute(page: AddLoanPage(lender: lender)));
+  }
+
+  void _updateLoan(BuildContext context, Loan loan) {
+    Navigator.push(
+      context,
+      FadeRoute(
+        page: AddLoanPage(
+          loan: loan,
+          lender: lender,
+        ),
+      ),
+    );
+  }
+
+  void _deleteLoan(Loan loan, InheritedBloc bloc) async {
+    await bloc.lendersBloc.deleteLoan(loan, lender);
+    await bloc.lendersBloc.getLoansByLender(lender);
+  }
+
   @override
   Widget build(BuildContext context) {
     final bloc = InheritedBloc.of(context);
@@ -54,6 +75,7 @@ class LoansPage extends StatelessWidget {
             itemBuilder: (BuildContext context, int i) {
               return LoanCard(
                 loan: data[i],
+                onTap: (Loan l) => _updateLoan(context, l),
                 onDismissed: (Loan l) => _deleteLoan(l, bloc),
               );
             },
@@ -63,15 +85,6 @@ class LoansPage extends StatelessWidget {
         }
       },
     );
-  }
-
-  void _addLoan(BuildContext context) {
-    Navigator.push(context, FadeRoute(page: AddLoanPage(lender: lender)));
-  }
-
-  void _deleteLoan(Loan loan, InheritedBloc bloc) async {
-    await bloc.lendersBloc.deleteLoan(loan, lender);
-    await bloc.lendersBloc.getLoansByLender(lender);
   }
 
   Widget _buildEmptyState() {

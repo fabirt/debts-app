@@ -27,7 +27,7 @@ class _AddDebtPageState extends State<AddDebtPage> {
   void initState() {
     super.initState();
     if (widget.debt != null) {
-      value = widget.debt.value.toString().replaceAll('.', '');
+      value = widget.debt.value.toString();
       description = widget.debt.description;
       valid = true;
     } else {

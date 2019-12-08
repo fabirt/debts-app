@@ -44,6 +44,19 @@ class LendersBloc {
     await getLenders();
   }
 
+  // Update loan
+  Future<void> updateLoan(Loan loan, Lender lender) async {
+    await DBProvider.db.updateLoan(loan);
+    final loans = await DBProvider.db.getLoansByLender(lender);
+    double totalLoan = 0.0;
+    for (Loan l in loans) {
+      totalLoan += l.value;
+    }
+    lender.loan = totalLoan;
+    await DBProvider.db.updateLender(lender);
+    await getLenders();
+  }
+
   // Update lenders total loan
   Future<void> updateResume() async {
     final resume = DebtorsResume();

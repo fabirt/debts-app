@@ -4,12 +4,14 @@ import 'package:debts_app/src/utils/index.dart' as utils;
 
 class LoanCard extends StatelessWidget {
   final Loan loan;
+  final Function(Loan loan) onTap;
   final Function(Loan loan) onDismissed;
 
-  LoanCard({this.loan, this.onDismissed});
+  LoanCard({this.loan, this.onTap, this.onDismissed});
 
-  // void _onTap() {
-  // }
+  void _onTap() {
+    onTap(loan);
+  }
 
   void _onDismissed(DismissDirection direction) {
     onDismissed(loan);
@@ -41,7 +43,7 @@ class LoanCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(12.0),
             child: InkWell(
               borderRadius: BorderRadius.circular(12.0),
-              onTap: null,
+              onTap: _onTap,
               child: _buildContent(),
             ),
           ),

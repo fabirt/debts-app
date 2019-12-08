@@ -6,7 +6,14 @@ import 'package:debts_app/src/utils/index.dart' as utils;
 
 class AddLoanPage extends StatefulWidget {
   final Lender lender;
-  AddLoanPage({Key key, @required this.lender}) : super(key: key);
+  final Loan loan;
+
+  AddLoanPage({
+    Key key,
+    this.loan,
+    @required this.lender,
+  }) : super(key: key);
+
   @override
   _AddLoanPageState createState() => _AddLoanPageState();
 }
@@ -19,19 +26,47 @@ class _AddLoanPageState extends State<AddLoanPage> {
   @override
   void initState() {
     super.initState();
-    value = '';
-    description = '';
-    valid = false;
+    if (widget.loan != null) {
+      value = widget.loan.value.toString();
+      description = widget.loan.description;
+      valid = true;
+    } else {
+      value = '';
+      description = '';
+      valid = false;
+    }
   }
 
-  void _saveLoan() async {
+  void _onSavePressed() {
+    if (widget.loan != null) {
+      _updateLoan();
+    } else {
+      _addLoan();
+    }
+  }
+
+  void _addLoan() async {
     final bloc = InheritedBloc.of(context);
     final loan = Loan(
-        lenderId: widget.lender.id,
-        value: double.parse(value),
-        description: description,
-        date: DateTime.now().toString());
+      lenderId: widget.lender.id,
+      value: double.parse(value),
+      description: description,
+      date: DateTime.now().toString(),
+    );
     await bloc.lendersBloc.addLoan(loan, widget.lender);
+    Navigator.pop(context);
+  }
+  
+  void _updateLoan() async {
+    final bloc = InheritedBloc.of(context);
+    final loan = Loan(
+      id: widget.loan.id,
+      lenderId: widget.lender.id,
+      value: double.parse(value),
+      description: description,
+      date: widget.loan.date,
+    );
+    await bloc.lendersBloc.updateLoan(loan, widget.lender);
     Navigator.pop(context);
   }
 
@@ -80,7 +115,11 @@ class _AddLoanPageState extends State<AddLoanPage> {
   }
 
   Widget _buildHeader(BuildContext context) {
-    return CustomAppBar(titleText: 'Agregar deuda');
+    return CustomAppBar(
+      titleText: widget.loan != null
+        ? 'Editar deuda'
+        : 'Agregar deuda',
+    );
   }
 
   Widget _buildContent() {
@@ -120,8 +159,9 @@ class _AddLoanPageState extends State<AddLoanPage> {
   Widget _buildValueTextField() {
     return Theme(
       data: Theme.of(context).copyWith(primaryColor: utils.Colors.towerGray),
-      child: TextField(
+      child: TextFormField(
         autofocus: true,
+        initialValue: value,
         keyboardType: TextInputType.number,
         cursorColor: utils.Colors.towerGray,
         onChanged: _onValueTextChanged,
@@ -135,7 +175,8 @@ class _AddLoanPageState extends State<AddLoanPage> {
   Widget _buildNoteTextField() {
     return Theme(
       data: Theme.of(context).copyWith(primaryColor: utils.Colors.towerGray),
-      child: TextField(
+      child: TextFormField(
+        initialValue: description,
         textCapitalization: TextCapitalization.sentences,
         cursorColor: utils.Colors.towerGray,
         onChanged: _onNoteTextChanged,
@@ -152,7 +193,7 @@ class _AddLoanPageState extends State<AddLoanPage> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(30.0),
         child: FlatButton(
-          onPressed: valid ? _saveLoan : null,
+          onPressed: valid ? _onSavePressed : null,
           color: utils.Colors.brightGray,
           textColor: Colors.white,
           child: FractionallySizedBox(
