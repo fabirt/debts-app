@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class Colors {
   static const persianBlue    = Color(0xFF1825AD);
   static const athensGray     = Color(0xFFF0F2F5);

@@ -54,6 +54,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     final size = MediaQuery.of(context).size;
     final bloc = InheritedBloc.of(context);
     bloc.debtorsBloc.updateResume();
+    bloc.lendersBloc.updateResume();
 
     return Scaffold(
       body: Stack(

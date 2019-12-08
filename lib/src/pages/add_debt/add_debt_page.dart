@@ -6,10 +6,7 @@ import 'package:debts_app/src/utils/index.dart' as utils;
 
 class AddDebtPage extends StatefulWidget {
   final Debtor debtor;
-  AddDebtPage({
-    Key key,
-    @required this.debtor
-  }): super(key: key);
+  AddDebtPage({Key key, @required this.debtor}) : super(key: key);
   @override
   _AddDebtPageState createState() => _AddDebtPageState();
 }
@@ -33,7 +30,7 @@ class _AddDebtPageState extends State<AddDebtPage> {
       debtorId: widget.debtor.id,
       value: double.parse(value),
       description: description,
-      date: DateTime.now().toString()
+      date: DateTime.now().toString(),
     );
     await bloc.debtorsBloc.addDebt(debt, widget.debtor);
     Navigator.pop(context);
@@ -52,7 +49,7 @@ class _AddDebtPageState extends State<AddDebtPage> {
     _validateForm();
     setState(() {});
   }
-  
+
   void _onNoteTextChanged(String text) {
     description = text;
     _validateForm();
@@ -94,36 +91,28 @@ class _AddDebtPageState extends State<AddDebtPage> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          FractionallySizedBox(
-            widthFactor: 1.0,
-          ),
+          FractionallySizedBox(widthFactor: 1.0),
           Text(
             'Valor',
             style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w600),
           ),
-          SizedBox(
-            height: 6.0,
-          ),
+          SizedBox(height: 6.0),
           _buildValueTextField(),
-          SizedBox(
-            height: 24.0,
-          ),
+          SizedBox(height: 24.0),
           Text(
             'Nota',
             style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w600),
           ),
-          SizedBox(
-            height: 6.0,
-          ),
+          SizedBox(height: 6.0),
           _buildNoteTextField(),
-                  ],
+        ],
       ),
     );
   }
 
   Widget _buildValueTextField() {
     return Theme(
-      data: ThemeData(primaryColor: utils.Colors.towerGray),
+      data: Theme.of(context).copyWith(primaryColor: utils.Colors.towerGray),
       child: TextField(
         autofocus: true,
         keyboardType: TextInputType.number,
@@ -138,7 +127,7 @@ class _AddDebtPageState extends State<AddDebtPage> {
 
   Widget _buildNoteTextField() {
     return Theme(
-      data: ThemeData(primaryColor: utils.Colors.towerGray),
+      data: Theme.of(context).copyWith(primaryColor: utils.Colors.towerGray),
       child: TextField(
         textCapitalization: TextCapitalization.sentences,
         cursorColor: utils.Colors.towerGray,

@@ -8,8 +8,8 @@ class DebtCard extends StatelessWidget {
 
   DebtCard({this.debt, this.onDismissed});
 
-  void _onTap() {
-  }
+  // void _onTap() {
+  // }
 
   void _onDismissed(DismissDirection direction) {
     onDismissed(debt);

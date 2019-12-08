@@ -1,7 +1,5 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:debts_app/src/utils/index.dart' as utils;
+// import 'package:debts_app/src/utils/index.dart' as utils;
 
 
 class Background extends StatelessWidget {

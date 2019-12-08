@@ -38,13 +38,13 @@ class DebtorsBloc {
 
   // Add debtor
   Future<void> addDebtor(Debtor debtor) async {
-    final res = await DBProvider.db.addDebtor(debtor);
+    await DBProvider.db.addDebtor(debtor);
     await getDebtors();
   }
   
   // Add debt
   Future<void> addDebt(Debt debt, Debtor debtor) async {
-    final res = await DBProvider.db.addDebt(debt);
+    await DBProvider.db.addDebt(debt);
     debtor.debt += debt.value;
     await DBProvider.db.updateDebtor(debtor);
     await getDebtors();
@@ -63,7 +63,7 @@ class DebtorsBloc {
 
   // Delete debt
   Future<void> deleteDebt(Debt debt, Debtor debtor) async {
-    final res = await DBProvider.db.deleteDebt(debt);
+    await DBProvider.db.deleteDebt(debt);
     debtor.debt -= debt.value;
     await DBProvider.db.updateDebtor(debtor);
     await getDebtors();

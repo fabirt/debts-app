@@ -64,7 +64,7 @@ class _AddLenderPageState extends State<AddLenderPage> {
           ),
           Text(
             'Nombre',
-            style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w600),
+            style: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w600),
           ),
           SizedBox(
             height: 10.0,
@@ -81,7 +81,7 @@ class _AddLenderPageState extends State<AddLenderPage> {
 
   Widget _buildTextField() {
     return Theme(
-      data: ThemeData(primaryColor: utils.Colors.towerGray),
+      data: Theme.of(context).copyWith(primaryColor: utils.Colors.towerGray),
       child: TextField(
         autofocus: true,
         textCapitalization: TextCapitalization.words,
@@ -116,5 +116,4 @@ class _AddLenderPageState extends State<AddLenderPage> {
       ),
     );
   }
-
 }

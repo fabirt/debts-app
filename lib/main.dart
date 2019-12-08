@@ -4,7 +4,6 @@ import 'package:debts_app/src/widgets/index.dart';
 import 'package:debts_app/src/bloc/inherited_bloc.dart';
 import 'package:debts_app/src/utils/index.dart' as utils;
 
-
 void main() {
   runApp(MyApp());
 } 
@@ -23,7 +22,7 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: utils.Colors.athensGray,
           textTheme: TextTheme(
             body1: TextStyle(color: utils.Colors.brightGray)
-          )
+          ),
         ),
         builder: (BuildContext context, child) {
           return ScrollConfiguration(

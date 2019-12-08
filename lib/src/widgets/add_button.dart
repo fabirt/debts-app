@@ -22,7 +22,7 @@ class AddButton extends StatelessWidget {
             blurRadius: 6.0,
             spreadRadius: 4.0,
             color: Color.fromRGBO(0, 0, 0, 0.07),
-          )
+          ),
         ],
       ),
       child: FlatButton(

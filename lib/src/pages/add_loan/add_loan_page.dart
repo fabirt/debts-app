@@ -6,10 +6,7 @@ import 'package:debts_app/src/utils/index.dart' as utils;
 
 class AddLoanPage extends StatefulWidget {
   final Lender lender;
-  AddLoanPage({
-    Key key,
-    @required this.lender
-  }): super(key: key);
+  AddLoanPage({Key key, @required this.lender}) : super(key: key);
   @override
   _AddLoanPageState createState() => _AddLoanPageState();
 }
@@ -30,11 +27,10 @@ class _AddLoanPageState extends State<AddLoanPage> {
   void _saveLoan() async {
     final bloc = InheritedBloc.of(context);
     final loan = Loan(
-      lenderId: widget.lender.id,
-      value: double.parse(value),
-      description: description,
-      date: DateTime.now().toString()
-    );
+        lenderId: widget.lender.id,
+        value: double.parse(value),
+        description: description,
+        date: DateTime.now().toString());
     await bloc.lendersBloc.addLoan(loan, widget.lender);
     Navigator.pop(context);
   }
@@ -52,7 +48,7 @@ class _AddLoanPageState extends State<AddLoanPage> {
     _validateForm();
     setState(() {});
   }
-  
+
   void _onNoteTextChanged(String text) {
     description = text;
     _validateForm();
@@ -116,14 +112,14 @@ class _AddLoanPageState extends State<AddLoanPage> {
             height: 6.0,
           ),
           _buildNoteTextField(),
-                  ],
+        ],
       ),
     );
   }
 
   Widget _buildValueTextField() {
     return Theme(
-      data: ThemeData(primaryColor: utils.Colors.towerGray),
+      data: Theme.of(context).copyWith(primaryColor: utils.Colors.towerGray),
       child: TextField(
         autofocus: true,
         keyboardType: TextInputType.number,
@@ -138,7 +134,7 @@ class _AddLoanPageState extends State<AddLoanPage> {
 
   Widget _buildNoteTextField() {
     return Theme(
-      data: ThemeData(primaryColor: utils.Colors.towerGray),
+      data: Theme.of(context).copyWith(primaryColor: utils.Colors.towerGray),
       child: TextField(
         textCapitalization: TextCapitalization.sentences,
         cursorColor: utils.Colors.towerGray,

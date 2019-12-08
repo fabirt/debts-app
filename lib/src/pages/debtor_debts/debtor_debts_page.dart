@@ -4,7 +4,7 @@ import 'package:debts_app/src/models/index.dart';
 import 'package:debts_app/src/widgets/index.dart';
 import 'package:debts_app/src/pages/add_debt/add_debt_page.dart';
 import 'package:debts_app/src/pages/debtor_debts/widgets/debt_card.dart';
-import 'package:debts_app/src/utils/index.dart' as utils;
+// import 'package:debts_app/src/utils/index.dart' as utils;
 
 class DebtorDebtsPage extends StatelessWidget {
   final Debtor debtor;

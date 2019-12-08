@@ -32,13 +32,13 @@ class LendersBloc {
 
   // Add lender
   Future<void> addLender(Lender lender) async {
-    final res = await DBProvider.db.addLender(lender);
+    await DBProvider.db.addLender(lender);
     await getLenders();
   }
   
   // Add loan
   Future<void> addLoan(Loan loan, Lender lender) async {
-    final res = await DBProvider.db.addLoan(loan);
+    await DBProvider.db.addLoan(loan);
     lender.loan += loan.value;
     await DBProvider.db.updateLender(lender);
     await getLenders();
@@ -57,7 +57,7 @@ class LendersBloc {
 
   // Delete loan
   Future<void> deleteLoan(Loan loan, Lender lender) async {
-    final res = await DBProvider.db.deleteLoan(loan);
+    await DBProvider.db.deleteLoan(loan);
     lender.loan -= loan.value;
     await DBProvider.db.updateLender(lender);
     await getLenders();

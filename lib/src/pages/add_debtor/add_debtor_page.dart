@@ -64,7 +64,7 @@ class _AddDebtorPageState extends State<AddDebtorPage> {
           ),
           Text(
             'Nombre',
-            style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w600),
+            style: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w600),
           ),
           SizedBox(
             height: 10.0,
@@ -81,7 +81,7 @@ class _AddDebtorPageState extends State<AddDebtorPage> {
 
   Widget _buildTextField() {
     return Theme(
-      data: ThemeData(primaryColor: utils.Colors.towerGray),
+      data: Theme.of(context).copyWith(primaryColor: utils.Colors.towerGray),
       child: TextField(
         autofocus: true,
         textCapitalization: TextCapitalization.words,
