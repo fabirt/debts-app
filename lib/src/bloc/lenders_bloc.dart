@@ -5,11 +5,11 @@ import 'package:debts_app/src/providers/index.dart';
 class LendersBloc {
 
   // Properties
-  List<Lender> _lenders = new List();
-  List<Loan> _loans = new List();
-  final _lendersController = new BehaviorSubject<List<Lender>>();
-  final _loansController = new BehaviorSubject<List<Loan>>();
-  final _resumeController = new BehaviorSubject<DebtorsResume>();
+  List<Lender> _lenders = [];
+  List<Loan> _loans = [];
+  final _lendersController = BehaviorSubject<List<Lender>>();
+  final _loansController = BehaviorSubject<List<Loan>>();
+  final _resumeController = BehaviorSubject<DebtorsResume>();
 
   // Getters
   Stream<List<Lender>> get lendersStream => _lendersController.stream;
@@ -49,7 +49,7 @@ class LendersBloc {
     await DBProvider.db.updateLoan(loan);
     final loans = await DBProvider.db.getLoansByLender(lender);
     double totalLoan = 0.0;
-    for (Loan l in loans) {
+    for (final l in loans) {
       totalLoan += l.value;
     }
     lender.loan = totalLoan;
@@ -61,10 +61,10 @@ class LendersBloc {
   Future<void> updateResume() async {
     final resume = DebtorsResume();
     final lenders = await DBProvider.db.getLenders();
-    lenders.forEach((d) {
+    for (final d in lenders) {
       if (d.loan > 0) resume.people++;
       resume.value += d.loan;
-    });
+    }
     _resumeController.sink.add(resume);
   }
 
@@ -86,7 +86,7 @@ class LendersBloc {
 
 
   // Dispose
-  dispose() {
+  void dispose() {
     _lendersController?.close();
     _loansController?.close();
     _resumeController?.close();

@@ -9,7 +9,7 @@ import 'package:debts_app/src/pages/debtor_debts/widgets/debt_card.dart';
 class DebtorDebtsPage extends StatelessWidget {
   final Debtor debtor;
 
-  DebtorDebtsPage({@required this.debtor});
+  const DebtorDebtsPage({@required this.debtor});
 
   void _addDebt(BuildContext context) {
     Navigator.push(context, FadeRoute(page: AddDebtPage(debtor: debtor)));
@@ -27,7 +27,7 @@ class DebtorDebtsPage extends StatelessWidget {
     );
   }
 
-  void _deleteDebt(Debt debt, InheritedBloc bloc) async {
+  Future<void> _deleteDebt(Debt debt, InheritedBloc bloc) async {
     await bloc.debtorsBloc.deleteDebt(debt, debtor);
     await bloc.debtorsBloc.getDebtsByDebtor(debtor);
   }
@@ -53,7 +53,7 @@ class DebtorDebtsPage extends StatelessWidget {
         ),
       ),
       floatingActionButton: Container(
-        margin: EdgeInsets.only(bottom: 30.0),
+        margin: const EdgeInsets.only(bottom: 30.0),
         child: AddButton(
           onPressed: () => _addDebt(context),
         ),
@@ -71,7 +71,7 @@ class DebtorDebtsPage extends StatelessWidget {
           if (data.isEmpty) return _buildEmptyState();
           return ListView.builder(
             itemCount: data.length,
-            padding: EdgeInsets.only(bottom: 110.0, top: 20.0),
+            padding: const EdgeInsets.only(bottom: 110.0, top: 20.0),
             itemBuilder: (BuildContext context, int i) {
               return DebtCard(
                 debt: data[i],

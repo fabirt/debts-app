@@ -12,12 +12,12 @@ class _DebtCardTheme {
   _DebtCardTheme(DebtCardTheme debtCardTheme) {
     if (debtCardTheme == DebtCardTheme.light) {
       valueColor = utils.Colors.apple;
-      labelColor = Color(0xFF71768C);
+      labelColor = const Color(0xFF71768C);
       iconColor = utils.Colors.towerGray;
       decoration = BoxDecoration(
         color: utils.Colors.white,
         borderRadius: BorderRadius.circular(16.0),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             offset: Offset(0.0, 10.0),
             blurRadius: 6.0,
@@ -28,11 +28,11 @@ class _DebtCardTheme {
       );
     } else {
       valueColor = Colors.white;
-      labelColor = Color.fromRGBO(255, 255, 255, 0.5);
-      iconColor = Color.fromRGBO(255, 255, 255, 0.5);
+      labelColor = const Color.fromRGBO(255, 255, 255, 0.5);
+      iconColor = const Color.fromRGBO(255, 255, 255, 0.5);
       decoration = BoxDecoration(
         borderRadius: BorderRadius.circular(16.0),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             offset: Offset(0.0, 10.0),
             blurRadius: 6.0,
@@ -40,9 +40,9 @@ class _DebtCardTheme {
             color: Color.fromRGBO(0, 0, 0, 0.07),
           ),
         ],
-        gradient: LinearGradient(
-          colors: [Color(0xFF7568E5), Color(0xFF5273DE)]
-        )
+        gradient: const LinearGradient(
+          colors: [Color(0xFF7568E5), Color(0xFF5273DE)],
+        ),
       );
     }
   }
@@ -55,23 +55,26 @@ class DebtResumeCard extends StatelessWidget {
   final String label;
   final Function onTap;
 
-  DebtResumeCard(
-      {this.theme, this.title, this.value, this.label, this.onTap});
+  const DebtResumeCard({
+    this.theme,
+    this.title,
+    this.value,
+    this.label,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final theme = new _DebtCardTheme(this.theme);
+    final theme = _DebtCardTheme(this.theme);
 
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 24.0),
+        margin: const EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
           children: <Widget>[
             _buildHeader(),
-            SizedBox(
-              height: 14.0,
-            ),
+            const SizedBox(height: 14.0),
             _buildCard(theme)
           ],
         ),
@@ -82,9 +85,7 @@ class DebtResumeCard extends StatelessWidget {
   Widget _buildHeader() {
     return Row(
       children: <Widget>[
-        SizedBox(
-          width: 10.0,
-        ),
+        const SizedBox(width: 10.0),
         Text(
           title,
           style: TextStyle(
@@ -93,9 +94,7 @@ class DebtResumeCard extends StatelessWidget {
             fontWeight: FontWeight.w700,
           ),
         ),
-        SizedBox(
-          width: 6.0,
-        ),
+        const SizedBox(width: 6.0),
         Icon(
           Icons.chevron_right,
           color: Colors.white,
@@ -107,13 +106,13 @@ class DebtResumeCard extends StatelessWidget {
 
   Widget _buildCard(_DebtCardTheme theme) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 26.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 26.0),
       decoration: theme.decoration,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Expanded(child: _buildDeptColumn(theme)),
-          SizedBox(width: 10.0,),
+          const SizedBox(width: 10.0),
           _buildIcon(theme),
         ],
       ),
@@ -134,9 +133,7 @@ class DebtResumeCard extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(
-          height: 10.0,
-        ),
+        const SizedBox(height: 10.0),
         Row(
           children: <Widget>[
             Icon(
@@ -144,9 +141,7 @@ class DebtResumeCard extends StatelessWidget {
               color: theme.labelColor,
               size: 16.0,
             ),
-            SizedBox(
-              width: 7.0,
-            ),
+            const SizedBox(width: 7.0),
             Text(
               label,
               style: TextStyle(

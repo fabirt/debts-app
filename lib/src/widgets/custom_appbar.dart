@@ -3,16 +3,15 @@ import 'package:flutter/material.dart';
 // import 'package:debts_app/src/widgets/green_header_container.dart';
 
 class CustomAppBar extends StatelessWidget {
-
   final String titleText;
 
-  CustomAppBar({this.titleText});
+  const CustomAppBar({this.titleText});
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 10.0),
+        padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 10.0),
         child: Row(
           children: <Widget>[
             IconButton(
@@ -22,9 +21,7 @@ class CustomAppBar extends StatelessWidget {
               color: Colors.white,
               icon: Icon(Icons.arrow_back_ios),
             ),
-            SizedBox(
-              width: 16.0,
-            ),
+            const SizedBox(width: 16.0),
             Expanded(
               child: Text(
                 titleText,
@@ -37,7 +34,7 @@ class CustomAppBar extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(width: 10.0,)
+            const SizedBox(width: 10.0)
           ],
         ),
       ),

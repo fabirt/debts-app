@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 class GreenHeaderContainer extends StatelessWidget {
   final Widget child;
 
-  GreenHeaderContainer({this.child});
+  const GreenHeaderContainer({this.child});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: FractionalOffset(0.0, 0.0),
           end: FractionalOffset(0.4, 0.3),

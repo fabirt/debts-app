@@ -11,7 +11,8 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
   AnimationController _animationController;
   Animation<double> _scaleAnimation;
   Animation<Offset> _cardsOffset;
@@ -25,8 +26,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   }
 
   void _initAnimations() {
-    _animationController = new AnimationController(
-        vsync: this, duration: Duration(milliseconds: 1400))
+    _animationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 1400))
       ..addListener(() {
         setState(() {});
       });
@@ -35,14 +36,15 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         CurvedAnimation(
             parent: _animationController,
             curve: Interval(0.6, 1.0, curve: Curves.easeInOut)));
-    _fabOffset = Tween<Offset>(begin: Offset(0.0, 1.0), end: Offset.zero)
+    _fabOffset = Tween<Offset>(begin: const Offset(0.0, 1.0), end: Offset.zero)
         .animate(CurvedAnimation(
             parent: _animationController,
             curve: Interval(0.6, 1.0, curve: Curves.easeInOut)));
-    _cardsOffset = Tween<Offset>(begin: Offset(0.0, -0.20), end: Offset.zero)
-        .animate(CurvedAnimation(
-            parent: _animationController,
-            curve: Interval(0.2, 0.5, curve: Curves.easeInOut)));
+    _cardsOffset =
+        Tween<Offset>(begin: const Offset(0.0, -0.20), end: Offset.zero)
+            .animate(CurvedAnimation(
+                parent: _animationController,
+                curve: Interval(0.2, 0.5, curve: Curves.easeInOut)));
     _cardsOpacity = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
         parent: _animationController,
         curve: Interval(0.2, 0.44, curve: Curves.easeInOut)));
@@ -69,13 +71,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 position: _cardsOffset,
                 child: Column(
                   children: <Widget>[
-                    SizedBox(
-                      height: size.height * 0.05,
-                    ),
+                    SizedBox(height: size.height * 0.05),
                     _buildOweMeCard(bloc),
-                    SizedBox(
-                      height: size.height * 0.05,
-                    ),
+                    SizedBox(height: size.height * 0.05),
                     _buildIOweCard(bloc),
                   ],
                 ),
@@ -87,7 +85,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       floatingActionButton: SlideTransition(
         position: _fabOffset,
         child: Container(
-          margin: EdgeInsets.only(bottom: 30.0),
+          margin: const EdgeInsets.only(bottom: 30.0),
           child: AddButton(
             onPressed: () => _pushDebtorsPage(context),
           ),
@@ -101,7 +99,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     return StreamBuilder(
       stream: bloc.debtorsBloc.resumeStream,
       initialData: DebtorsResume(),
-      builder: (BuildContext context, AsyncSnapshot<DebtorsResume> snapshot){
+      builder: (BuildContext context, AsyncSnapshot<DebtorsResume> snapshot) {
         final label = snapshot.data.people == 1 ? 'persona' : 'personas';
         return DebtResumeCard(
           theme: DebtCardTheme.light,
@@ -118,7 +116,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     return StreamBuilder(
       stream: bloc.lendersBloc.resumeStream,
       initialData: DebtorsResume(),
-      builder: (BuildContext context, AsyncSnapshot<DebtorsResume> snapshot){
+      builder: (BuildContext context, AsyncSnapshot<DebtorsResume> snapshot) {
         final people = snapshot.data.people;
         final label = people == 1 ? 'persona' : 'personas';
         return DebtResumeCard(
@@ -135,9 +133,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   void _pushDebtorsPage(BuildContext context) {
     Navigator.push(context, FadeRoute(page: DebtorsPage()));
   }
-  
+
   void _pushLendersPage(BuildContext context) {
     Navigator.push(context, FadeRoute(page: LendersPage()));
   }
-
 }

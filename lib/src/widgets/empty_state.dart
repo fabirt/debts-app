@@ -5,7 +5,7 @@ class EmptyState extends StatelessWidget {
   final String message;
   final IconData icon;
 
-  EmptyState({this.message, this.icon});
+  const EmptyState({this.message, this.icon});
 
   @override
   Widget build(BuildContext context) {
@@ -15,16 +15,16 @@ class EmptyState extends StatelessWidget {
         children: <Widget>[
           Icon(
             icon,
-            color: Color(0x5F00D3A5),
+            color: const Color(0x5F00D3A5),
             size: 110.0,
           ),
-          SizedBox(height: 12.0,),
+          const SizedBox(height: 12.0),
           Text(
             message,
             style: TextStyle(
               fontSize: 22.0,
               fontWeight: FontWeight.w600,
-              color: utils.Colors.towerGray
+              color: utils.Colors.towerGray,
             ),
           ),
         ],

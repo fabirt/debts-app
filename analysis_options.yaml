@@ -1,0 +1,19 @@
+include: package:lint/analysis_options.yaml
+
+analyzer:
+  strong-mode:
+    implicit-casts: true
+    implicit-dynamic: true
+
+  errors:
+    missing_return: error
+    missing_required_param: error
+
+linter:
+  rules:
+    avoid_as: true
+    avoid_renaming_method_parameters: true
+    avoid_classes_with_only_static_members: false
+    empty_catches: false
+    overridden_fields: false
+    use_setters_to_change_properties: false

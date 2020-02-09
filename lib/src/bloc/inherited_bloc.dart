@@ -5,14 +5,11 @@ import 'package:debts_app/src/bloc/lenders_bloc.dart';
 class InheritedBloc extends InheritedWidget {
   static InheritedBloc _instance;
 
-  final DebtorsBloc debtorsBloc = new DebtorsBloc();
-  final LendersBloc lendersBloc = new LendersBloc();
+  final DebtorsBloc debtorsBloc = DebtorsBloc();
+  final LendersBloc lendersBloc = LendersBloc();
 
   factory InheritedBloc({Key key, Widget child}) {
-    if (_instance == null) {
-      _instance = new InheritedBloc._internal(key: key, child: child);
-    }
-    return _instance;
+    return _instance ??= InheritedBloc._internal(key: key, child: child);
   }
 
   InheritedBloc._internal({Key key, Widget child})

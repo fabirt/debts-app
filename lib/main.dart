@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         home: HomePage(),
         theme: ThemeData(
           fontFamily: 'Proximanova',
-          primaryColor: Color(0xFF00D3A5),
+          primaryColor: const Color(0xFF00D3A5),
           primarySwatch: utils.Swatchs.greenSwatch,
           scaffoldBackgroundColor: utils.Colors.athensGray,
           textTheme: TextTheme(
@@ -27,8 +27,8 @@ class MyApp extends StatelessWidget {
         ),
         builder: (BuildContext context, child) {
           return ScrollConfiguration(
-            child: child,
             behavior: NeverOverScrollBehavior(),
+            child: child,
           );
         },
       ),

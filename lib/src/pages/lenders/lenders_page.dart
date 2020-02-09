@@ -11,8 +11,8 @@ class LendersPage extends StatefulWidget {
   _LendersPageState createState() => _LendersPageState();
 }
 
-class _LendersPageState extends State<LendersPage> with SingleTickerProviderStateMixin {
-
+class _LendersPageState extends State<LendersPage>
+    with SingleTickerProviderStateMixin {
   AnimationController _animationController;
   Animation<double> _opacityAnimation;
   Animation<Offset> _offsetAnimation;
@@ -24,23 +24,28 @@ class _LendersPageState extends State<LendersPage> with SingleTickerProviderStat
   }
 
   void _initAnimations() {
-    _animationController = new AnimationController(
+    _animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 700)
+      duration: const Duration(milliseconds: 700),
     );
-    _opacityAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
-    _offsetAnimation = Tween<Offset>(begin: Offset(0.0, 0.3), end: Offset.zero).animate(
-      CurvedAnimation(
-        curve: Curves.elasticInOut,
-        parent: _animationController
-      )
+
+    _opacityAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(_animationController);
+
+    _offsetAnimation = Tween<Offset>(
+      begin: const Offset(0.0, 0.3),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(curve: Curves.elasticInOut, parent: _animationController),
     );
+
     _animationController.forward();
   }
 
   @override
   Widget build(BuildContext context) {
-  
     final bloc = InheritedBloc.of(context);
     bloc.lendersBloc.getLenders();
     bloc.lendersBloc.updateResume();
@@ -58,7 +63,7 @@ class _LendersPageState extends State<LendersPage> with SingleTickerProviderStat
                     opacity: _opacityAnimation,
                     child: SlideTransition(
                       position: _offsetAnimation,
-                      child: child
+                      child: child,
                     ),
                   );
                 },
@@ -71,7 +76,7 @@ class _LendersPageState extends State<LendersPage> with SingleTickerProviderStat
         ),
       ),
       floatingActionButton: Container(
-        margin: EdgeInsets.only(bottom: 30.0),
+        margin: const EdgeInsets.only(bottom: 30.0),
         child: AddButton(
           onPressed: () => _addLender(context),
         ),
@@ -82,14 +87,12 @@ class _LendersPageState extends State<LendersPage> with SingleTickerProviderStat
 
   Widget _buildHeader(BuildContext context, InheritedBloc bloc) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 0.0),
+      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 0.0),
       child: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            SizedBox(
-              width: double.infinity,
-            ),
+            SizedBox(width: double.infinity),
             IconButton(
               onPressed: () {
                 Navigator.pop(context);
@@ -98,7 +101,10 @@ class _LendersPageState extends State<LendersPage> with SingleTickerProviderStat
               icon: Icon(Icons.arrow_back_ios),
             ),
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 34.0, vertical: 10.0),
+              margin: const EdgeInsets.symmetric(
+                horizontal: 34.0,
+                vertical: 10.0,
+              ),
               child: _buildHeaderDebt(bloc),
             ),
           ],
@@ -111,21 +117,19 @@ class _LendersPageState extends State<LendersPage> with SingleTickerProviderStat
     return StreamBuilder(
       stream: bloc.lendersBloc.resumeStream,
       initialData: DebtorsResume(),
-      builder: (BuildContext context, AsyncSnapshot<DebtorsResume> snapshot){
+      builder: (BuildContext context, AsyncSnapshot<DebtorsResume> snapshot) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
               'Debo en total',
               style: TextStyle(
-                color: Color.fromRGBO(255, 255, 255, 0.7),
+                color: const Color.fromRGBO(255, 255, 255, 0.7),
                 fontSize: 15.0,
                 fontWeight: FontWeight.w600,
               ),
             ),
-            SizedBox(
-              height: 8.0,
-            ),
+            const SizedBox(height: 8.0),
             Text(
               utils.formatCurrency(snapshot.data.value),
               style: TextStyle(
@@ -143,14 +147,14 @@ class _LendersPageState extends State<LendersPage> with SingleTickerProviderStat
   Widget _buildContent(InheritedBloc bloc) {
     return StreamBuilder(
       stream: bloc.lendersBloc.lendersStream,
-      builder: (BuildContext context, AsyncSnapshot<List<Lender>> snapshot){
+      builder: (BuildContext context, AsyncSnapshot<List<Lender>> snapshot) {
         if (snapshot.hasData) {
           final data = snapshot.data;
-          if (data.isEmpty) return _buildEmptyState(); 
+          if (data.isEmpty) return _buildEmptyState();
           return ListView.builder(
-            key: Key('lenders-list'),
+            key: const Key('lenders-list'),
             itemCount: data.length,
-            padding: EdgeInsets.only(bottom: 110.0, top: 20.0),
+            padding: const EdgeInsets.only(bottom: 110.0, top: 20.0),
             itemBuilder: (BuildContext context, int i) {
               return LenderCard(
                 lender: data[i],
@@ -178,7 +182,14 @@ class _LendersPageState extends State<LendersPage> with SingleTickerProviderStat
   }
 
   void _onTapLender(Lender l) {
-    Navigator.push(context, FadeRoute(page: LoansPage(lender: l,)));
+    Navigator.push(
+      context,
+      FadeRoute(
+        page: LoansPage(
+          lender: l,
+        ),
+      ),
+    );
   }
 
   void _addLender(BuildContext context) {

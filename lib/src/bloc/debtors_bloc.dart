@@ -4,11 +4,11 @@ import 'package:debts_app/src/providers/index.dart';
 
 class DebtorsBloc {
   // Properties
-  List<Debtor> _debtors = new List();
-  List<Debt> _debts = new List();
-  final _debtorsController = new BehaviorSubject<List<Debtor>>();
-  final _debtsController = new BehaviorSubject<List<Debt>>();
-  final _resumeController = new BehaviorSubject<DebtorsResume>();
+  List<Debtor> _debtors = [];
+  List<Debt> _debts = [];
+  final _debtorsController = BehaviorSubject<List<Debtor>>();
+  final _debtsController = BehaviorSubject<List<Debt>>();
+  final _resumeController = BehaviorSubject<DebtorsResume>();
 
   // Getters
   Stream<List<Debtor>> get debtorsStream => _debtorsController.stream;
@@ -54,7 +54,7 @@ class DebtorsBloc {
     await DBProvider.db.updateDebt(debt);
     final debts = await DBProvider.db.getDebtsByDebtor(debtor);
     double totalDebt = 0.0;
-    for (Debt d in debts) {
+    for (final d in debts) {
       totalDebt += d.value;
     }
     debtor.debt = totalDebt;
@@ -66,10 +66,10 @@ class DebtorsBloc {
   Future<void> updateResume() async {
     final resume = DebtorsResume();
     final debtors = await DBProvider.db.getDebtors();
-    debtors.forEach((d) {
+    for (final d in debtors) {
       if (d.debt > 0) resume.people++;
       resume.value += d.debt;
-    });
+    }
     _resumeController.sink.add(resume);
   }
 
@@ -90,7 +90,7 @@ class DebtorsBloc {
   }
 
   // Dispose
-  dispose() {
+  void dispose() {
     _debtorsController?.close();
     _debtsController?.close();
     _resumeController?.close();

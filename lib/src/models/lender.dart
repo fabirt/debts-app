@@ -25,9 +25,9 @@ class Lender {
   String getInitials() {
     String initials = '';
     final values = name.split(' ');
-    values.forEach((v) {
+    for (final v in values) {
       if (initials.length < 2) initials += v[0];
-    });
+    }
     return initials;
   }
 }

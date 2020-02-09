@@ -18,14 +18,14 @@ class _AddLenderPageState extends State<AddLenderPage> {
     name = '';
   }
 
-  void _saveLender() async {
+  Future<void> _saveLender() async {
     final bloc = InheritedBloc.of(context);
-    final lender = new Lender(name: name);
+    final lender = Lender(name: name);
     await bloc.lendersBloc.addLender(lender);
     Navigator.pop(context);
   }
 
-  _onTextChanged(String value) {
+  void _onTextChanged(String value) {
     setState(() {
       name = value;
     });
@@ -50,29 +50,23 @@ class _AddLenderPageState extends State<AddLenderPage> {
   }
 
   Widget _buildHeader(BuildContext context) {
-    return CustomAppBar(titleText: 'Agregar prestamista');
+    return const CustomAppBar(titleText: 'Agregar prestamista');
   }
 
   Widget _buildContent() {
     return Padding(
-      padding: EdgeInsets.all(28.0),
+      padding: const EdgeInsets.all(28.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          FractionallySizedBox(
-            widthFactor: 1.0,
-          ),
+          const FractionallySizedBox(widthFactor: 1.0),
           Text(
             'Nombre',
             style: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w600),
           ),
-          SizedBox(
-            height: 10.0,
-          ),
+          const SizedBox(height: 10.0),
           _buildTextField(),
-          Expanded(
-            child: SizedBox(),
-          ),
+          const Expanded(child: SizedBox()),
           _buildButton()
         ],
       ),
@@ -106,7 +100,7 @@ class _AddLenderPageState extends State<AddLenderPage> {
           widthFactor: 1.0,
           child: Container(
             alignment: Alignment.center,
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: Text(
               'Guardar',
               style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15.0),

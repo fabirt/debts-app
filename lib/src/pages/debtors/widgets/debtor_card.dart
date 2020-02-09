@@ -8,7 +8,7 @@ class DebtorCard extends StatelessWidget {
   final Function(Debtor) onTap;
   final Function(Debtor) onDismissed;
 
-  DebtorCard({this.debtor, this.onTap, this.onDismissed});
+  const DebtorCard({this.debtor, this.onTap, this.onDismissed});
 
   void _onTap() {
     onTap(debtor);
@@ -21,15 +21,15 @@ class DebtorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+      margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
       child: Dismissible(
         key: UniqueKey(),
         onDismissed: _onDismissed,
         direction: DismissDirection.endToStart,
-        dismissThresholds: {DismissDirection.startToEnd: 200.0},
+        dismissThresholds: const {DismissDirection.startToEnd: 200.0},
         background: _buildDismissibleBackground(),
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             boxShadow: [
               BoxShadow(
                 offset: Offset(0.0, 6.0),
@@ -56,8 +56,11 @@ class DebtorCard extends StatelessWidget {
   Widget _buildDismissibleBackground() {
     return Container(
       alignment: Alignment.centerRight,
-      margin: EdgeInsets.symmetric(horizontal: 26.0, vertical: 5.0),
-      child: Icon(Icons.delete, color: utils.Colors.towerGray,),
+      margin: const EdgeInsets.symmetric(horizontal: 26.0, vertical: 5.0),
+      child: Icon(
+        Icons.delete,
+        color: utils.Colors.towerGray,
+      ),
     );
   }
 
@@ -65,7 +68,7 @@ class DebtorCard extends StatelessWidget {
     final debt = utils.formatCurrency(debtor.debt);
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
       child: Row(
         children: <Widget>[
           CircleAvatar(
@@ -78,18 +81,14 @@ class DebtorCard extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(
-            width: 12.0,
-          ),
+          const SizedBox(width: 12.0),
           Expanded(
             child: Text(
               debtor.name,
               style: TextStyle(fontWeight: FontWeight.w500),
             ),
           ),
-          SizedBox(
-            width: 12.0,
-          ),
+          const SizedBox(width: 12.0),
           Text(
             debt,
             style: TextStyle(fontWeight: FontWeight.w700),

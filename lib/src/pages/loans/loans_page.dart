@@ -9,7 +9,7 @@ import 'package:debts_app/src/pages/loans/widgets/loan_card.dart';
 class LoansPage extends StatelessWidget {
   final Lender lender;
 
-  LoansPage({@required this.lender});
+  const LoansPage({@required this.lender});
 
   void _addLoan(BuildContext context) {
     Navigator.push(context, FadeRoute(page: AddLoanPage(lender: lender)));
@@ -27,7 +27,7 @@ class LoansPage extends StatelessWidget {
     );
   }
 
-  void _deleteLoan(Loan loan, InheritedBloc bloc) async {
+  Future<void> _deleteLoan(Loan loan, InheritedBloc bloc) async {
     await bloc.lendersBloc.deleteLoan(loan, lender);
     await bloc.lendersBloc.getLoansByLender(lender);
   }
@@ -53,7 +53,7 @@ class LoansPage extends StatelessWidget {
         ),
       ),
       floatingActionButton: Container(
-        margin: EdgeInsets.only(bottom: 30.0),
+        margin: const EdgeInsets.only(bottom: 30.0),
         child: AddButton(
           onPressed: () => _addLoan(context),
         ),
@@ -71,7 +71,7 @@ class LoansPage extends StatelessWidget {
           if (data.isEmpty) return _buildEmptyState();
           return ListView.builder(
             itemCount: data.length,
-            padding: EdgeInsets.only(bottom: 110.0, top: 20.0),
+            padding: const EdgeInsets.only(bottom: 110.0, top: 20.0),
             itemBuilder: (BuildContext context, int i) {
               return LoanCard(
                 loan: data[i],

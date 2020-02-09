@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:debts_app/src/utils/index.dart' as utils;
 
-
 class AddButton extends StatelessWidget {
-
   final Function onPressed;
 
-  AddButton({this.onPressed});
+  const AddButton({this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +14,7 @@ class AddButton extends StatelessWidget {
       decoration: BoxDecoration(
         color: utils.Colors.brightGray,
         borderRadius: BorderRadius.circular(27.0),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             offset: Offset(0.0, 6.0),
             blurRadius: 6.0,
@@ -27,8 +25,8 @@ class AddButton extends StatelessWidget {
       ),
       child: FlatButton(
         onPressed: onPressed,
-        child: Icon(Icons.add),
         textColor: Colors.white,
+        child: Icon(Icons.add),
       ),
     );
   }
