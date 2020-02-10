@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 import 'package:debts_app/src/bloc/inherited_bloc.dart';
 import 'package:debts_app/src/models/index.dart';
 import 'package:debts_app/src/widgets/index.dart';
@@ -22,6 +24,7 @@ class _AddDebtPageState extends State<AddDebtPage> {
   String value;
   String description;
   bool valid;
+  final _focusNode = FocusNode();
 
   @override
   void initState() {
@@ -79,7 +82,7 @@ class _AddDebtPageState extends State<AddDebtPage> {
   }
 
   void _onValueTextChanged(String text) {
-    value = text;
+    value = text.replaceAll('.', '');
     _validateForm();
     setState(() {});
   }
@@ -153,11 +156,21 @@ class _AddDebtPageState extends State<AddDebtPage> {
         autofocus: true,
         initialValue: value,
         keyboardType: TextInputType.number,
+        textInputAction: TextInputAction.next,
         cursorColor: utils.Colors.towerGray,
         onChanged: _onValueTextChanged,
+        maxLength: 11,
+        inputFormatters: [
+          BlacklistingTextInputFormatter(RegExp(r'\D')),
+          utils.NumberFormatter(),
+        ],
         decoration: const InputDecoration(
           hintText: 'Escribe un valor',
+          counterText: null
         ),
+        onFieldSubmitted: (_) {
+          FocusScope.of(context).requestFocus(_focusNode);
+        },
       ),
     );
   }
@@ -166,6 +179,7 @@ class _AddDebtPageState extends State<AddDebtPage> {
     return Theme(
       data: Theme.of(context).copyWith(primaryColor: utils.Colors.towerGray),
       child: TextFormField(
+        focusNode: _focusNode,
         initialValue: description,
         textCapitalization: TextCapitalization.sentences,
         cursorColor: utils.Colors.towerGray,

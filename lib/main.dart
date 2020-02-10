@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/intl.dart';
 
 import 'package:debts_app/src/pages/index.dart';
 import 'package:debts_app/src/widgets/index.dart';
@@ -20,13 +21,16 @@ class MyApp extends StatelessWidget {
     Iterable<Locale> supportedLocales,
   ) {
     if (locale == null) {
+      Intl.defaultLocale = supportedLocales.first.toString();
       return supportedLocales.first;
     } else {
       for (final supportedLocale in supportedLocales) {
         if (supportedLocale.languageCode == locale.languageCode) {
+          Intl.defaultLocale = supportedLocale.toString();
           return supportedLocale;
         }
       }
+      Intl.defaultLocale = supportedLocales.first.toString();
       return supportedLocales.first;
     }
   }
