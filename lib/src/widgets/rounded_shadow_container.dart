@@ -9,13 +9,13 @@ class RoundedShadowContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.only(
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.only(
           topLeft: Radius.circular(24.0),
           topRight: Radius.circular(24.0),
         ),
         color: utils.Colors.athensGray,
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
             offset: Offset(0.0, -8.0),
             blurRadius: 6.0,
