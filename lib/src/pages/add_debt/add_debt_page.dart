@@ -30,7 +30,7 @@ class _AddDebtPageState extends State<AddDebtPage> {
   void initState() {
     super.initState();
     if (widget.debt != null) {
-      value = widget.debt.value.toString();
+      value = utils.formatCurrency(widget.debt.value, '#,###');
       description = widget.debt.description;
       valid = true;
     } else {

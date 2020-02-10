@@ -30,7 +30,7 @@ class _AddLoanPageState extends State<AddLoanPage> {
   void initState() {
     super.initState();
     if (widget.loan != null) {
-      value = widget.loan.value.toString();
+      value = utils.formatCurrency(widget.loan.value, '#,###');
       description = widget.loan.description;
       valid = true;
     } else {
