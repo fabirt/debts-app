@@ -1,14 +1,16 @@
+![logo](examples/debty-social-card.png)
+
 # Debty
 
-Debt management app.
+Debts management app.
 
 
 Personal project.
 
 ## Screenshots
 
-![foo](examples/home.png)
+![home](examples/home.png)
 ___
-![foo](examples/debtors.png)
+![screen](examples/debtors.png)
 ___
-![foo](examples/debts.png)
+![screen](examples/debts.png)
