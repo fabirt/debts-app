@@ -4,8 +4,8 @@
 
 Debts management app.
 
-
-Personal project.
+## Installation
+Download the `.apk` file from our repository [releases](https://github.com/fabirt/debts-app/releases/tag/1.3.1).
 
 ## Screenshots
 
