@@ -5,7 +5,7 @@
 Debts management app.
 
 ## Installation
-Download the `.apk` file from our repository [releases](https://github.com/fabirt/debts-app/releases/tag/1.3.1).
+Download the `.apk` file from our repository [releases](https://github.com/fabirt/debts-app/releases/download/1.3.1/debty-release.apk).
 
 ## Screenshots
 
