@@ -33,6 +33,12 @@ class _LendersPageState extends State<LendersPage>
   }
 
   @override
+  void dispose() { 
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final bloc = InheritedBloc.of(context);
     return Scaffold(

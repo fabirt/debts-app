@@ -106,7 +106,9 @@ class _AddLoanPageState extends State<AddLoanPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    SingleChildScrollView(child: _buildContent()),
+                    Expanded(
+                      child: SingleChildScrollView(child: _buildContent()),
+                    ),
                     _buildButton(),
                   ],
                 ),
