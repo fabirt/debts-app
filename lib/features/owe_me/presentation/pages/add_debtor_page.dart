@@ -5,6 +5,7 @@ import 'package:debts_app/core/presentation/bloc/inherited_bloc.dart';
 import 'package:debts_app/core/data/models/index.dart';
 import 'package:debts_app/core/presentation/widgets/index.dart';
 import 'package:debts_app/core/utils/index.dart' as utils;
+import 'package:debts_app/features/owe_me/presentation/bloc/add_debtor_bloc.dart';
 
 class AddDebtorPage extends StatefulWidget {
   @override
@@ -12,25 +13,24 @@ class AddDebtorPage extends StatefulWidget {
 }
 
 class _AddDebtorPageState extends State<AddDebtorPage> {
-  String name;
+  final AddDebtorBloc _debtorBloc = AddDebtorBloc();
 
   @override
   void initState() {
     super.initState();
-    name = '';
+  }
+
+  @override
+  void dispose() {
+    _debtorBloc.dispose();
+    super.dispose();
   }
 
   Future<void> _saveDebtor() async {
     final bloc = InheritedBloc.of(context);
-    final debtor = DebtorModel(name: name);
+    final debtor = DebtorModel(name: _debtorBloc.name);
     await bloc.debtorsBloc.addDebtor(debtor);
     Navigator.of(context).pop();
-  }
-
-  void _onTextChanged(String value) {
-    setState(() {
-      name = value;
-    });
   }
 
   @override
@@ -78,40 +78,52 @@ class _AddDebtorPageState extends State<AddDebtorPage> {
   }
 
   Widget _buildTextField() {
-    return Theme(
-      data: Theme.of(context).copyWith(primaryColor: utils.Colors.towerGray),
-      child: TextField(
-        autofocus: true,
-        textCapitalization: TextCapitalization.words,
-        cursorColor: utils.Colors.towerGray,
-        decoration: InputDecoration(
-          hintText: AppLocalizations.of(context).translate('name_hint'),
-          focusColor: Colors.red,
-        ),
-        onChanged: _onTextChanged,
-      ),
+    return StreamBuilder<String>(
+      stream: _debtorBloc.nameStream,
+      builder: (context, snapshot) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            primaryColor: utils.Colors.towerGray,
+          ),
+          child: TextField(
+            autofocus: true,
+            textCapitalization: TextCapitalization.words,
+            cursorColor: utils.Colors.towerGray,
+            decoration: InputDecoration(
+              hintText: AppLocalizations.of(context).translate('name_hint'),
+              focusColor: Colors.red,
+            ),
+            onChanged: _debtorBloc.changeName,
+          ),
+        );
+      },
     );
   }
 
   Widget _buildButton() {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(30.0),
-      child: FlatButton(
-        onPressed: name.isEmpty ? null : _saveDebtor,
-        color: utils.Colors.brightGray,
-        textColor: Colors.white,
-        child: FractionallySizedBox(
-          widthFactor: 1.0,
-          child: Container(
-            alignment: Alignment.center,
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              AppLocalizations.of(context).translate('save'),
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15.0),
+    return StreamBuilder(
+      stream: _debtorBloc.nameStream,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(30.0),
+          child: FlatButton(
+            onPressed: snapshot.hasData ? _saveDebtor : null,
+            color: utils.Colors.brightGray,
+            textColor: Colors.white,
+            child: FractionallySizedBox(
+              widthFactor: 1.0,
+              child: Container(
+                alignment: Alignment.center,
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  AppLocalizations.of(context).translate('save'),
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15.0),
+                ),
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
