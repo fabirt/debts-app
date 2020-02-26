@@ -14,7 +14,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   sqflite: ^1.2.0
   path_provider: ^1.6.0
-  rxdart: ^0.22.3
+  rxdart: ^0.23.1
   intl: ^0.16.0
 
 dev_dependencies:
