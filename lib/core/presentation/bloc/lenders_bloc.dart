@@ -1,66 +1,66 @@
 import 'package:rxdart/rxdart.dart';
+import 'package:debts_app/core/data/data_sources/db_data_source.dart';
 import 'package:debts_app/core/data/models/index.dart';
-import 'package:debts_app/core/presentation/providers/index.dart';
 
 class LendersBloc {
-
   // Properties
   List<Lender> _lenders = [];
   List<Loan> _loans = [];
   final _lendersController = BehaviorSubject<List<Lender>>();
   final _loansController = BehaviorSubject<List<Loan>>();
   final _resumeController = BehaviorSubject<DebtorsResume>();
+  final DbDataSource _dbDataSource = DbDataSourceImpl();
 
   // Getters
   Stream<List<Lender>> get lendersStream => _lendersController.stream;
   Stream<List<Loan>> get loansStream => _loansController.stream;
   Stream<DebtorsResume> get resumeStream => _resumeController.stream;
 
-  // Get all lenders
+  /// Get all lenders
   Future<void> getLenders() async {
-    _lenders = await DBProvider.db.getLenders();
+    _lenders = await _dbDataSource.getLenders();
     _lenders.sort((a, b) => b.loan.compareTo(a.loan));
     _lendersController.sink.add(_lenders);
   }
-  
-  // Get loans for corresponding lender
+
+  /// Get loans for corresponding lender
   Future<void> getLoansByLender(Lender lender) async {
-    _loans = await DBProvider.db.getLoansByLender(lender);
+    _loans = await _dbDataSource.getLoansByLender(lender);
     _loans.sort((a, b) => b.date.compareTo(a.date));
     _loansController.sink.add(_loans);
   }
 
-  // Add lender
+  /// Add lender
   Future<void> addLender(Lender lender) async {
-    await DBProvider.db.addLender(lender);
-    await getLenders();
-  }
-  
-  // Add loan
-  Future<void> addLoan(Loan loan, Lender lender) async {
-    await DBProvider.db.addLoan(loan);
-    lender.loan += loan.value;
-    await DBProvider.db.updateLender(lender);
+    await _dbDataSource.addLender(lender);
     await getLenders();
   }
 
-  // Update loan
+  /// Add loan
+  Future<void> addLoan(Loan loan, Lender lender) async {
+    await _dbDataSource.addLoan(loan);
+    lender.loan += loan.value;
+    await _dbDataSource.updateLender(lender);
+    await getLenders();
+  }
+
+  /// Update loan
   Future<void> updateLoan(Loan loan, Lender lender) async {
-    await DBProvider.db.updateLoan(loan);
-    final loans = await DBProvider.db.getLoansByLender(lender);
+    await _dbDataSource.updateLoan(loan);
+    final loans = await _dbDataSource.getLoansByLender(lender);
     double totalLoan = 0.0;
     for (final l in loans) {
       totalLoan += l.value;
     }
     lender.loan = totalLoan;
-    await DBProvider.db.updateLender(lender);
+    await _dbDataSource.updateLender(lender);
     await getLenders();
   }
 
-  // Update lenders total loan
+  /// Update lenders total loan
   Future<void> updateResume() async {
     final resume = DebtorsResume();
-    final lenders = await DBProvider.db.getLenders();
+    final lenders = await _dbDataSource.getLenders();
     for (final d in lenders) {
       if (d.loan > 0) resume.people++;
       resume.value += d.loan;
@@ -68,28 +68,26 @@ class LendersBloc {
     _resumeController.sink.add(resume);
   }
 
-  // Delete loan
+  /// Delete loan
   Future<void> deleteLoan(Loan loan, Lender lender) async {
-    await DBProvider.db.deleteLoan(loan);
+    await _dbDataSource.deleteLoan(loan);
     lender.loan -= loan.value;
-    await DBProvider.db.updateLender(lender);
+    await _dbDataSource.updateLender(lender);
     await getLenders();
   }
 
-  // Delete lender and corresponding loans
+  /// Delete lender and corresponding loans
   Future<void> deleteLender(Lender lender) async {
-    await DBProvider.db.deleteLender(lender);
-    await DBProvider.db.deleteAllLoansByLender(lender);
+    await _dbDataSource.deleteLender(lender);
+    await _dbDataSource.deleteAllLoansByLender(lender);
     getLenders();
     updateResume();
   }
 
-
-  // Dispose
+  /// Dispose
   void dispose() {
     _lendersController?.close();
     _loansController?.close();
     _resumeController?.close();
-  } 
-  
+  }
 }
