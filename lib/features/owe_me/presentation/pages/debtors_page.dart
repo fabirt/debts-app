@@ -25,6 +25,13 @@ class _DebtorsPageState extends State<DebtorsPage>
     _initAnimations();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final bloc = InheritedBloc.of(context);
+    bloc.debtorsBloc.getDebtors();
+  }
+
   void _initAnimations() {
     _animationController = AnimationController(
       vsync: this,
@@ -50,8 +57,6 @@ class _DebtorsPageState extends State<DebtorsPage>
   @override
   Widget build(BuildContext context) {
     final bloc = InheritedBloc.of(context);
-    bloc.debtorsBloc.getDebtors();
-    bloc.debtorsBloc.updateResume();
 
     return Scaffold(
       body: GreenHeaderContainer(
@@ -122,7 +127,8 @@ class _DebtorsPageState extends State<DebtorsPage>
     return StreamBuilder(
       stream: bloc.debtorsBloc.resumeStream,
       initialData: DebtorsResumeModel(),
-      builder: (BuildContext context, AsyncSnapshot<DebtorsResumeModel> snapshot) {
+      builder:
+          (BuildContext context, AsyncSnapshot<DebtorsResumeModel> snapshot) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -152,7 +158,8 @@ class _DebtorsPageState extends State<DebtorsPage>
   Widget _buildContent(InheritedBloc bloc) {
     return StreamBuilder(
       stream: bloc.debtorsBloc.debtorsStream,
-      builder: (BuildContext context, AsyncSnapshot<List<DebtorModel>> snapshot) {
+      builder:
+          (BuildContext context, AsyncSnapshot<List<DebtorModel>> snapshot) {
         if (snapshot.hasData) {
           final data = snapshot.data;
           if (data.isEmpty) return _buildEmptyState();

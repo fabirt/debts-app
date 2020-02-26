@@ -7,41 +7,50 @@ import 'package:debts_app/core/presentation/widgets/index.dart';
 import 'package:debts_app/core/router/index.dart';
 import 'package:debts_app/features/i_owe/presentation/widgets/loan_card.dart';
 
-class LoansPage extends StatelessWidget {
+class LoansPage extends StatefulWidget {
   final LenderModel lender;
 
   const LoansPage({@required this.lender});
 
+  @override
+  _LoansPageState createState() => _LoansPageState();
+}
+
+class _LoansPageState extends State<LoansPage> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final bloc = InheritedBloc.of(context);
+    bloc.lendersBloc.getLoansByLender(widget.lender);
+  }
+
   void _addLoan(BuildContext context) {
     Router.navigator.pushNamed(
       Routes.addLoan,
-      arguments: AddLoanArguments(lender: lender),
+      arguments: AddLoanArguments(lender: widget.lender),
     );
   }
 
   void _updateLoan(BuildContext context, LoanModel loan) {
     Router.navigator.pushNamed(
       Routes.addLoan,
-      arguments: AddLoanArguments(lender: lender, loan: loan),
+      arguments: AddLoanArguments(lender: widget.lender, loan: loan),
     );
   }
 
   Future<void> _deleteLoan(LoanModel loan, InheritedBloc bloc) async {
-    await bloc.lendersBloc.deleteLoan(loan, lender);
-    await bloc.lendersBloc.getLoansByLender(lender);
+    await bloc.lendersBloc.deleteLoan(loan, widget.lender);
+    await bloc.lendersBloc.getLoansByLender(widget.lender);
   }
 
   @override
   Widget build(BuildContext context) {
-    final bloc = InheritedBloc.of(context);
-    bloc.lendersBloc.getLoansByLender(lender);
-
     return Scaffold(
       body: BlueHeaderContainer(
         child: Column(
           children: <Widget>[
             CustomAppBar(
-              titleText: lender.name,
+              titleText: widget.lender.name,
             ),
             Expanded(
               child: RoundedShadowContainer(

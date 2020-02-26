@@ -7,41 +7,53 @@ import 'package:debts_app/core/presentation/widgets/index.dart';
 import 'package:debts_app/core/router/index.dart';
 import 'package:debts_app/features/owe_me/presentation/widgets/debt_card.dart';
 
-class DebtorDebtsPage extends StatelessWidget {
+class DebtorDebtsPage extends StatefulWidget {
   final DebtorModel debtor;
 
   const DebtorDebtsPage({@required this.debtor});
 
+  @override
+  _DebtorDebtsPageState createState() => _DebtorDebtsPageState();
+}
+
+class _DebtorDebtsPageState extends State<DebtorDebtsPage> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final bloc = InheritedBloc.of(context);
+    bloc.debtorsBloc.getDebtsByDebtor(widget.debtor);
+  }
+
   void _addDebt(BuildContext context) {
-    Router.navigator.pushNamed(Routes.addDebt, arguments: AddDebtArguments(debtor: debtor));
+    Router.navigator.pushNamed(
+      Routes.addDebt,
+      arguments: AddDebtArguments(debtor: widget.debtor),
+    );
   }
 
   void _updateDebt(BuildContext context, DebtModel debt) {
     Router.navigator.pushNamed(
       Routes.addDebt,
       arguments: AddDebtArguments(
-        debtor: debtor,
+        debtor: widget.debtor,
         debt: debt,
       ),
     );
   }
 
   Future<void> _deleteDebt(DebtModel debt, InheritedBloc bloc) async {
-    await bloc.debtorsBloc.deleteDebt(debt, debtor);
-    await bloc.debtorsBloc.getDebtsByDebtor(debtor);
+    await bloc.debtorsBloc.deleteDebt(debt, widget.debtor);
+    await bloc.debtorsBloc.getDebtsByDebtor(widget.debtor);
   }
 
   @override
   Widget build(BuildContext context) {
-    final bloc = InheritedBloc.of(context);
-    bloc.debtorsBloc.getDebtsByDebtor(debtor);
-
     return Scaffold(
       body: GreenHeaderContainer(
         child: Column(
           children: <Widget>[
             CustomAppBar(
-              titleText: debtor.name,
+              titleText: widget.debtor.name,
             ),
             Expanded(
               child: RoundedShadowContainer(

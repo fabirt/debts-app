@@ -26,6 +26,14 @@ class _ResumePageState extends State<ResumePage>
     _initAnimations();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final bloc = InheritedBloc.of(context);
+    bloc.debtorsBloc.updateResume();
+    bloc.lendersBloc.updateResume();
+  }
+
   void _initAnimations() {
     _animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 1400))
@@ -56,8 +64,6 @@ class _ResumePageState extends State<ResumePage>
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final bloc = InheritedBloc.of(context);
-    bloc.debtorsBloc.updateResume();
-    bloc.lendersBloc.updateResume();
 
     return Scaffold(
       body: Stack(
@@ -97,10 +103,10 @@ class _ResumePageState extends State<ResumePage>
   }
 
   Widget _buildOweMeCard(InheritedBloc bloc) {
-    return StreamBuilder(
+    return StreamBuilder<DebtorsResumeModel>(
       stream: bloc.debtorsBloc.resumeStream,
       initialData: DebtorsResumeModel(),
-      builder: (BuildContext context, AsyncSnapshot<DebtorsResumeModel> snapshot) {
+      builder: (context, snapshot) {
         final localizations = AppLocalizations.of(context);
         final label = snapshot.data.people == 1
             ? localizations.translate('person')
@@ -117,10 +123,10 @@ class _ResumePageState extends State<ResumePage>
   }
 
   Widget _buildIOweCard(InheritedBloc bloc) {
-    return StreamBuilder(
+    return StreamBuilder<DebtorsResumeModel>(
       stream: bloc.lendersBloc.resumeStream,
       initialData: DebtorsResumeModel(),
-      builder: (BuildContext context, AsyncSnapshot<DebtorsResumeModel> snapshot) {
+      builder: (context, snapshot) {
         final people = snapshot.data.people;
         final localizations = AppLocalizations.of(context);
         final label = snapshot.data.people == 1
