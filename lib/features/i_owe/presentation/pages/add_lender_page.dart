@@ -24,7 +24,7 @@ class _AddLenderPageState extends State<AddLenderPage> {
     final bloc = InheritedBloc.of(context);
     final lender = Lender(name: name);
     await bloc.lendersBloc.addLender(lender);
-    Navigator.pop(context);
+    Navigator.of(context).pop();
   }
 
   void _onTextChanged(String value) {

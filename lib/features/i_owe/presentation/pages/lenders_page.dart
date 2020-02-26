@@ -4,9 +4,8 @@ import 'package:debts_app/core/data/models/index.dart';
 import 'package:debts_app/core/locale/app_localizations.dart';
 import 'package:debts_app/core/presentation/widgets/index.dart';
 import 'package:debts_app/core/presentation/bloc/inherited_bloc.dart';
+import 'package:debts_app/core/router/index.dart';
 import 'package:debts_app/core/utils/index.dart' as utils;
-import 'package:debts_app/features/i_owe/presentation/pages/add_lender_page.dart';
-import 'package:debts_app/features/i_owe/presentation/pages/loans_page.dart';
 import 'package:debts_app/features/i_owe/presentation/widgets/lender_card.dart';
 
 class LendersPage extends StatefulWidget {
@@ -98,7 +97,7 @@ class _LendersPageState extends State<LendersPage>
             SizedBox(width: double.infinity),
             IconButton(
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.of(context).pop();
               },
               color: Colors.white,
               icon: Icon(Icons.arrow_back_ios),
@@ -184,18 +183,11 @@ class _LendersPageState extends State<LendersPage>
     await bloc.lendersBloc.deleteLender(lender);
   }
 
-  void _onTapLender(Lender l) {
-    Navigator.push(
-      context,
-      FadeRoute(
-        page: LoansPage(
-          lender: l,
-        ),
-      ),
-    );
+  void _onTapLender(Lender lender) {
+    Router.navigator.pushNamed(Routes.singleLender, arguments: lender);
   }
 
   void _addLender(BuildContext context) {
-    Navigator.push(context, FadeRoute(page: AddLenderPage()));
+    Router.navigator.pushNamed(Routes.addLender);
   }
 }

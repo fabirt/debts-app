@@ -4,7 +4,7 @@ import 'package:debts_app/core/data/models/index.dart';
 import 'package:debts_app/core/locale/app_localizations.dart';
 import 'package:debts_app/core/presentation/bloc/inherited_bloc.dart';
 import 'package:debts_app/core/presentation/widgets/index.dart';
-import 'package:debts_app/features/i_owe/presentation/pages/add_loan_page.dart';
+import 'package:debts_app/core/router/index.dart';
 import 'package:debts_app/features/i_owe/presentation/widgets/loan_card.dart';
 
 class LoansPage extends StatelessWidget {
@@ -13,18 +13,16 @@ class LoansPage extends StatelessWidget {
   const LoansPage({@required this.lender});
 
   void _addLoan(BuildContext context) {
-    Navigator.push(context, FadeRoute(page: AddLoanPage(lender: lender)));
+    Router.navigator.pushNamed(
+      Routes.addLoan,
+      arguments: AddLoanArguments(lender: lender),
+    );
   }
 
   void _updateLoan(BuildContext context, Loan loan) {
-    Navigator.push(
-      context,
-      FadeRoute(
-        page: AddLoanPage(
-          loan: loan,
-          lender: lender,
-        ),
-      ),
+    Router.navigator.pushNamed(
+      Routes.addLoan,
+      arguments: AddLoanArguments(lender: lender, loan: loan),
     );
   }
 

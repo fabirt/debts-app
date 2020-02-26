@@ -58,7 +58,7 @@ class _AddLoanPageState extends State<AddLoanPage> {
       date: DateTime.now().toString(),
     );
     await bloc.lendersBloc.addLoan(loan, widget.lender);
-    Navigator.pop(context);
+    Navigator.of(context).pop();
   }
 
   Future<void> _updateLoan() async {
@@ -71,7 +71,7 @@ class _AddLoanPageState extends State<AddLoanPage> {
       date: widget.loan.date,
     );
     await bloc.lendersBloc.updateLoan(loan, widget.lender);
-    Navigator.pop(context);
+    Navigator.of(context).pop();
   }
 
   void _validateForm() {
