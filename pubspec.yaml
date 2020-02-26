@@ -1,7 +1,7 @@
 name: debts_app
 description: Debts management App.
 
-version: 1.3.1+5
+version: 1.4.0+6
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
