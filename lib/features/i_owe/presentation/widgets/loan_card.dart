@@ -3,9 +3,9 @@ import 'package:debts_app/core/data/models/index.dart';
 import 'package:debts_app/core/utils/index.dart' as utils;
 
 class LoanCard extends StatelessWidget {
-  final Loan loan;
-  final Function(Loan loan) onTap;
-  final Function(Loan loan) onDismissed;
+  final LoanModel loan;
+  final Function(LoanModel loan) onTap;
+  final Function(LoanModel loan) onDismissed;
 
   const LoanCard({this.loan, this.onTap, this.onDismissed});
 

@@ -39,12 +39,12 @@ class Router {
         return FadeRoute(page: AddDebtorPage());
 
       case Routes.singleDebtor:
-        if (args is Debtor) {
+        if (args is DebtorModel) {
           return FadeRoute(page: DebtorDebtsPage(debtor: args));
         }
         return _errorRoute(
           settings.name,
-          _invalidArgmuents(args.runtimeType, Debtor),
+          _invalidArgmuents(args.runtimeType, DebtorModel),
         );
 
       case Routes.addDebt:
@@ -68,12 +68,12 @@ class Router {
         return FadeRoute(page: AddLenderPage());
 
       case Routes.singleLender:
-        if (args is Lender) {
+        if (args is LenderModel) {
           return FadeRoute(page: LoansPage(lender: args));
         }
         return _errorRoute(
           settings.name,
-          _invalidArgmuents(args.runtimeType, Lender),
+          _invalidArgmuents(args.runtimeType, LenderModel),
         );
 
       case Routes.addLoan:

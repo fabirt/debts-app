@@ -118,8 +118,8 @@ class _LendersPageState extends State<LendersPage>
   Widget _buildHeaderDebt(InheritedBloc bloc) {
     return StreamBuilder(
       stream: bloc.lendersBloc.resumeStream,
-      initialData: DebtorsResume(),
-      builder: (BuildContext context, AsyncSnapshot<DebtorsResume> snapshot) {
+      initialData: DebtorsResumeModel(),
+      builder: (BuildContext context, AsyncSnapshot<DebtorsResumeModel> snapshot) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -149,7 +149,7 @@ class _LendersPageState extends State<LendersPage>
   Widget _buildContent(InheritedBloc bloc) {
     return StreamBuilder(
       stream: bloc.lendersBloc.lendersStream,
-      builder: (BuildContext context, AsyncSnapshot<List<Lender>> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<List<LenderModel>> snapshot) {
         if (snapshot.hasData) {
           final data = snapshot.data;
           if (data.isEmpty) return _buildEmptyState(context);
@@ -161,7 +161,7 @@ class _LendersPageState extends State<LendersPage>
               return LenderCard(
                 lender: data[i],
                 onTap: _onTapLender,
-                onDismissed: (Lender l) => _deleteLender(bloc, l),
+                onDismissed: (LenderModel l) => _deleteLender(bloc, l),
               );
             },
           );
@@ -179,11 +179,11 @@ class _LendersPageState extends State<LendersPage>
     );
   }
 
-  Future<void> _deleteLender(InheritedBloc bloc, Lender lender) async {
+  Future<void> _deleteLender(InheritedBloc bloc, LenderModel lender) async {
     await bloc.lendersBloc.deleteLender(lender);
   }
 
-  void _onTapLender(Lender lender) {
+  void _onTapLender(LenderModel lender) {
     Router.navigator.pushNamed(Routes.singleLender, arguments: lender);
   }
 

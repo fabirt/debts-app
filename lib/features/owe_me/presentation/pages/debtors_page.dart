@@ -121,8 +121,8 @@ class _DebtorsPageState extends State<DebtorsPage>
   Widget _buildHeaderDebt(InheritedBloc bloc) {
     return StreamBuilder(
       stream: bloc.debtorsBloc.resumeStream,
-      initialData: DebtorsResume(),
-      builder: (BuildContext context, AsyncSnapshot<DebtorsResume> snapshot) {
+      initialData: DebtorsResumeModel(),
+      builder: (BuildContext context, AsyncSnapshot<DebtorsResumeModel> snapshot) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -152,7 +152,7 @@ class _DebtorsPageState extends State<DebtorsPage>
   Widget _buildContent(InheritedBloc bloc) {
     return StreamBuilder(
       stream: bloc.debtorsBloc.debtorsStream,
-      builder: (BuildContext context, AsyncSnapshot<List<Debtor>> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<List<DebtorModel>> snapshot) {
         if (snapshot.hasData) {
           final data = snapshot.data;
           if (data.isEmpty) return _buildEmptyState();
@@ -164,7 +164,7 @@ class _DebtorsPageState extends State<DebtorsPage>
               return DebtorCard(
                 debtor: data[i],
                 onTap: _onTapDebtor,
-                onDismissed: (Debtor d) => _deleteDebtor(bloc, d),
+                onDismissed: (DebtorModel d) => _deleteDebtor(bloc, d),
               );
             },
           );
@@ -182,11 +182,11 @@ class _DebtorsPageState extends State<DebtorsPage>
     );
   }
 
-  Future<void> _deleteDebtor(InheritedBloc bloc, Debtor debtor) async {
+  Future<void> _deleteDebtor(InheritedBloc bloc, DebtorModel debtor) async {
     await bloc.debtorsBloc.deleteDebtor(debtor);
   }
 
-  void _onTapDebtor(Debtor debtor) {
+  void _onTapDebtor(DebtorModel debtor) {
     Router.navigator.pushNamed(Routes.singleDebtor, arguments: debtor);
   }
 

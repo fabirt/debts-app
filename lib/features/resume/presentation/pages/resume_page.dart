@@ -99,8 +99,8 @@ class _ResumePageState extends State<ResumePage>
   Widget _buildOweMeCard(InheritedBloc bloc) {
     return StreamBuilder(
       stream: bloc.debtorsBloc.resumeStream,
-      initialData: DebtorsResume(),
-      builder: (BuildContext context, AsyncSnapshot<DebtorsResume> snapshot) {
+      initialData: DebtorsResumeModel(),
+      builder: (BuildContext context, AsyncSnapshot<DebtorsResumeModel> snapshot) {
         final localizations = AppLocalizations.of(context);
         final label = snapshot.data.people == 1
             ? localizations.translate('person')
@@ -119,8 +119,8 @@ class _ResumePageState extends State<ResumePage>
   Widget _buildIOweCard(InheritedBloc bloc) {
     return StreamBuilder(
       stream: bloc.lendersBloc.resumeStream,
-      initialData: DebtorsResume(),
-      builder: (BuildContext context, AsyncSnapshot<DebtorsResume> snapshot) {
+      initialData: DebtorsResumeModel(),
+      builder: (BuildContext context, AsyncSnapshot<DebtorsResumeModel> snapshot) {
         final people = snapshot.data.people;
         final localizations = AppLocalizations.of(context);
         final label = snapshot.data.people == 1

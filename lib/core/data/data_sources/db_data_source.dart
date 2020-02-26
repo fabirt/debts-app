@@ -5,61 +5,61 @@ import 'package:debts_app/core/data/models/index.dart';
 
 abstract class DbDataSource {
   /// Create a new debtor.
-  Future<int> addDebtor(Debtor debtor);
+  Future<int> addDebtor(DebtorModel debtor);
 
   /// Create a new debt.
-  Future<int> addDebt(Debt debt);
+  Future<int> addDebt(DebtModel debt);
 
   /// Create a new lender.
-  Future<int> addLender(Lender lender);
+  Future<int> addLender(LenderModel lender);
 
   /// Create a new loan.
-  Future<int> addLoan(Loan loan);
+  Future<int> addLoan(LoanModel loan);
 
   /// Read all debtors.
-  Future<List<Debtor>> getDebtors();
+  Future<List<DebtorModel>> getDebtors();
 
   /// Read all debts.
-  Future<List<Debt>> getDebts();
+  Future<List<DebtModel>> getDebts();
 
   /// Read all debts for a debtor.
-  Future<List<Debt>> getDebtsByDebtor(Debtor debtor);
+  Future<List<DebtModel>> getDebtsByDebtor(DebtorModel debtor);
 
   /// Read all lenders.
-  Future<List<Lender>> getLenders();
+  Future<List<LenderModel>> getLenders();
 
   /// Read all loans for a lender.
-  Future<List<Loan>> getLoansByLender(Lender lender);
+  Future<List<LoanModel>> getLoansByLender(LenderModel lender);
 
   /// Update a debtor.
-  Future<int> updateDebtor(Debtor debtor);
+  Future<int> updateDebtor(DebtorModel debtor);
 
   /// Update a lender.
-  Future<int> updateLender(Lender lender);
+  Future<int> updateLender(LenderModel lender);
 
   /// Update a debt.
-  Future<int> updateDebt(Debt debt);
+  Future<int> updateDebt(DebtModel debt);
 
   /// Update a loan.
-  Future<int> updateLoan(Loan loan);
+  Future<int> updateLoan(LoanModel loan);
 
   /// Delete a debtor.
-  Future<int> deleteDebtor(Debtor debtor);
+  Future<int> deleteDebtor(DebtorModel debtor);
 
   /// Delete a debt.
-  Future<int> deleteDebt(Debt debt);
+  Future<int> deleteDebt(DebtModel debt);
 
   /// Delete a lender.
-  Future<int> deleteLender(Lender lender);
+  Future<int> deleteLender(LenderModel lender);
 
   /// Delete a loan.
-  Future<int> deleteLoan(Loan loan);
+  Future<int> deleteLoan(LoanModel loan);
 
   /// Delete all the debts of a deptor.
-  Future<int> deleteAllDebtsByDebtor(Debtor debtor);
+  Future<int> deleteAllDebtsByDebtor(DebtorModel debtor);
 
   /// Delete all the loans of a lender.
-  Future<int> deleteAllLoansByLender(Lender lender);
+  Future<int> deleteAllLoansByLender(LenderModel lender);
 }
 
 class DbDataSourceImpl implements DbDataSource {
@@ -127,28 +127,28 @@ class DbDataSourceImpl implements DbDataSource {
 
   // CREATE ====================================
   @override
-  Future<int> addDebtor(Debtor debtor) async {
+  Future<int> addDebtor(DebtorModel debtor) async {
     final db = await database;
     final res = await db.insert('Debtors', debtor.toJson());
     return res;
   }
 
   @override
-  Future<int> addDebt(Debt debt) async {
+  Future<int> addDebt(DebtModel debt) async {
     final db = await database;
     final res = await db.insert('Debts', debt.toJson());
     return res;
   }
 
   @override
-  Future<int> addLender(Lender lender) async {
+  Future<int> addLender(LenderModel lender) async {
     final db = await database;
     final res = await db.insert('Lenders', lender.toJson());
     return res;
   }
 
   @override
-  Future<int> addLoan(Loan loan) async {
+  Future<int> addLoan(LoanModel loan) async {
     final db = await database;
     final res = await db.insert('Loans', loan.toJson());
     return res;
@@ -156,55 +156,55 @@ class DbDataSourceImpl implements DbDataSource {
 
   // SELECT  ====================================
   @override
-  Future<List<Debtor>> getDebtors() async {
+  Future<List<DebtorModel>> getDebtors() async {
     final db = await database;
     final res = await db.query('Debtors');
-    final List<Debtor> list =
-        res.isNotEmpty ? res.map((c) => Debtor.fromJson(c)).toList() : [];
+    final List<DebtorModel> list =
+        res.isNotEmpty ? res.map((c) => DebtorModel.fromJson(c)).toList() : [];
     return list;
   }
 
   @override
-  Future<List<Debt>> getDebts() async {
+  Future<List<DebtModel>> getDebts() async {
     final db = await database;
     final res = await db.query('Debts');
-    final List<Debt> list =
-        res.isNotEmpty ? res.map((c) => Debt.fromJson(c)).toList() : [];
+    final List<DebtModel> list =
+        res.isNotEmpty ? res.map((c) => DebtModel.fromJson(c)).toList() : [];
     return list;
   }
 
   @override
-  Future<List<Debt>> getDebtsByDebtor(Debtor debtor) async {
+  Future<List<DebtModel>> getDebtsByDebtor(DebtorModel debtor) async {
     final db = await database;
     final res =
         await db.rawQuery("SELECT * FROM Debts WHERE debtor_id='${debtor.id}'");
-    final List<Debt> list =
-        res.isNotEmpty ? res.map((c) => Debt.fromJson(c)).toList() : [];
+    final List<DebtModel> list =
+        res.isNotEmpty ? res.map((c) => DebtModel.fromJson(c)).toList() : [];
     return list;
   }
 
   @override
-  Future<List<Lender>> getLenders() async {
+  Future<List<LenderModel>> getLenders() async {
     final db = await database;
     final res = await db.query('Lenders');
-    final List<Lender> list =
-        res.isNotEmpty ? res.map((c) => Lender.fromJson(c)).toList() : [];
+    final List<LenderModel> list =
+        res.isNotEmpty ? res.map((c) => LenderModel.fromJson(c)).toList() : [];
     return list;
   }
 
   @override
-  Future<List<Loan>> getLoansByLender(Lender lender) async {
+  Future<List<LoanModel>> getLoansByLender(LenderModel lender) async {
     final db = await database;
     final res =
         await db.rawQuery("SELECT * FROM Loans WHERE lender_id='${lender.id}'");
-    final List<Loan> list =
-        res.isNotEmpty ? res.map((c) => Loan.fromJson(c)).toList() : [];
+    final List<LoanModel> list =
+        res.isNotEmpty ? res.map((c) => LoanModel.fromJson(c)).toList() : [];
     return list;
   }
 
   // UPDATE ====================================
   @override
-  Future<int> updateDebtor(Debtor debtor) async {
+  Future<int> updateDebtor(DebtorModel debtor) async {
     final db = await database;
     final res = await db.update('Debtors', debtor.toJson(),
         where: 'id = ?', whereArgs: [debtor.id]);
@@ -212,7 +212,7 @@ class DbDataSourceImpl implements DbDataSource {
   }
 
   @override
-  Future<int> updateLender(Lender lender) async {
+  Future<int> updateLender(LenderModel lender) async {
     final db = await database;
     final res = await db.update('Lenders', lender.toJson(),
         where: 'id = ?', whereArgs: [lender.id]);
@@ -220,7 +220,7 @@ class DbDataSourceImpl implements DbDataSource {
   }
 
   @override
-  Future<int> updateDebt(Debt debt) async {
+  Future<int> updateDebt(DebtModel debt) async {
     final db = await database;
     final res = await db
         .update('Debts', debt.toJson(), where: 'id = ?', whereArgs: [debt.id]);
@@ -228,7 +228,7 @@ class DbDataSourceImpl implements DbDataSource {
   }
 
   @override
-  Future<int> updateLoan(Loan loan) async {
+  Future<int> updateLoan(LoanModel loan) async {
     final db = await database;
     final res = await db
         .update('Loans', loan.toJson(), where: 'id = ?', whereArgs: [loan.id]);
@@ -237,7 +237,7 @@ class DbDataSourceImpl implements DbDataSource {
 
   // DELETE  ====================================
   @override
-  Future<int> deleteDebtor(Debtor debtor) async {
+  Future<int> deleteDebtor(DebtorModel debtor) async {
     final db = await database;
     final res =
         await db.delete('Debtors', where: 'id = ?', whereArgs: [debtor.id]);
@@ -245,14 +245,14 @@ class DbDataSourceImpl implements DbDataSource {
   }
 
   @override
-  Future<int> deleteDebt(Debt debt) async {
+  Future<int> deleteDebt(DebtModel debt) async {
     final db = await database;
     final res = await db.delete('Debts', where: 'id = ?', whereArgs: [debt.id]);
     return res;
   }
 
   @override
-  Future<int> deleteLender(Lender lender) async {
+  Future<int> deleteLender(LenderModel lender) async {
     final db = await database;
     final res =
         await db.delete('Lenders', where: 'id = ?', whereArgs: [lender.id]);
@@ -260,14 +260,14 @@ class DbDataSourceImpl implements DbDataSource {
   }
 
   @override
-  Future<int> deleteLoan(Loan loan) async {
+  Future<int> deleteLoan(LoanModel loan) async {
     final db = await database;
     final res = await db.delete('Loans', where: 'id = ?', whereArgs: [loan.id]);
     return res;
   }
 
   @override
-  Future<int> deleteAllDebtsByDebtor(Debtor debtor) async {
+  Future<int> deleteAllDebtsByDebtor(DebtorModel debtor) async {
     final db = await database;
     final res = await db
         .delete('Debts', where: 'debtor_id = ?', whereArgs: [debtor.id]);
@@ -275,7 +275,7 @@ class DbDataSourceImpl implements DbDataSource {
   }
 
   @override
-  Future<int> deleteAllLoansByLender(Lender lender) async {
+  Future<int> deleteAllLoansByLender(LenderModel lender) async {
     final db = await database;
     final res = await db
         .delete('Loans', where: 'lender_id = ?', whereArgs: [lender.id]);

@@ -1,16 +1,16 @@
-class Debtor {
+class DebtorModel {
   int id;
   String name;
   double debt;
 
-  Debtor({
+  DebtorModel({
     this.id,
     this.name,
     this.debt = 0.0,
   });
 
-  factory Debtor.fromJson(Map<String, dynamic> json) {
-    return Debtor(
+  factory DebtorModel.fromJson(Map<String, dynamic> json) {
+    return DebtorModel(
       id: json["id"],
       name: json["name"],
       debt: json["debt"],

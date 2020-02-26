@@ -8,7 +8,7 @@ import 'package:debts_app/core/router/index.dart';
 import 'package:debts_app/features/owe_me/presentation/widgets/debt_card.dart';
 
 class DebtorDebtsPage extends StatelessWidget {
-  final Debtor debtor;
+  final DebtorModel debtor;
 
   const DebtorDebtsPage({@required this.debtor});
 
@@ -16,7 +16,7 @@ class DebtorDebtsPage extends StatelessWidget {
     Router.navigator.pushNamed(Routes.addDebt, arguments: AddDebtArguments(debtor: debtor));
   }
 
-  void _updateDebt(BuildContext context, Debt debt) {
+  void _updateDebt(BuildContext context, DebtModel debt) {
     Router.navigator.pushNamed(
       Routes.addDebt,
       arguments: AddDebtArguments(
@@ -26,7 +26,7 @@ class DebtorDebtsPage extends StatelessWidget {
     );
   }
 
-  Future<void> _deleteDebt(Debt debt, InheritedBloc bloc) async {
+  Future<void> _deleteDebt(DebtModel debt, InheritedBloc bloc) async {
     await bloc.debtorsBloc.deleteDebt(debt, debtor);
     await bloc.debtorsBloc.getDebtsByDebtor(debtor);
   }
@@ -65,7 +65,7 @@ class DebtorDebtsPage extends StatelessWidget {
     final bloc = InheritedBloc.of(context);
     return StreamBuilder(
       stream: bloc.debtorsBloc.debtsStream,
-      builder: (BuildContext context, AsyncSnapshot<List<Debt>> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<List<DebtModel>> snapshot) {
         if (snapshot.hasData) {
           final data = snapshot.data;
           if (data.isEmpty) return _buildEmptyState(context);
@@ -75,8 +75,8 @@ class DebtorDebtsPage extends StatelessWidget {
             itemBuilder: (BuildContext context, int i) {
               return DebtCard(
                 debt: data[i],
-                onTap: (Debt d) => _updateDebt(context, d),
-                onDismissed: (Debt d) => _deleteDebt(d, bloc),
+                onTap: (DebtModel d) => _updateDebt(context, d),
+                onDismissed: (DebtModel d) => _deleteDebt(d, bloc),
               );
             },
           );

@@ -1,11 +1,11 @@
-class Debt {
+class DebtModel {
   int id;
   int debtorId;
   String date;
   double value;
   String description;
 
-  Debt({
+  DebtModel({
     this.id,
     this.debtorId,
     this.date,
@@ -13,8 +13,8 @@ class Debt {
     this.value = 0.0,
   });
 
-  factory Debt.fromJson(Map<String, dynamic> json) {
-    return Debt(
+  factory DebtModel.fromJson(Map<String, dynamic> json) {
+    return DebtModel(
       id: json['id'],
       debtorId: json['debtor_id'],
       date: json['date'],

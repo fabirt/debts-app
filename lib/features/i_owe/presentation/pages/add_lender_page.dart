@@ -22,7 +22,7 @@ class _AddLenderPageState extends State<AddLenderPage> {
 
   Future<void> _saveLender() async {
     final bloc = InheritedBloc.of(context);
-    final lender = Lender(name: name);
+    final lender = LenderModel(name: name);
     await bloc.lendersBloc.addLender(lender);
     Navigator.of(context).pop();
   }

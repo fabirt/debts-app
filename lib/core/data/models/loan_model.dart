@@ -1,11 +1,11 @@
-class Loan {
+class LoanModel {
   int id;
   int lenderId;
   String date;
   double value;
   String description;
 
-  Loan({
+  LoanModel({
     this.id,
     this.lenderId,
     this.date,
@@ -13,8 +13,8 @@ class Loan {
     this.value = 0.0,
   });
 
-  factory Loan.fromJson(Map<String, dynamic> json) {
-    return Loan(
+  factory LoanModel.fromJson(Map<String, dynamic> json) {
+    return LoanModel(
       id: json['id'],
       lenderId: json['lender_id'],
       date: json['date'],

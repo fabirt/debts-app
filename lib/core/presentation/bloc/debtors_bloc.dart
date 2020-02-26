@@ -4,17 +4,17 @@ import 'package:debts_app/core/data/models/index.dart';
 
 class DebtorsBloc {
   // Properties
-  List<Debtor> _debtors = [];
-  List<Debt> _debts = [];
-  final _debtorsController = BehaviorSubject<List<Debtor>>();
-  final _debtsController = BehaviorSubject<List<Debt>>();
-  final _resumeController = BehaviorSubject<DebtorsResume>();
+  List<DebtorModel> _debtors = [];
+  List<DebtModel> _debts = [];
+  final _debtorsController = BehaviorSubject<List<DebtorModel>>();
+  final _debtsController = BehaviorSubject<List<DebtModel>>();
+  final _resumeController = BehaviorSubject<DebtorsResumeModel>();
   final DbDataSource _dbDataSource = DbDataSourceImpl();
 
   // Getters
-  Stream<List<Debtor>> get debtorsStream => _debtorsController.stream;
-  Stream<List<Debt>> get debtsStream => _debtsController.stream;
-  Stream<DebtorsResume> get resumeStream => _resumeController.stream;
+  Stream<List<DebtorModel>> get debtorsStream => _debtorsController.stream;
+  Stream<List<DebtModel>> get debtsStream => _debtsController.stream;
+  Stream<DebtorsResumeModel> get resumeStream => _resumeController.stream;
 
   /// Get all debtors
   Future<void> getDebtors() async {
@@ -30,20 +30,20 @@ class DebtorsBloc {
   }
   
   /// Get debts for corresponding debtor
-  Future<void> getDebtsByDebtor(Debtor debtor) async {
+  Future<void> getDebtsByDebtor(DebtorModel debtor) async {
     _debts = await _dbDataSource.getDebtsByDebtor(debtor);
     _debts.sort((a, b) => b.date.compareTo(a.date));
     _debtsController.sink.add(_debts);
   }
 
   /// Add debtor
-  Future<void> addDebtor(Debtor debtor) async {
+  Future<void> addDebtor(DebtorModel debtor) async {
     await _dbDataSource.addDebtor(debtor);
     await getDebtors();
   }
   
   /// Add debt
-  Future<void> addDebt(Debt debt, Debtor debtor) async {
+  Future<void> addDebt(DebtModel debt, DebtorModel debtor) async {
     await _dbDataSource.addDebt(debt);
     debtor.debt += debt.value;
     await _dbDataSource.updateDebtor(debtor);
@@ -51,7 +51,7 @@ class DebtorsBloc {
   }
   
   /// Update debt
-  Future<void> updateDebt(Debt debt, Debtor debtor) async {
+  Future<void> updateDebt(DebtModel debt, DebtorModel debtor) async {
     await _dbDataSource.updateDebt(debt);
     final debts = await _dbDataSource.getDebtsByDebtor(debtor);
     double totalDebt = 0.0;
@@ -65,7 +65,7 @@ class DebtorsBloc {
 
   /// Update debtor's total debt
   Future<void> updateResume() async {
-    final resume = DebtorsResume();
+    final resume = DebtorsResumeModel();
     final debtors = await _dbDataSource.getDebtors();
     for (final d in debtors) {
       if (d.debt > 0) resume.people++;
@@ -75,7 +75,7 @@ class DebtorsBloc {
   }
 
   /// Delete debt
-  Future<void> deleteDebt(Debt debt, Debtor debtor) async {
+  Future<void> deleteDebt(DebtModel debt, DebtorModel debtor) async {
     await _dbDataSource.deleteDebt(debt);
     debtor.debt -= debt.value;
     await _dbDataSource.updateDebtor(debtor);
@@ -83,7 +83,7 @@ class DebtorsBloc {
   }
 
   /// Delete debtor and corresponding debts
-  Future<void> deleteDebtor(Debtor debtor) async {
+  Future<void> deleteDebtor(DebtorModel debtor) async {
     await _dbDataSource.deleteDebtor(debtor);
     await _dbDataSource.deleteAllDebtsByDebtor(debtor);
     getDebtors();

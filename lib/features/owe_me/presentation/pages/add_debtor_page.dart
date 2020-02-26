@@ -22,7 +22,7 @@ class _AddDebtorPageState extends State<AddDebtorPage> {
 
   Future<void> _saveDebtor() async {
     final bloc = InheritedBloc.of(context);
-    final debtor = Debtor(name: name);
+    final debtor = DebtorModel(name: name);
     await bloc.debtorsBloc.addDebtor(debtor);
     Navigator.of(context).pop();
   }

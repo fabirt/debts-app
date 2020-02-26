@@ -8,8 +8,8 @@ import 'package:debts_app/core/presentation/widgets/index.dart';
 import 'package:debts_app/core/utils/index.dart' as utils;
 
 class AddDebtPage extends StatefulWidget {
-  final Debtor debtor;
-  final Debt debt;
+  final DebtorModel debtor;
+  final DebtModel debt;
 
   const AddDebtPage({
     Key key,
@@ -51,7 +51,7 @@ class _AddDebtPageState extends State<AddDebtPage> {
 
   Future<void> _addDebt() async {
     final bloc = InheritedBloc.of(context);
-    final debt = Debt(
+    final debt = DebtModel(
       debtorId: widget.debtor.id,
       value: double.parse(value),
       description: description,
@@ -63,7 +63,7 @@ class _AddDebtPageState extends State<AddDebtPage> {
 
   Future<void> _updateDebt() async {
     final bloc = InheritedBloc.of(context);
-    final debt = Debt(
+    final debt = DebtModel(
       id: widget.debt.id,
       debtorId: widget.debtor.id,
       value: double.parse(value),

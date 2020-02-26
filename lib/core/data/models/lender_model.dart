@@ -1,16 +1,16 @@
-class Lender {
+class LenderModel {
   int id;
   String name;
   double loan;
 
-  Lender({
+  LenderModel({
     this.id,
     this.name,
     this.loan = 0.0,
   });
 
-  factory Lender.fromJson(Map<String, dynamic> json) {
-    return Lender(
+  factory LenderModel.fromJson(Map<String, dynamic> json) {
+    return LenderModel(
       id: json["id"],
       name: json["name"],
       loan: json["loan"],

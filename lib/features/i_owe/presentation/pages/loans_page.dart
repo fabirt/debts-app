@@ -8,7 +8,7 @@ import 'package:debts_app/core/router/index.dart';
 import 'package:debts_app/features/i_owe/presentation/widgets/loan_card.dart';
 
 class LoansPage extends StatelessWidget {
-  final Lender lender;
+  final LenderModel lender;
 
   const LoansPage({@required this.lender});
 
@@ -19,14 +19,14 @@ class LoansPage extends StatelessWidget {
     );
   }
 
-  void _updateLoan(BuildContext context, Loan loan) {
+  void _updateLoan(BuildContext context, LoanModel loan) {
     Router.navigator.pushNamed(
       Routes.addLoan,
       arguments: AddLoanArguments(lender: lender, loan: loan),
     );
   }
 
-  Future<void> _deleteLoan(Loan loan, InheritedBloc bloc) async {
+  Future<void> _deleteLoan(LoanModel loan, InheritedBloc bloc) async {
     await bloc.lendersBloc.deleteLoan(loan, lender);
     await bloc.lendersBloc.getLoansByLender(lender);
   }
@@ -65,7 +65,7 @@ class LoansPage extends StatelessWidget {
     final bloc = InheritedBloc.of(context);
     return StreamBuilder(
       stream: bloc.lendersBloc.loansStream,
-      builder: (BuildContext context, AsyncSnapshot<List<Loan>> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<List<LoanModel>> snapshot) {
         if (snapshot.hasData) {
           final data = snapshot.data;
           if (data.isEmpty) return _buildEmptyState(context);
@@ -75,8 +75,8 @@ class LoansPage extends StatelessWidget {
             itemBuilder: (BuildContext context, int i) {
               return LoanCard(
                 loan: data[i],
-                onTap: (Loan l) => _updateLoan(context, l),
-                onDismissed: (Loan l) => _deleteLoan(l, bloc),
+                onTap: (LoanModel l) => _updateLoan(context, l),
+                onDismissed: (LoanModel l) => _deleteLoan(l, bloc),
               );
             },
           );
