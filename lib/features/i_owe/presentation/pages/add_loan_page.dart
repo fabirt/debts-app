@@ -1,3 +1,4 @@
+import 'package:debts_app/features/i_owe/presentation/bloc/add_loan_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -22,22 +23,17 @@ class AddLoanPage extends StatefulWidget {
 }
 
 class _AddLoanPageState extends State<AddLoanPage> {
-  String value;
-  String description;
-  bool valid;
+  final AddLoanBloc _bloc = AddLoanBloc();
   final _focusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
     if (widget.loan != null) {
-      value = utils.formatCurrency(widget.loan.value, '#,###');
-      description = widget.loan.description;
-      valid = true;
-    } else {
-      value = '';
-      description = '';
-      valid = false;
+      final value = utils.formatCurrency(widget.loan.value, '#,###');
+      final description = widget.loan.description;
+      _bloc.changeValue(value);
+      _bloc.changeNote(description);
     }
   }
 
@@ -53,8 +49,8 @@ class _AddLoanPageState extends State<AddLoanPage> {
     final bloc = InheritedBloc.of(context);
     final loan = LoanModel(
       lenderId: widget.lender.id,
-      value: double.parse(value),
-      description: description,
+      value: double.parse(_bloc.value),
+      description: _bloc.note,
       date: DateTime.now().toString(),
     );
     await bloc.lendersBloc.addLoan(loan, widget.lender);
@@ -66,32 +62,12 @@ class _AddLoanPageState extends State<AddLoanPage> {
     final loan = LoanModel(
       id: widget.loan.id,
       lenderId: widget.lender.id,
-      value: double.parse(value),
-      description: description,
+      value: double.parse(_bloc.value),
+      description: _bloc.note,
       date: widget.loan.date,
     );
     await bloc.lendersBloc.updateLoan(loan, widget.lender);
     Navigator.of(context).pop();
-  }
-
-  void _validateForm() {
-    if (value.isNotEmpty && description.isNotEmpty) {
-      valid = true;
-    } else {
-      valid = false;
-    }
-  }
-
-  void _onValueTextChanged(String text) {
-    value = text.replaceAll('.', '');
-    _validateForm();
-    setState(() {});
-  }
-
-  void _onNoteTextChanged(String text) {
-    description = text;
-    _validateForm();
-    setState(() {});
   }
 
   @override
@@ -160,14 +136,14 @@ class _AddLoanPageState extends State<AddLoanPage> {
       data: Theme.of(context).copyWith(primaryColor: utils.Colors.towerGray),
       child: TextFormField(
         autofocus: true,
-        initialValue: value,
+        initialValue: _bloc.value,
         keyboardType: TextInputType.number,
         textInputAction: TextInputAction.next,
         cursorColor: utils.Colors.towerGray,
-        onChanged: _onValueTextChanged,
+        onChanged: _bloc.changeValue,
         maxLength: 11,
         inputFormatters: [
-          BlacklistingTextInputFormatter(RegExp(r'\D')),
+          WhitelistingTextInputFormatter.digitsOnly,
           utils.NumberFormatter(),
         ],
         decoration: InputDecoration(
@@ -186,10 +162,10 @@ class _AddLoanPageState extends State<AddLoanPage> {
       data: Theme.of(context).copyWith(primaryColor: utils.Colors.towerGray),
       child: TextFormField(
         focusNode: _focusNode,
-        initialValue: description,
+        initialValue: _bloc.note,
         textCapitalization: TextCapitalization.sentences,
         cursorColor: utils.Colors.towerGray,
-        onChanged: _onNoteTextChanged,
+        onChanged: _bloc.changeNote,
         decoration: InputDecoration(
           hintText: AppLocalizations.of(context).translate('note_hint'),
         ),
@@ -198,27 +174,35 @@ class _AddLoanPageState extends State<AddLoanPage> {
   }
 
   Widget _buildButton() {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 30.0),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(30.0),
-        child: FlatButton(
-          onPressed: valid ? _onSavePressed : null,
-          color: utils.Colors.brightGray,
-          textColor: Colors.white,
-          child: FractionallySizedBox(
-            widthFactor: 0.8,
-            child: Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                AppLocalizations.of(context).translate('save'),
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15.0),
+    return StreamBuilder<bool>(
+      stream: _bloc.validStream,
+      builder: (context, snapshot) {
+        return Container(
+          margin: const EdgeInsets.only(bottom: 30.0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(30.0),
+            child: FlatButton(
+              onPressed: snapshot.hasData ? _onSavePressed : null,
+              color: utils.Colors.brightGray,
+              textColor: Colors.white,
+              child: FractionallySizedBox(
+                widthFactor: 0.8,
+                child: Container(
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    AppLocalizations.of(context).translate('save'),
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15.0,
+                    ),
+                  ),
+                ),
               ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
