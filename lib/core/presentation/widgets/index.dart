@@ -9,3 +9,4 @@ export 'package:debts_app/core/presentation/widgets/green_header_container.dart'
 export 'package:debts_app/core/presentation/widgets/empty_state.dart';
 export 'package:debts_app/core/presentation/widgets/custom_appbar.dart';
 export 'package:debts_app/core/presentation/widgets/blue_header_container.dart';
+export 'package:debts_app/core/presentation/widgets/routing_error_widget.dart';

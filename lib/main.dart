@@ -5,8 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:debts_app/core/locale/app_localizations.dart';
 import 'package:debts_app/core/presentation/widgets/index.dart';
 import 'package:debts_app/core/presentation/bloc/inherited_bloc.dart';
+import 'package:debts_app/core/router/index.dart';
 import 'package:debts_app/core/utils/index.dart' as utils;
-import 'package:debts_app/features/resume/presentation/pages/resume_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -50,7 +50,9 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Debty',
-        home: ResumePage(),
+        navigatorKey: Router.navigatorKey,
+        initialRoute: Routes.resume,
+        onGenerateRoute: Router.generateRoute,
         theme: ThemeData(
           fontFamily: 'Proximanova',
           primaryColor: const Color(0xFF00D3A5),
