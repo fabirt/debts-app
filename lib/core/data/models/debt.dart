@@ -1,4 +1,3 @@
-//
 class Debt {
   int id;
   int debtorId;
@@ -11,7 +10,7 @@ class Debt {
     this.debtorId,
     this.date,
     this.description,
-    this.value = 0.0
+    this.value = 0.0,
   });
 
   factory Debt.fromJson(Map<String, dynamic> json) {
@@ -33,5 +32,4 @@ class Debt {
       'description': description,
     };
   }
-
 }

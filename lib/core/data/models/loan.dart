@@ -1,4 +1,3 @@
-//
 class Loan {
   int id;
   int lenderId;
@@ -11,7 +10,7 @@ class Loan {
     this.lenderId,
     this.date,
     this.description,
-    this.value = 0.0
+    this.value = 0.0,
   });
 
   factory Loan.fromJson(Map<String, dynamic> json) {
@@ -33,5 +32,4 @@ class Loan {
       'description': description,
     };
   }
-
 }

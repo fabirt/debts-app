@@ -1,10 +1,13 @@
-//
 class Debtor {
   int id;
   String name;
   double debt;
 
-  Debtor({this.id, this.name, this.debt = 0.0});
+  Debtor({
+    this.id,
+    this.name,
+    this.debt = 0.0,
+  });
 
   factory Debtor.fromJson(Map<String, dynamic> json) {
     return Debtor(

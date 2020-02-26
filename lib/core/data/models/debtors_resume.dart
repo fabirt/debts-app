@@ -4,6 +4,6 @@ class DebtorsResume {
 
   DebtorsResume({
     this.value = 0.0,
-    this.people = 0
+    this.people = 0,
   });
 }
