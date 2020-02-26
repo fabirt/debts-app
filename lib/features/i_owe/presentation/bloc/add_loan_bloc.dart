@@ -31,7 +31,8 @@ class AddLoanBloc {
   }
 
   void _changeValue(String event) {
-    _valueController.sink.add(event);
+    final replaced = event.replaceAll('.', '');
+    _valueController.sink.add(replaced);
   }
 
   void _changeNote(String event) {

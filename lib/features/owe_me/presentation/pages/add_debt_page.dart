@@ -6,6 +6,7 @@ import 'package:debts_app/core/presentation/bloc/inherited_bloc.dart';
 import 'package:debts_app/core/data/models/index.dart';
 import 'package:debts_app/core/presentation/widgets/index.dart';
 import 'package:debts_app/core/utils/index.dart' as utils;
+import 'package:debts_app/features/owe_me/presentation/bloc/add_debt_bloc.dart';
 
 class AddDebtPage extends StatefulWidget {
   final DebtorModel debtor;
@@ -22,23 +23,24 @@ class AddDebtPage extends StatefulWidget {
 }
 
 class _AddDebtPageState extends State<AddDebtPage> {
-  String value;
-  String description;
-  bool valid;
   final _focusNode = FocusNode();
+  final AddDebtBloc _bloc = AddDebtBloc();
 
   @override
   void initState() {
     super.initState();
     if (widget.debt != null) {
-      value = utils.formatCurrency(widget.debt.value, '#,###');
-      description = widget.debt.description;
-      valid = true;
-    } else {
-      value = '';
-      description = '';
-      valid = false;
+      final value = utils.formatCurrency(widget.debt.value, '#,###');
+      final description = widget.debt.description;
+      _bloc.changeValue(value);
+      _bloc.changeNote(description);
     }
+  }
+
+  @override
+  void dispose() {
+    _bloc.dispose();
+    super.dispose();
   }
 
   void _onSavePressed() {
@@ -53,8 +55,8 @@ class _AddDebtPageState extends State<AddDebtPage> {
     final bloc = InheritedBloc.of(context);
     final debt = DebtModel(
       debtorId: widget.debtor.id,
-      value: double.parse(value),
-      description: description,
+      value: double.parse(_bloc.value),
+      description: _bloc.note,
       date: DateTime.now().toString(),
     );
     await bloc.debtorsBloc.addDebt(debt, widget.debtor);
@@ -66,32 +68,12 @@ class _AddDebtPageState extends State<AddDebtPage> {
     final debt = DebtModel(
       id: widget.debt.id,
       debtorId: widget.debtor.id,
-      value: double.parse(value),
-      description: description,
+      value: double.parse(_bloc.value),
+      description: _bloc.note,
       date: widget.debt.date,
     );
     await bloc.debtorsBloc.updateDebt(debt, widget.debtor);
     Navigator.of(context).pop();
-  }
-
-  void _validateForm() {
-    if (value.isNotEmpty && description.isNotEmpty) {
-      valid = true;
-    } else {
-      valid = false;
-    }
-  }
-
-  void _onValueTextChanged(String text) {
-    value = text.replaceAll('.', '');
-    _validateForm();
-    setState(() {});
-  }
-
-  void _onNoteTextChanged(String text) {
-    description = text;
-    _validateForm();
-    setState(() {});
   }
 
   @override
@@ -156,69 +138,91 @@ class _AddDebtPageState extends State<AddDebtPage> {
   }
 
   Widget _buildValueTextField() {
-    return Theme(
-      data: Theme.of(context).copyWith(primaryColor: utils.Colors.towerGray),
-      child: TextFormField(
-        autofocus: true,
-        initialValue: value,
-        keyboardType: TextInputType.number,
-        textInputAction: TextInputAction.next,
-        cursorColor: utils.Colors.towerGray,
-        onChanged: _onValueTextChanged,
-        maxLength: 11,
-        inputFormatters: [
-          BlacklistingTextInputFormatter(RegExp(r'\D')),
-          utils.NumberFormatter(),
-        ],
-        decoration: InputDecoration(
-          hintText: AppLocalizations.of(context).translate('value_hint'),
-          counterText: null,
-        ),
-        onFieldSubmitted: (_) {
-          FocusScope.of(context).requestFocus(_focusNode);
-        },
-      ),
+    return StreamBuilder<String>(
+      stream: _bloc.valueStream,
+      builder: (context, snapshot) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            primaryColor: utils.Colors.towerGray,
+          ),
+          child: TextFormField(
+            autofocus: true,
+            initialValue: _bloc.value,
+            keyboardType: TextInputType.number,
+            textInputAction: TextInputAction.next,
+            cursorColor: utils.Colors.towerGray,
+            onChanged: _bloc.changeValue,
+            maxLength: 11,
+            inputFormatters: [
+              WhitelistingTextInputFormatter.digitsOnly,
+              utils.NumberFormatter(),
+            ],
+            decoration: InputDecoration(
+              hintText: AppLocalizations.of(context).translate('value_hint'),
+              counterText: null,
+            ),
+            onFieldSubmitted: (_) {
+              FocusScope.of(context).requestFocus(_focusNode);
+            },
+          ),
+        );
+      },
     );
   }
 
   Widget _buildNoteTextField() {
-    return Theme(
-      data: Theme.of(context).copyWith(primaryColor: utils.Colors.towerGray),
-      child: TextFormField(
-        focusNode: _focusNode,
-        initialValue: description,
-        textCapitalization: TextCapitalization.sentences,
-        cursorColor: utils.Colors.towerGray,
-        onChanged: _onNoteTextChanged,
-        decoration: InputDecoration(
-          hintText: AppLocalizations.of(context).translate('note_hint'),
-        ),
-      ),
+    return StreamBuilder<String>(
+      stream: _bloc.noteStream,
+      builder: (context, snapshot) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            primaryColor: utils.Colors.towerGray,
+          ),
+          child: TextFormField(
+            focusNode: _focusNode,
+            initialValue: _bloc.note,
+            textCapitalization: TextCapitalization.sentences,
+            cursorColor: utils.Colors.towerGray,
+            onChanged: _bloc.changeNote,
+            decoration: InputDecoration(
+              hintText: AppLocalizations.of(context).translate('note_hint'),
+            ),
+          ),
+        );
+      },
     );
   }
 
   Widget _buildButton() {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 30.0),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(30.0),
-        child: FlatButton(
-          onPressed: valid ? _onSavePressed : null,
-          color: utils.Colors.brightGray,
-          textColor: Colors.white,
-          child: FractionallySizedBox(
-            widthFactor: 0.8,
-            child: Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                AppLocalizations.of(context).translate('save'),
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15.0),
+    return StreamBuilder<bool>(
+      stream: _bloc.validStream,
+      builder: (context, snapshot) {
+        return Container(
+          margin: const EdgeInsets.only(bottom: 30.0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(30.0),
+            child: FlatButton(
+              onPressed: snapshot.hasData ? _onSavePressed : null,
+              color: utils.Colors.brightGray,
+              textColor: Colors.white,
+              child: FractionallySizedBox(
+                widthFactor: 0.8,
+                child: Container(
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    AppLocalizations.of(context).translate('save'),
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15.0,
+                    ),
+                  ),
+                ),
               ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
