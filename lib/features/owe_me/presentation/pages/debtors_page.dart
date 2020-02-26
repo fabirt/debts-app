@@ -4,9 +4,8 @@ import 'package:debts_app/core/data/models/index.dart';
 import 'package:debts_app/core/locale/app_localizations.dart';
 import 'package:debts_app/core/presentation/widgets/index.dart';
 import 'package:debts_app/core/presentation/bloc/inherited_bloc.dart';
+import 'package:debts_app/core/router/index.dart';
 import 'package:debts_app/core/utils/index.dart' as utils;
-import 'package:debts_app/features/owe_me/presentation/pages/add_debtor_page.dart';
-import 'package:debts_app/features/owe_me/presentation/pages/debtor_debts_page.dart';
 import 'package:debts_app/features/owe_me/presentation/widgets/debtor_card.dart';
 
 class DebtorsPage extends StatefulWidget {
@@ -187,18 +186,11 @@ class _DebtorsPageState extends State<DebtorsPage>
     await bloc.debtorsBloc.deleteDebtor(debtor);
   }
 
-  void _onTapDebtor(Debtor d) {
-    Navigator.push(
-      context,
-      FadeRoute(
-        page: DebtorDebtsPage(
-          debtor: d,
-        ),
-      ),
-    );
+  void _onTapDebtor(Debtor debtor) {
+    Router.navigator.pushNamed(Routes.singleDebtor, arguments: debtor);
   }
 
   void _addDebtor(BuildContext context) {
-    Navigator.push(context, FadeRoute(page: AddDebtorPage()));
+    Router.navigator.pushNamed(Routes.addDebtor);
   }
 }

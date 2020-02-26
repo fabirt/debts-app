@@ -24,7 +24,7 @@ class _AddDebtorPageState extends State<AddDebtorPage> {
     final bloc = InheritedBloc.of(context);
     final debtor = Debtor(name: name);
     await bloc.debtorsBloc.addDebtor(debtor);
-    Navigator.pop(context);
+    Navigator.of(context).pop();
   }
 
   void _onTextChanged(String value) {

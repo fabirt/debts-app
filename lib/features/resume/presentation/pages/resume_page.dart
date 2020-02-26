@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+
+import 'package:debts_app/core/data/models/index.dart';
 import 'package:debts_app/core/locale/app_localizations.dart';
 import 'package:debts_app/core/presentation/widgets/index.dart';
 import 'package:debts_app/core/presentation/bloc/inherited_bloc.dart';
-import 'package:debts_app/core/data/models/index.dart';
+import 'package:debts_app/core/router/index.dart';
 import 'package:debts_app/core/utils/index.dart' as utils;
-import 'package:debts_app/features/i_owe/presentation/pages/lenders_page.dart';
-import 'package:debts_app/features/owe_me/presentation/pages/debtors_page.dart';
 
 class ResumePage extends StatefulWidget {
   @override
@@ -138,10 +138,10 @@ class _ResumePageState extends State<ResumePage>
   }
 
   void _pushDebtorsPage(BuildContext context) {
-    Navigator.push(context, FadeRoute(page: DebtorsPage()));
+    Router.navigator.pushNamed(Routes.debtors);
   }
 
   void _pushLendersPage(BuildContext context) {
-    Navigator.push(context, FadeRoute(page: LendersPage()));
+    Router.navigator.pushNamed(Routes.lenders);
   }
 }

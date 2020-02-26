@@ -58,7 +58,7 @@ class _AddDebtPageState extends State<AddDebtPage> {
       date: DateTime.now().toString(),
     );
     await bloc.debtorsBloc.addDebt(debt, widget.debtor);
-    Navigator.pop(context);
+    Navigator.of(context).pop();
   }
 
   Future<void> _updateDebt() async {
@@ -71,7 +71,7 @@ class _AddDebtPageState extends State<AddDebtPage> {
       date: widget.debt.date,
     );
     await bloc.debtorsBloc.updateDebt(debt, widget.debtor);
-    Navigator.pop(context);
+    Navigator.of(context).pop();
   }
 
   void _validateForm() {

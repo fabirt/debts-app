@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'package:debts_app/core/data/models/index.dart';
 import 'package:debts_app/core/locale/app_localizations.dart';
 import 'package:debts_app/core/presentation/bloc/inherited_bloc.dart';
-import 'package:debts_app/core/data/models/index.dart';
 import 'package:debts_app/core/presentation/widgets/index.dart';
-import 'package:debts_app/features/owe_me/presentation/pages/add_debt_page.dart';
+import 'package:debts_app/core/router/index.dart';
 import 'package:debts_app/features/owe_me/presentation/widgets/debt_card.dart';
 
 class DebtorDebtsPage extends StatelessWidget {
@@ -13,17 +13,15 @@ class DebtorDebtsPage extends StatelessWidget {
   const DebtorDebtsPage({@required this.debtor});
 
   void _addDebt(BuildContext context) {
-    Navigator.push(context, FadeRoute(page: AddDebtPage(debtor: debtor)));
+    Router.navigator.pushNamed(Routes.addDebt, arguments: AddDebtArguments(debtor: debtor));
   }
 
   void _updateDebt(BuildContext context, Debt debt) {
-    Navigator.push(
-      context,
-      FadeRoute(
-        page: AddDebtPage(
-          debtor: debtor,
-          debt: debt,
-        ),
+    Router.navigator.pushNamed(
+      Routes.addDebt,
+      arguments: AddDebtArguments(
+        debtor: debtor,
+        debt: debt,
       ),
     );
   }
