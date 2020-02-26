@@ -36,27 +36,43 @@ class _ResumePageState extends State<ResumePage>
 
   void _initAnimations() {
     _animationController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 1400))
-      ..addListener(() {
-        setState(() {});
-      });
+      vsync: this,
+      duration: const Duration(milliseconds: 1400),
+    );
 
     _scaleAnimation = Tween<double>(begin: 3.0, end: 1.0).animate(
-        CurvedAnimation(
-            parent: _animationController,
-            curve: Interval(0.6, 1.0, curve: Curves.easeInOut)));
-    _fabOffset = Tween<Offset>(begin: const Offset(0.0, 1.0), end: Offset.zero)
-        .animate(CurvedAnimation(
-            parent: _animationController,
-            curve: Interval(0.6, 1.0, curve: Curves.easeInOut)));
-    _cardsOffset =
-        Tween<Offset>(begin: const Offset(0.0, -0.20), end: Offset.zero)
-            .animate(CurvedAnimation(
-                parent: _animationController,
-                curve: Interval(0.2, 0.5, curve: Curves.easeInOut)));
-    _cardsOpacity = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+      CurvedAnimation(
         parent: _animationController,
-        curve: Interval(0.2, 0.44, curve: Curves.easeInOut)));
+        curve: Interval(0.6, 1.0, curve: Curves.easeInOut),
+      ),
+    );
+
+    _fabOffset = Tween<Offset>(
+      begin: const Offset(0.0, 1.0),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Interval(0.6, 1.0, curve: Curves.easeInOut),
+      ),
+    );
+    _cardsOffset = Tween<Offset>(
+      begin: const Offset(0.0, -0.20),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Interval(0.2, 0.5, curve: Curves.easeInOut),
+      ),
+    );
+
+    _cardsOpacity = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Interval(0.2, 0.44, curve: Curves.easeInOut),
+      ),
+    );
+
     _animationController.forward();
   }
 
@@ -65,40 +81,46 @@ class _ResumePageState extends State<ResumePage>
     final size = MediaQuery.of(context).size;
     final bloc = InheritedBloc.of(context);
 
-    return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          Background(
-            scaleAnimation: _scaleAnimation,
-          ),
-          SafeArea(
-            child: FadeTransition(
-              opacity: _cardsOpacity,
-              child: SlideTransition(
-                position: _cardsOffset,
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(height: size.height * 0.05),
-                    _buildOweMeCard(bloc),
-                    SizedBox(height: size.height * 0.05),
-                    _buildIOweCard(bloc),
-                  ],
+    return AnimatedBuilder(
+      animation: _animationController,
+      builder: (BuildContext context, Widget child) {
+        return Scaffold(
+          body: Stack(
+            children: <Widget>[
+              Background(
+                scaleAnimation: _scaleAnimation,
+              ),
+              SafeArea(
+                child: FadeTransition(
+                  opacity: _cardsOpacity,
+                  child: SlideTransition(
+                    position: _cardsOffset,
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(height: size.height * 0.05),
+                        _buildOweMeCard(bloc),
+                        SizedBox(height: size.height * 0.05),
+                        _buildIOweCard(bloc),
+                      ],
+                    ),
+                  ),
                 ),
+              )
+            ],
+          ),
+          floatingActionButton: SlideTransition(
+            position: _fabOffset,
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 30.0),
+              child: AddButton(
+                onPressed: () => _pushDebtorsPage(context),
               ),
             ),
-          )
-        ],
-      ),
-      floatingActionButton: SlideTransition(
-        position: _fabOffset,
-        child: Container(
-          margin: const EdgeInsets.only(bottom: 30.0),
-          child: AddButton(
-            onPressed: () => _pushDebtorsPage(context),
           ),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+        );
+      },
     );
   }
 
