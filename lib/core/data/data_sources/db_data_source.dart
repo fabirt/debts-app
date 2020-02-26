@@ -67,9 +67,7 @@ class DbDataSourceImpl implements DbDataSource {
 
   static final DbDataSourceImpl _instance = DbDataSourceImpl._private();
 
-  factory DbDataSourceImpl() {
-    return _instance;
-  }
+  factory DbDataSourceImpl() => _instance;
 
   DbDataSourceImpl._private();
 

@@ -5,6 +5,10 @@ import 'package:debts_app/core/domain/repositories/lenders_repository.dart';
 class LendersRepositoryImpl implements LendersRepository {
   final DbDataSource dbDataSource = DbDataSourceImpl();
 
+  static final _instance = LendersRepositoryImpl._internal();
+  factory LendersRepositoryImpl() => _instance;
+  LendersRepositoryImpl._internal();
+
   @override
   Future<void> addLender(LenderModel lender) async {
     await dbDataSource.addLender(lender);
