@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:debts_app/src/locale/app_localizations.dart';
 import 'package:debts_app/src/bloc/inherited_bloc.dart';
 import 'package:debts_app/src/models/index.dart';
 import 'package:debts_app/src/widgets/index.dart';
@@ -50,7 +51,9 @@ class _AddDebtorPageState extends State<AddDebtorPage> {
   }
 
   Widget _buildHeader(BuildContext context) {
-    return const CustomAppBar(titleText: 'Agregar deudor');
+    return CustomAppBar(
+      titleText: AppLocalizations.of(context).translate('add_person'),
+    );
   }
 
   Widget _buildContent() {
@@ -61,7 +64,7 @@ class _AddDebtorPageState extends State<AddDebtorPage> {
         children: <Widget>[
           const FractionallySizedBox(widthFactor: 1.0),
           Text(
-            'Nombre',
+            AppLocalizations.of(context).translate('name'),
             style: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 10.0),
@@ -81,7 +84,7 @@ class _AddDebtorPageState extends State<AddDebtorPage> {
         textCapitalization: TextCapitalization.words,
         cursorColor: utils.Colors.towerGray,
         decoration: InputDecoration(
-          hintText: 'Escribe un nombre',
+          hintText: AppLocalizations.of(context).translate('name_hint'),
           focusColor: Colors.red,
         ),
         onChanged: _onTextChanged,
@@ -102,7 +105,7 @@ class _AddDebtorPageState extends State<AddDebtorPage> {
             alignment: Alignment.center,
             padding: const EdgeInsets.all(16.0),
             child: Text(
-              'Guardar',
+              AppLocalizations.of(context).translate('save'),
               style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15.0),
             ),
           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:debts_app/src/locale/app_localizations.dart';
 import 'package:debts_app/src/widgets/index.dart';
 import 'package:debts_app/src/bloc/inherited_bloc.dart';
 import 'package:debts_app/src/models/index.dart';
@@ -100,10 +101,13 @@ class _HomePageState extends State<HomePage>
       stream: bloc.debtorsBloc.resumeStream,
       initialData: DebtorsResume(),
       builder: (BuildContext context, AsyncSnapshot<DebtorsResume> snapshot) {
-        final label = snapshot.data.people == 1 ? 'persona' : 'personas';
+        final localizations = AppLocalizations.of(context);
+        final label = snapshot.data.people == 1
+            ? localizations.translate('person')
+            : localizations.translate('people');
         return DebtResumeCard(
           theme: DebtCardTheme.light,
-          title: 'Me deben',
+          title: localizations.translate('owe_me'),
           value: utils.formatCurrency(snapshot.data.value),
           label: '${snapshot.data.people} $label',
           onTap: () => _pushDebtorsPage(context),
@@ -118,12 +122,15 @@ class _HomePageState extends State<HomePage>
       initialData: DebtorsResume(),
       builder: (BuildContext context, AsyncSnapshot<DebtorsResume> snapshot) {
         final people = snapshot.data.people;
-        final label = people == 1 ? 'persona' : 'personas';
+        final localizations = AppLocalizations.of(context);
+        final label = snapshot.data.people == 1
+            ? localizations.translate('person')
+            : localizations.translate('people');
         return DebtResumeCard(
           theme: DebtCardTheme.dark,
-          title: 'Debo',
+          title: localizations.translate('i_owe'),
           value: utils.formatCurrency(snapshot.data.value),
-          label: 'a $people $label',
+          label: "${localizations.translate('to')} $people $label",
           onTap: () => _pushLendersPage(context),
         );
       },

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:debts_app/src/locale/app_localizations.dart';
 import 'package:debts_app/src/widgets/index.dart';
 import 'package:debts_app/src/bloc/inherited_bloc.dart';
 import 'package:debts_app/src/models/index.dart';
@@ -125,7 +126,7 @@ class _DebtorsPageState extends State<DebtorsPage>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              'Me deben en total',
+              AppLocalizations.of(context).translate('owe_me_total'),
               style: TextStyle(
                 color: const Color.fromRGBO(255, 255, 255, 0.7),
                 fontSize: 15.0,
@@ -176,7 +177,7 @@ class _DebtorsPageState extends State<DebtorsPage>
   Widget _buildEmptyState() {
     return EmptyState(
       icon: Icons.sentiment_very_satisfied,
-      message: 'No tienes deudas pendientes',
+      message: AppLocalizations.of(context).translate('no_owe_me'),
     );
   }
 

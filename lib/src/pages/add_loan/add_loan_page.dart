@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'package:debts_app/src/locale/app_localizations.dart';
 import 'package:debts_app/src/bloc/inherited_bloc.dart';
 import 'package:debts_app/src/models/index.dart';
 import 'package:debts_app/src/widgets/index.dart';
@@ -118,8 +119,11 @@ class _AddLoanPageState extends State<AddLoanPage> {
   }
 
   Widget _buildHeader(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
     return CustomAppBar(
-      titleText: widget.loan != null ? 'Editar deuda' : 'Agregar deuda',
+      titleText: widget.loan != null
+          ? localizations.translate('edit_debt')
+          : localizations.translate('add_debt'),
     );
   }
 
@@ -132,14 +136,14 @@ class _AddLoanPageState extends State<AddLoanPage> {
         children: <Widget>[
           const FractionallySizedBox(widthFactor: 1.0),
           Text(
-            'Valor',
+            AppLocalizations.of(context).translate('value'),
             style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 6.0),
           _buildValueTextField(),
           const SizedBox(height: 24.0),
           Text(
-            'Nota',
+            AppLocalizations.of(context).translate('note'),
             style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 6.0),
@@ -164,8 +168,8 @@ class _AddLoanPageState extends State<AddLoanPage> {
           BlacklistingTextInputFormatter(RegExp(r'\D')),
           utils.NumberFormatter(),
         ],
-        decoration: const InputDecoration(
-          hintText: 'Escribe un valor',
+        decoration: InputDecoration(
+          hintText: AppLocalizations.of(context).translate('value_hint'),
           counterText: null,
         ),
         onFieldSubmitted: (_) {
@@ -184,8 +188,8 @@ class _AddLoanPageState extends State<AddLoanPage> {
         textCapitalization: TextCapitalization.sentences,
         cursorColor: utils.Colors.towerGray,
         onChanged: _onNoteTextChanged,
-        decoration: const InputDecoration(
-          hintText: 'Deja una nota',
+        decoration: InputDecoration(
+          hintText: AppLocalizations.of(context).translate('note_hint'),
         ),
       ),
     );
@@ -206,7 +210,7 @@ class _AddLoanPageState extends State<AddLoanPage> {
               alignment: Alignment.center,
               padding: const EdgeInsets.all(16.0),
               child: Text(
-                'Guardar',
+                AppLocalizations.of(context).translate('save'),
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15.0),
               ),
             ),

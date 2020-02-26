@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:debts_app/src/locale/app_localizations.dart';
 import 'package:debts_app/src/bloc/inherited_bloc.dart';
 import 'package:debts_app/src/models/index.dart';
 import 'package:debts_app/src/widgets/index.dart';
@@ -46,7 +47,7 @@ class LoansPage extends StatelessWidget {
             ),
             Expanded(
               child: RoundedShadowContainer(
-                child: _buildContent(bloc),
+                child: _buildContent(context),
               ),
             )
           ],
@@ -62,13 +63,14 @@ class LoansPage extends StatelessWidget {
     );
   }
 
-  Widget _buildContent(InheritedBloc bloc) {
+  Widget _buildContent(BuildContext context) {
+    final bloc = InheritedBloc.of(context);
     return StreamBuilder(
       stream: bloc.lendersBloc.loansStream,
       builder: (BuildContext context, AsyncSnapshot<List<Loan>> snapshot) {
         if (snapshot.hasData) {
           final data = snapshot.data;
-          if (data.isEmpty) return _buildEmptyState();
+          if (data.isEmpty) return _buildEmptyState(context);
           return ListView.builder(
             itemCount: data.length,
             padding: const EdgeInsets.only(bottom: 110.0, top: 20.0),
@@ -81,16 +83,16 @@ class LoansPage extends StatelessWidget {
             },
           );
         } else {
-          return _buildEmptyState();
+          return _buildEmptyState(context);
         }
       },
     );
   }
 
-  Widget _buildEmptyState() {
+  Widget _buildEmptyState(BuildContext context) {
     return EmptyState(
       icon: Icons.sentiment_satisfied,
-      message: 'No tienes deudas pendientes',
+      message: AppLocalizations.of(context).translate('no_loans'),
     );
   }
 }

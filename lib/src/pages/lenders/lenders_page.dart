@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:debts_app/src/locale/app_localizations.dart';
 import 'package:debts_app/src/widgets/index.dart';
 import 'package:debts_app/src/bloc/inherited_bloc.dart';
 import 'package:debts_app/src/models/index.dart';
@@ -122,7 +123,7 @@ class _LendersPageState extends State<LendersPage>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              'Debo en total',
+              AppLocalizations.of(context).translate('i_owe_total'),
               style: TextStyle(
                 color: const Color.fromRGBO(255, 255, 255, 0.7),
                 fontSize: 15.0,
@@ -150,7 +151,7 @@ class _LendersPageState extends State<LendersPage>
       builder: (BuildContext context, AsyncSnapshot<List<Lender>> snapshot) {
         if (snapshot.hasData) {
           final data = snapshot.data;
-          if (data.isEmpty) return _buildEmptyState();
+          if (data.isEmpty) return _buildEmptyState(context);
           return ListView.builder(
             key: const Key('lenders-list'),
             itemCount: data.length,
@@ -164,16 +165,16 @@ class _LendersPageState extends State<LendersPage>
             },
           );
         } else {
-          return _buildEmptyState();
+          return _buildEmptyState(context);
         }
       },
     );
   }
 
-  Widget _buildEmptyState() {
+  Widget _buildEmptyState(BuildContext context) {
     return EmptyState(
       icon: Icons.sentiment_very_satisfied,
-      message: 'No tienes deudas pendientes',
+      message: AppLocalizations.of(context).translate('no_i_owe'),
     );
   }
 
