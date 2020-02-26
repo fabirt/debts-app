@@ -5,6 +5,7 @@ import 'package:debts_app/core/locale/app_localizations.dart';
 import 'package:debts_app/core/presentation/bloc/inherited_bloc.dart';
 import 'package:debts_app/core/presentation/widgets/index.dart';
 import 'package:debts_app/core/utils/index.dart' as utils;
+import 'package:debts_app/features/i_owe/presentation/bloc/add_lender_bloc.dart';
 
 class AddLenderPage extends StatefulWidget {
   @override
@@ -12,25 +13,18 @@ class AddLenderPage extends StatefulWidget {
 }
 
 class _AddLenderPageState extends State<AddLenderPage> {
-  String name;
+  final AddLenderBloc _bloc = AddLenderBloc();
 
   @override
   void initState() {
     super.initState();
-    name = '';
   }
 
   Future<void> _saveLender() async {
     final bloc = InheritedBloc.of(context);
-    final lender = LenderModel(name: name);
+    final lender = LenderModel(name: _bloc.name);
     await bloc.lendersBloc.addLender(lender);
     Navigator.of(context).pop();
-  }
-
-  void _onTextChanged(String value) {
-    setState(() {
-      name = value;
-    });
   }
 
   @override
@@ -78,40 +72,52 @@ class _AddLenderPageState extends State<AddLenderPage> {
   }
 
   Widget _buildTextField() {
-    return Theme(
-      data: Theme.of(context).copyWith(primaryColor: utils.Colors.towerGray),
-      child: TextField(
-        autofocus: true,
-        textCapitalization: TextCapitalization.words,
-        cursorColor: utils.Colors.towerGray,
-        decoration: InputDecoration(
-          hintText: AppLocalizations.of(context).translate('name_hint'),
-          focusColor: Colors.red,
-        ),
-        onChanged: _onTextChanged,
-      ),
+    return StreamBuilder<String>(
+      stream: _bloc.nameStream,
+      builder: (context, snapshot) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            primaryColor: utils.Colors.towerGray,
+          ),
+          child: TextField(
+            autofocus: true,
+            textCapitalization: TextCapitalization.words,
+            cursorColor: utils.Colors.towerGray,
+            decoration: InputDecoration(
+              hintText: AppLocalizations.of(context).translate('name_hint'),
+              focusColor: Colors.red,
+            ),
+            onChanged: _bloc.changeName,
+          ),
+        );
+      },
     );
   }
 
   Widget _buildButton() {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(30.0),
-      child: FlatButton(
-        onPressed: name.isEmpty ? null : _saveLender,
-        color: utils.Colors.brightGray,
-        textColor: Colors.white,
-        child: FractionallySizedBox(
-          widthFactor: 1.0,
-          child: Container(
-            alignment: Alignment.center,
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              AppLocalizations.of(context).translate('save'),
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15.0),
+    return StreamBuilder(
+      stream: _bloc.nameStream,
+      builder: (context, snapshot) {
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(30.0),
+          child: FlatButton(
+            onPressed: snapshot.hasData ? _saveLender : null,
+            color: utils.Colors.brightGray,
+            textColor: Colors.white,
+            child: FractionallySizedBox(
+              widthFactor: 1.0,
+              child: Container(
+                alignment: Alignment.center,
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  AppLocalizations.of(context).translate('save'),
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15.0),
+                ),
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

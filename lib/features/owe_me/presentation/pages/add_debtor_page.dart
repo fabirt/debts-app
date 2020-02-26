@@ -13,7 +13,7 @@ class AddDebtorPage extends StatefulWidget {
 }
 
 class _AddDebtorPageState extends State<AddDebtorPage> {
-  final AddDebtorBloc _debtorBloc = AddDebtorBloc();
+  final AddDebtorBloc _bloc = AddDebtorBloc();
 
   @override
   void initState() {
@@ -22,13 +22,13 @@ class _AddDebtorPageState extends State<AddDebtorPage> {
 
   @override
   void dispose() {
-    _debtorBloc.dispose();
+    _bloc.dispose();
     super.dispose();
   }
 
   Future<void> _saveDebtor() async {
     final bloc = InheritedBloc.of(context);
-    final debtor = DebtorModel(name: _debtorBloc.name);
+    final debtor = DebtorModel(name: _bloc.name);
     await bloc.debtorsBloc.addDebtor(debtor);
     Navigator.of(context).pop();
   }
@@ -79,7 +79,7 @@ class _AddDebtorPageState extends State<AddDebtorPage> {
 
   Widget _buildTextField() {
     return StreamBuilder<String>(
-      stream: _debtorBloc.nameStream,
+      stream: _bloc.nameStream,
       builder: (context, snapshot) {
         return Theme(
           data: Theme.of(context).copyWith(
@@ -93,7 +93,7 @@ class _AddDebtorPageState extends State<AddDebtorPage> {
               hintText: AppLocalizations.of(context).translate('name_hint'),
               focusColor: Colors.red,
             ),
-            onChanged: _debtorBloc.changeName,
+            onChanged: _bloc.changeName,
           ),
         );
       },
@@ -102,7 +102,7 @@ class _AddDebtorPageState extends State<AddDebtorPage> {
 
   Widget _buildButton() {
     return StreamBuilder(
-      stream: _debtorBloc.nameStream,
+      stream: _bloc.nameStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         return ClipRRect(
           borderRadius: BorderRadius.circular(30.0),
