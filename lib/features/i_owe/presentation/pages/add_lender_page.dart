@@ -20,6 +20,12 @@ class _AddLenderPageState extends State<AddLenderPage> {
     super.initState();
   }
 
+  @override
+  void dispose() { 
+    _bloc.dispose();
+    super.dispose();
+  }
+
   Future<void> _saveLender() async {
     final bloc = InheritedBloc.of(context);
     final lender = LenderModel(name: _bloc.name);
