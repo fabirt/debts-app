@@ -7,7 +7,7 @@ abstract class LendersRepository {
   /// Get all loans.
   Future<List<DebtModel>> getLoans();
 
-  /// Get debts for corresponding debtor
+  /// Get loans for corresponding lender.
   Future<List<LoanModel>> getLoansForLender(LenderModel lender);
 
   /// Add lender.
