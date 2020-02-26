@@ -15,14 +15,13 @@ class LendersPage extends StatefulWidget {
 
 class _LendersPageState extends State<LendersPage>
     with SingleTickerProviderStateMixin {
-  AnimationController _animationController;
-  Animation<double> _opacityAnimation;
-  Animation<Offset> _offsetAnimation;
+  SlideInController _animationController;
 
   @override
   void initState() {
     super.initState();
-    _initAnimations();
+    _animationController = SlideInController(vsync: this);
+    _animationController.forward();
   }
 
   @override
@@ -31,27 +30,6 @@ class _LendersPageState extends State<LendersPage>
     final bloc = InheritedBloc.of(context);
     bloc.lendersBloc.getLenders();
     bloc.lendersBloc.updateResume();
-  }
-
-  void _initAnimations() {
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 700),
-    );
-
-    _opacityAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(_animationController);
-
-    _offsetAnimation = Tween<Offset>(
-      begin: const Offset(0.0, 0.3),
-      end: Offset.zero,
-    ).animate(
-      CurvedAnimation(curve: Curves.elasticInOut, parent: _animationController),
-    );
-
-    _animationController.forward();
   }
 
   @override
@@ -63,17 +41,8 @@ class _LendersPageState extends State<LendersPage>
           children: <Widget>[
             _buildHeader(context, bloc),
             Expanded(
-              child: AnimatedBuilder(
-                animation: _animationController,
-                builder: (BuildContext context, child) {
-                  return FadeTransition(
-                    opacity: _opacityAnimation,
-                    child: SlideTransition(
-                      position: _offsetAnimation,
-                      child: child,
-                    ),
-                  );
-                },
+              child: SlideInTransition(
+                controller: _animationController,
                 child: RoundedShadowContainer(
                   child: _buildContent(bloc),
                 ),
