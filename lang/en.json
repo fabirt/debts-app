@@ -1,0 +1,23 @@
+{
+    "owe_me": "Owe me",
+    "i_owe": "I owe",
+    "to": "to",
+    "person": "people",
+    "people": "people",
+    "owe_me_total": "Owe me",
+    "no_owe_me": "Nothing pending",
+    "i_owe_total": "I owe",
+    "no_i_owe": "Nothing pending",
+    "no_loans": "Nothing pending",
+    "no_debts": "Nothing pending",
+    "edit_debt": "Editar deuda",
+    "add_debt": "Add debt",
+    "value": "Value",
+    "value_hint": "Write a value",
+    "note": "Note",
+    "note_hint": "Leave a note",
+    "save": "Save",
+    "add_person": "Add a person",
+    "name": "Name",
+    "name_hint": "Write a name"
+}

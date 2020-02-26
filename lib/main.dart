@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart';
 
+import 'package:debts_app/src/locale/app_localizations.dart';
 import 'package:debts_app/src/pages/index.dart';
 import 'package:debts_app/src/widgets/index.dart';
 import 'package:debts_app/src/bloc/inherited_bloc.dart';
@@ -14,6 +15,7 @@ void main() {
 class MyApp extends StatelessWidget {
   final _supportedLocales = <Locale>[
     const Locale('es'),
+    const Locale('en'),
   ];
 
   Locale _localeResolutionCallback(
@@ -61,6 +63,7 @@ class MyApp extends StatelessWidget {
         supportedLocales: _supportedLocales,
         localeResolutionCallback: _localeResolutionCallback,
         localizationsDelegates: [
+          AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
         ],

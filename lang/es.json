@@ -1,0 +1,23 @@
+{
+    "owe_me": "Me deben",
+    "i_owe": "Debo",
+    "to": "a",
+    "person": "persona",
+    "people": "personas",
+    "owe_me_total": "Me deben en total",
+    "no_owe_me": "No tienes deudas pendientes",
+    "i_owe_total": "Debo en total",
+    "no_i_owe": "No tienes deudas pendientes",
+    "no_loans": "No tienes deudas pendientes",
+    "no_debts": "No tienes deudas pendientes",
+    "edit_debt": "Editar deuda",
+    "add_debt": "Agregar deuda",
+    "value": "Valor",
+    "value_hint": "Escribe un valor",
+    "note": "Nota",
+    "note_hint": "Deja una nota",
+    "save": "Guardar",
+    "add_person": "Agregar una persona",
+    "name": "Nombre",
+    "name_hint": "Escribe un nombre"
+}
