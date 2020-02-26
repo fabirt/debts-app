@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart';
 
-import 'package:debts_app/src/locale/app_localizations.dart';
-import 'package:debts_app/src/pages/index.dart';
-import 'package:debts_app/src/widgets/index.dart';
-import 'package:debts_app/src/bloc/inherited_bloc.dart';
-import 'package:debts_app/src/utils/index.dart' as utils;
+import 'package:debts_app/core/locale/app_localizations.dart';
+import 'package:debts_app/core/presentation/widgets/index.dart';
+import 'package:debts_app/core/presentation/bloc/inherited_bloc.dart';
+import 'package:debts_app/core/utils/index.dart' as utils;
+import 'package:debts_app/features/resume/presentation/pages/resume_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Debty',
-        home: HomePage(),
+        home: ResumePage(),
         theme: ThemeData(
           fontFamily: 'Proximanova',
           primaryColor: const Color(0xFF00D3A5),
