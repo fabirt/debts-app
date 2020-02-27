@@ -138,58 +138,48 @@ class _AddDebtPageState extends State<AddDebtPage> {
   }
 
   Widget _buildValueTextField() {
-    return StreamBuilder<String>(
-      stream: _bloc.valueStream,
-      builder: (context, snapshot) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            primaryColor: utils.Colors.towerGray,
-          ),
-          child: TextFormField(
-            autofocus: true,
-            initialValue: _bloc.value,
-            keyboardType: TextInputType.number,
-            textInputAction: TextInputAction.next,
-            cursorColor: utils.Colors.towerGray,
-            onChanged: _bloc.changeValue,
-            maxLength: 11,
-            inputFormatters: [
-              WhitelistingTextInputFormatter.digitsOnly,
-              utils.NumberFormatter(),
-            ],
-            decoration: InputDecoration(
-              hintText: AppLocalizations.of(context).translate('value_hint'),
-              counterText: null,
-            ),
-            onFieldSubmitted: (_) {
-              FocusScope.of(context).requestFocus(_focusNode);
-            },
-          ),
-        );
-      },
+    return Theme(
+      data: Theme.of(context).copyWith(
+        primaryColor: utils.Colors.towerGray,
+      ),
+      child: TextFormField(
+        autofocus: true,
+        initialValue: _bloc.value,
+        keyboardType: TextInputType.number,
+        textInputAction: TextInputAction.next,
+        cursorColor: utils.Colors.towerGray,
+        onChanged: _bloc.changeValue,
+        maxLength: 11,
+        inputFormatters: [
+          WhitelistingTextInputFormatter.digitsOnly,
+          utils.NumberFormatter(),
+        ],
+        decoration: InputDecoration(
+          hintText: AppLocalizations.of(context).translate('value_hint'),
+          counterText: null,
+        ),
+        onFieldSubmitted: (_) {
+          FocusScope.of(context).requestFocus(_focusNode);
+        },
+      ),
     );
   }
 
   Widget _buildNoteTextField() {
-    return StreamBuilder<String>(
-      stream: _bloc.noteStream,
-      builder: (context, snapshot) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            primaryColor: utils.Colors.towerGray,
-          ),
-          child: TextFormField(
-            focusNode: _focusNode,
-            initialValue: _bloc.note,
-            textCapitalization: TextCapitalization.sentences,
-            cursorColor: utils.Colors.towerGray,
-            onChanged: _bloc.changeNote,
-            decoration: InputDecoration(
-              hintText: AppLocalizations.of(context).translate('note_hint'),
-            ),
-          ),
-        );
-      },
+    return Theme(
+      data: Theme.of(context).copyWith(
+        primaryColor: utils.Colors.towerGray,
+      ),
+      child: TextFormField(
+        focusNode: _focusNode,
+        initialValue: _bloc.note,
+        textCapitalization: TextCapitalization.sentences,
+        cursorColor: utils.Colors.towerGray,
+        onChanged: _bloc.changeNote,
+        decoration: InputDecoration(
+          hintText: AppLocalizations.of(context).translate('note_hint'),
+        ),
+      ),
     );
   }
 
@@ -202,7 +192,8 @@ class _AddDebtPageState extends State<AddDebtPage> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(30.0),
             child: FlatButton(
-              onPressed: snapshot.hasData ? _onSavePressed : null,
+              onPressed:
+                  snapshot.hasData && snapshot.data ? _onSavePressed : null,
               color: utils.Colors.brightGray,
               textColor: Colors.white,
               child: FractionallySizedBox(

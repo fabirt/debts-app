@@ -21,7 +21,7 @@ class _AddLenderPageState extends State<AddLenderPage> {
   }
 
   @override
-  void dispose() { 
+  void dispose() {
     _bloc.dispose();
     super.dispose();
   }
@@ -78,25 +78,20 @@ class _AddLenderPageState extends State<AddLenderPage> {
   }
 
   Widget _buildTextField() {
-    return StreamBuilder<String>(
-      stream: _bloc.nameStream,
-      builder: (context, snapshot) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            primaryColor: utils.Colors.towerGray,
-          ),
-          child: TextField(
-            autofocus: true,
-            textCapitalization: TextCapitalization.words,
-            cursorColor: utils.Colors.towerGray,
-            decoration: InputDecoration(
-              hintText: AppLocalizations.of(context).translate('name_hint'),
-              focusColor: Colors.red,
-            ),
-            onChanged: _bloc.changeName,
-          ),
-        );
-      },
+    return Theme(
+      data: Theme.of(context).copyWith(
+        primaryColor: utils.Colors.towerGray,
+      ),
+      child: TextField(
+        autofocus: true,
+        textCapitalization: TextCapitalization.words,
+        cursorColor: utils.Colors.towerGray,
+        decoration: InputDecoration(
+          hintText: AppLocalizations.of(context).translate('name_hint'),
+          focusColor: Colors.red,
+        ),
+        onChanged: _bloc.changeName,
+      ),
     );
   }
 

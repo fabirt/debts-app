@@ -15,7 +15,13 @@ class AddDebtBloc {
   Stream<bool> get validStream => CombineLatestStream.combine2(
         valueStream,
         noteStream,
-        (e, p) => true,
+        (e, p) {
+          if (e == value && p == note) {
+            return true;
+          } else {
+            return false;
+          }
+        },
       );
 
   Function(String) get changeValue => _changeValue;

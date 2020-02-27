@@ -182,7 +182,8 @@ class _AddLoanPageState extends State<AddLoanPage> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(30.0),
             child: FlatButton(
-              onPressed: snapshot.hasData ? _onSavePressed : null,
+              onPressed:
+                  snapshot.hasData && snapshot.data ? _onSavePressed : null,
               color: utils.Colors.brightGray,
               textColor: Colors.white,
               child: FractionallySizedBox(
