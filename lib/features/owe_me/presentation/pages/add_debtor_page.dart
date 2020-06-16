@@ -123,24 +123,8 @@ class _AddDebtorPageState extends State<AddDebtorPage> {
     return StreamBuilder(
       stream: _bloc.nameStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(30.0),
-          child: FlatButton(
-            onPressed: snapshot.hasData ? _saveDebtor : null,
-            color: utils.Colors.brightGray,
-            textColor: Colors.white,
-            child: FractionallySizedBox(
-              widthFactor: 1.0,
-              child: Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  AppLocalizations.of(context).translate('save'),
-                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15.0),
-                ),
-              ),
-            ),
-          ),
+        return LargeButton(
+          onPressed: snapshot.hasData ? _saveDebtor : null,
         );
       },
     );

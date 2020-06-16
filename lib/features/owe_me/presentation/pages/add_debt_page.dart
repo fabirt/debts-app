@@ -188,31 +188,8 @@ class _AddDebtPageState extends State<AddDebtPage> {
     return StreamBuilder<bool>(
       stream: _bloc.validStream,
       builder: (context, snapshot) {
-        return Container(
-          margin: const EdgeInsets.only(bottom: 30.0),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(30.0),
-            child: FlatButton(
-              onPressed:
-                  snapshot.hasData && snapshot.data ? _onSavePressed : null,
-              color: utils.Colors.brightGray,
-              textColor: Colors.white,
-              child: FractionallySizedBox(
-                widthFactor: 0.8,
-                child: Container(
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    AppLocalizations.of(context).translate('save'),
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 15.0,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
+        return LargeButton(
+          onPressed: snapshot.hasData && snapshot.data ? _onSavePressed : null,
         );
       },
     );
