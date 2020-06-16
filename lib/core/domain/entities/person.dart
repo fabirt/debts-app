@@ -1,9 +1,13 @@
-class Debtor {
+class Person {
   int id;
   String name;
-  double debt;
+  double totalValue;
 
-  Debtor({this.id, this.name, this.debt = 0.0});
+  Person({
+    this.id,
+    this.name,
+    this.totalValue = 0.0,
+  });
 
   String getInitials() {
     String initials = '';

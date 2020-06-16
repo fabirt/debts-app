@@ -1,8 +1,8 @@
-class DebtorsResume {
+class Resume {
   double value;
   int people;
 
-  DebtorsResume({
+  Resume({
     this.value = 0.0,
     this.people = 0,
   });
