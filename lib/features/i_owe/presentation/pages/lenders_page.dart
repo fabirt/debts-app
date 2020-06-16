@@ -141,6 +141,7 @@ class _LendersPageState extends State<LendersPage>
               return PersonCard(
                 person: data[i],
                 onTap: _onTapLender,
+                onLongPress: _updateLender,
                 onDismissed: (Person l) => _deleteLender(bloc, l),
               );
             },
@@ -169,5 +170,9 @@ class _LendersPageState extends State<LendersPage>
 
   void _addLender(BuildContext context) {
     Router.navigator.pushNamed(Routes.addLender);
+  }
+
+  void _updateLender(Person lender) {
+    Router.navigator.pushNamed(Routes.addLender, arguments: lender);
   }
 }

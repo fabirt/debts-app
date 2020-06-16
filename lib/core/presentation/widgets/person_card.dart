@@ -6,20 +6,32 @@ import 'package:debts_app/core/utils/utils.dart' as utils;
 class PersonCard extends StatelessWidget {
   final Person person;
   final Function(Person) onTap;
+  final Function(Person) onLongPress;
   final Function(Person) onDismissed;
 
   const PersonCard({
     @required this.person,
     this.onTap,
+    this.onLongPress,
     this.onDismissed,
   });
 
   void _onTap() {
-    onTap(person);
+    if (onTap != null) {
+      onTap(person);
+    }
+  }
+
+  void _onLongPress() {
+    if (onLongPress != null) {
+      onLongPress(person);
+    }
   }
 
   void _onDismissed(DismissDirection direction) {
-    onDismissed(person);
+    if (onDismissed != null) {
+      onDismissed(person);
+    }
   }
 
   @override
@@ -49,6 +61,7 @@ class PersonCard extends StatelessWidget {
             child: InkWell(
               borderRadius: BorderRadius.circular(12.0),
               onTap: _onTap,
+              onLongPress: _onLongPress,
               child: _buildContent(),
             ),
           ),

@@ -60,7 +60,7 @@ class _DebtorsPageState extends State<DebtorsPage>
       floatingActionButton: Container(
         margin: const EdgeInsets.only(bottom: 30.0),
         child: AddButton(
-          onPressed: () => _addDebtor(context),
+          onPressed: _addDebtor,
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -143,7 +143,8 @@ class _DebtorsPageState extends State<DebtorsPage>
               return PersonCard(
                 person: data[i],
                 onTap: _onTapDebtor,
-                onDismissed: (Person d) => _deleteDebtor(bloc, d),
+                onLongPress: _updateDebtor,
+                onDismissed: (person) => _deleteDebtor(bloc, person),
               );
             },
           );
@@ -169,7 +170,11 @@ class _DebtorsPageState extends State<DebtorsPage>
     Router.navigator.pushNamed(Routes.singleDebtor, arguments: debtor);
   }
 
-  void _addDebtor(BuildContext context) {
+  void _addDebtor() {
     Router.navigator.pushNamed(Routes.addDebtor);
+  }
+
+  void _updateDebtor(Person person) {
+    Router.navigator.pushNamed(Routes.addDebtor, arguments: person);
   }
 }

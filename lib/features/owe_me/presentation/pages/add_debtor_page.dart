@@ -8,28 +8,48 @@ import 'package:debts_app/core/utils/utils.dart' as utils;
 import 'package:debts_app/features/owe_me/presentation/bloc/add_debtor_bloc.dart';
 
 class AddDebtorPage extends StatefulWidget {
+  final Person person;
+
+  const AddDebtorPage({
+    Key key,
+    this.person,
+  }) : super(key: key);
+
   @override
   _AddDebtorPageState createState() => _AddDebtorPageState();
 }
 
 class _AddDebtorPageState extends State<AddDebtorPage> {
+  Person _initialPerson;
   final AddDebtorBloc _bloc = AddDebtorBloc();
+  final _editingController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    _initialPerson = widget.person;
+    if (_initialPerson != null) {
+      _editingController.text = _initialPerson.name;
+      _bloc.changeName(_initialPerson.name);
+    }
   }
 
   @override
   void dispose() {
     _bloc.dispose();
+    _editingController.dispose();
     super.dispose();
   }
 
   Future<void> _saveDebtor() async {
     final bloc = InheritedBloc.of(context);
-    final debtor = Person(name: _bloc.name);
-    await bloc.debtorsBloc.addDebtor(debtor);
+    if (_initialPerson == null) {
+      final debtor = Person(name: _bloc.name);
+      await bloc.debtorsBloc.addDebtor(debtor);
+    } else {
+      final debtor = _initialPerson.copyWith(name: _bloc.name);
+      await bloc.debtorsBloc.updateDebtor(debtor);
+    }
     Navigator.of(context).pop();
   }
 
@@ -52,8 +72,11 @@ class _AddDebtorPageState extends State<AddDebtorPage> {
   }
 
   Widget _buildHeader(BuildContext context) {
+    final text = _initialPerson != null
+        ? 'Editar persona'
+        : AppLocalizations.of(context).translate('add_person');
     return CustomAppBar(
-      titleText: AppLocalizations.of(context).translate('add_person'),
+      titleText: text,
     );
   }
 
@@ -84,6 +107,7 @@ class _AddDebtorPageState extends State<AddDebtorPage> {
       ),
       child: TextField(
         autofocus: true,
+        controller: _editingController,
         textCapitalization: TextCapitalization.words,
         cursorColor: utils.Colors.towerGray,
         decoration: InputDecoration(

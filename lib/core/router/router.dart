@@ -39,7 +39,11 @@ class Router {
         return FadeRoute(page: DebtorsPage());
 
       case Routes.addDebtor:
-        return FadeRoute(page: AddDebtorPage());
+        Person person;
+        if (args is Person) {
+          person = args;
+        }
+        return FadeRoute(page: AddDebtorPage(person: person));
 
       case Routes.singleDebtor:
         if (args is Person) {
@@ -68,7 +72,11 @@ class Router {
         return FadeRoute(page: LendersPage());
 
       case Routes.addLender:
-        return FadeRoute(page: AddLenderPage());
+        Person person;
+        if (args is Person) {
+          person = args;
+        }
+        return FadeRoute(page: AddLenderPage(person: person));
 
       case Routes.singleLender:
         if (args is Person) {

@@ -49,8 +49,10 @@ class DebtorsBloc {
   /// Add debt
   Future<void> addDebt(Debt debt, Person debtor) async {
     await _repository.addDebt(debt);
-    debtor.total += debt.value;
-    await _repository.updateDebtor(debtor);
+    final newPerson = debtor.copyWith(
+      total: debtor.total + debt.value,
+    );
+    await _repository.updateDebtor(newPerson);
     await getDebtsByDebtor(debtor);
     await getDebtors();
   }
@@ -63,8 +65,8 @@ class DebtorsBloc {
     for (final d in debts) {
       totalDebt += d.value;
     }
-    debtor.total = totalDebt;
-    await _repository.updateDebtor(debtor);
+    final newPerson = debtor.copyWith(total: totalDebt);
+    await _repository.updateDebtor(newPerson);
     await getDebtsByDebtor(debtor);
     await getDebtors();
   }
@@ -88,8 +90,10 @@ class DebtorsBloc {
   /// Delete debt
   Future<void> deleteDebt(Debt debt, Person debtor) async {
     await _repository.deleteDebt(debt);
-    debtor.total -= debt.value;
-    await _repository.updateDebtor(debtor);
+    final newPerson = debtor.copyWith(
+      total: debtor.total - debt.value,
+    );
+    await _repository.updateDebtor(newPerson);
     await getDebtors();
   }
 

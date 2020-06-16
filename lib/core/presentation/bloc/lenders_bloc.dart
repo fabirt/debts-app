@@ -43,8 +43,10 @@ class LendersBloc {
   /// Add loan
   Future<void> addLoan(Debt loan, Person lender) async {
     await _repository.addLoan(loan);
-    lender.total += loan.value;
-    await _repository.updateLender(lender);
+    final newPerson = lender.copyWith(
+      total: lender.total + loan.value,
+    );
+    await _repository.updateLender(newPerson);
     await getLoansByLender(lender);
     await getLenders();
   }
@@ -57,8 +59,8 @@ class LendersBloc {
     for (final l in loans) {
       totalLoan += l.value;
     }
-    lender.total = totalLoan;
-    await _repository.updateLender(lender);
+    final newPerson = lender.copyWith(total: totalLoan);
+    await _repository.updateLender(newPerson);
     await getLoansByLender(lender);
     await getLenders();
   }
@@ -82,8 +84,10 @@ class LendersBloc {
   /// Delete loan
   Future<void> deleteLoan(Debt loan, Person lender) async {
     await _repository.deleteLoan(loan);
-    lender.total -= loan.value;
-    await _repository.updateLender(lender);
+    final newPerson = lender.copyWith(
+      total: lender.total - loan.value,
+    );
+    await _repository.updateLender(newPerson);
     await getLenders();
   }
 

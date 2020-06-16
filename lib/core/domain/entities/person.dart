@@ -1,7 +1,7 @@
 class Person {
-  int id;
-  String name;
-  double total;
+  final int id;
+  final String name;
+  final double total;
 
   Person({
     this.id,
@@ -16,5 +16,17 @@ class Person {
       if (initials.length < 2) initials += v[0];
     }
     return initials;
+  }
+
+  Person copyWith({
+    int id,
+    String name,
+    double total,
+  }) {
+    return Person(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      total: total ?? this.total,
+    );
   }
 }
