@@ -105,8 +105,8 @@ class _LendersPageState extends State<LendersPage>
           children: <Widget>[
             Text(
               AppLocalizations.of(context).translate('i_owe_total'),
-              style: TextStyle(
-                color: const Color.fromRGBO(255, 255, 255, 0.7),
+              style: const TextStyle(
+                color: Color.fromRGBO(255, 255, 255, 0.7),
                 fontSize: 15.0,
                 fontWeight: FontWeight.w600,
               ),
@@ -114,7 +114,7 @@ class _LendersPageState extends State<LendersPage>
             const SizedBox(height: 8.0),
             Text(
               utils.formatCurrency(snapshot.data.value),
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 28.0,
                 fontWeight: FontWeight.w700,

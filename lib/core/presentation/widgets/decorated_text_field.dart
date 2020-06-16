@@ -43,7 +43,7 @@ class DecoratedTextField extends StatelessWidget {
       children: <Widget>[
         Text(
           titleText,
-          style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w600),
+          style: const TextStyle(fontSize: 24.0, fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 8.0),
         Theme(
