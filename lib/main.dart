@@ -59,8 +59,9 @@ class MyApp extends StatelessWidget {
           primaryColor: const Color(0xFF00D3A5),
           primarySwatch: utils.Swatchs.greenSwatch,
           scaffoldBackgroundColor: utils.Colors.athensGray,
-          textTheme: TextTheme(
-            body1: TextStyle(color: utils.Colors.brightGray),
+          textTheme: const TextTheme(
+            bodyText1: TextStyle(color: utils.Colors.brightGray),
+            bodyText2: TextStyle(color: utils.Colors.brightGray),
           ),
         ),
         supportedLocales: _supportedLocales,
