@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:debts_app/core/data/models/index.dart';
+import 'package:debts_app/core/domain/entities/person.dart';
+import 'package:debts_app/core/domain/entities/resume.dart';
 import 'package:debts_app/core/locale/app_localizations.dart';
 import 'package:debts_app/core/presentation/widgets/index.dart';
 import 'package:debts_app/core/presentation/bloc/inherited_bloc.dart';
@@ -100,9 +101,8 @@ class _DebtorsPageState extends State<DebtorsPage>
   Widget _buildHeaderDebt(InheritedBloc bloc) {
     return StreamBuilder(
       stream: bloc.debtorsBloc.resumeStream,
-      initialData: DebtorsResumeModel(),
-      builder:
-          (BuildContext context, AsyncSnapshot<DebtorsResumeModel> snapshot) {
+      initialData: Resume(),
+      builder: (BuildContext context, AsyncSnapshot<Resume> snapshot) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -132,8 +132,7 @@ class _DebtorsPageState extends State<DebtorsPage>
   Widget _buildContent(InheritedBloc bloc) {
     return StreamBuilder(
       stream: bloc.debtorsBloc.debtorsStream,
-      builder:
-          (BuildContext context, AsyncSnapshot<List<DebtorModel>> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<List<Person>> snapshot) {
         if (snapshot.hasData) {
           final data = snapshot.data;
           if (data.isEmpty) return _buildEmptyState();
@@ -145,7 +144,7 @@ class _DebtorsPageState extends State<DebtorsPage>
               return DebtorCard(
                 debtor: data[i],
                 onTap: _onTapDebtor,
-                onDismissed: (DebtorModel d) => _deleteDebtor(bloc, d),
+                onDismissed: (Person d) => _deleteDebtor(bloc, d),
               );
             },
           );
@@ -163,11 +162,11 @@ class _DebtorsPageState extends State<DebtorsPage>
     );
   }
 
-  Future<void> _deleteDebtor(InheritedBloc bloc, DebtorModel debtor) async {
+  Future<void> _deleteDebtor(InheritedBloc bloc, Person debtor) async {
     await bloc.debtorsBloc.deleteDebtor(debtor);
   }
 
-  void _onTapDebtor(DebtorModel debtor) {
+  void _onTapDebtor(Person debtor) {
     Router.navigator.pushNamed(Routes.singleDebtor, arguments: debtor);
   }
 

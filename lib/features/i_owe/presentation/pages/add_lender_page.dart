@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:debts_app/core/data/models/index.dart';
+import 'package:debts_app/core/domain/entities/person.dart';
 import 'package:debts_app/core/locale/app_localizations.dart';
 import 'package:debts_app/core/presentation/bloc/inherited_bloc.dart';
 import 'package:debts_app/core/presentation/widgets/index.dart';
@@ -28,7 +28,7 @@ class _AddLenderPageState extends State<AddLenderPage> {
 
   Future<void> _saveLender() async {
     final bloc = InheritedBloc.of(context);
-    final lender = LenderModel(name: _bloc.name);
+    final lender = Person(name: _bloc.name);
     await bloc.lendersBloc.addLender(lender);
     Navigator.of(context).pop();
   }

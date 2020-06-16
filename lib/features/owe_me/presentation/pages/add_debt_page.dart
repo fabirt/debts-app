@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'package:debts_app/core/domain/entities/debt.dart';
+import 'package:debts_app/core/domain/entities/person.dart';
 import 'package:debts_app/core/locale/app_localizations.dart';
 import 'package:debts_app/core/presentation/bloc/inherited_bloc.dart';
-import 'package:debts_app/core/data/models/index.dart';
 import 'package:debts_app/core/presentation/widgets/index.dart';
 import 'package:debts_app/core/utils/index.dart' as utils;
 import 'package:debts_app/features/owe_me/presentation/bloc/add_debt_bloc.dart';
 
 class AddDebtPage extends StatefulWidget {
-  final DebtorModel debtor;
-  final DebtModel debt;
+  final Person debtor;
+  final Debt debt;
 
   const AddDebtPage({
     Key key,
@@ -53,8 +54,8 @@ class _AddDebtPageState extends State<AddDebtPage> {
 
   Future<void> _addDebt() async {
     final bloc = InheritedBloc.of(context);
-    final debt = DebtModel(
-      debtorId: widget.debtor.id,
+    final debt = Debt(
+      parentId: widget.debtor.id,
       value: double.parse(_bloc.value),
       description: _bloc.note,
       date: DateTime.now().toString(),
@@ -65,9 +66,9 @@ class _AddDebtPageState extends State<AddDebtPage> {
 
   Future<void> _updateDebt() async {
     final bloc = InheritedBloc.of(context);
-    final debt = DebtModel(
+    final debt = Debt(
       id: widget.debt.id,
-      debtorId: widget.debtor.id,
+      parentId: widget.debtor.id,
       value: double.parse(_bloc.value),
       description: _bloc.note,
       date: widget.debt.date,

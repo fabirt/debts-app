@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:debts_app/core/data/models/index.dart';
+
+import 'package:debts_app/core/domain/entities/debt.dart';
 import 'package:debts_app/core/utils/index.dart' as utils;
 
 class LoanCard extends StatelessWidget {
-  final LoanModel loan;
-  final Function(LoanModel loan) onTap;
-  final Function(LoanModel loan) onDismissed;
+  final Debt loan;
+  final Function(Debt loan) onTap;
+  final Function(Debt loan) onDismissed;
 
   const LoanCard({this.loan, this.onTap, this.onDismissed});
 

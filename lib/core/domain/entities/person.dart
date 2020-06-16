@@ -1,12 +1,12 @@
 class Person {
   int id;
   String name;
-  double totalValue;
+  double total;
 
   Person({
     this.id,
     this.name,
-    this.totalValue = 0.0,
+    this.total = 0.0,
   });
 
   String getInitials() {

@@ -1,5 +1,8 @@
 import 'package:debts_app/core/data/data_sources/db_data_source.dart';
-import 'package:debts_app/core/data/models/index.dart';
+import 'package:debts_app/core/data/models/debt_model.dart';
+import 'package:debts_app/core/data/models/person_model.dart';
+import 'package:debts_app/core/domain/entities/debt.dart';
+import 'package:debts_app/core/domain/entities/person.dart';
 import 'package:debts_app/core/domain/repositories/debtors_repository.dart';
 
 class DebtorsRepositoryImpl implements DebtorsRepository {
@@ -10,52 +13,52 @@ class DebtorsRepositoryImpl implements DebtorsRepository {
   DebtorsRepositoryImpl._internal();
 
   @override
-  Future<void> addDebt(DebtModel debt) async {
-    await dbDataSource.addDebt(debt);
+  Future<void> addDebt(Debt debt) async {
+    await dbDataSource.addDebt(DebtModel.fromEntity(debt));
   }
 
   @override
-  Future<void> addDebtor(DebtorModel debtor) async {
-    await dbDataSource.addDebtor(debtor);
+  Future<void> addDebtor(Person debtor) async {
+    await dbDataSource.addDebtor(PersonModel.fromEntity(debtor));
   }
 
   @override
-  Future<void> deleteAllDebtsForDebtor(DebtorModel debtor) async {
-    await dbDataSource.deleteAllDebtsByDebtor(debtor);
+  Future<void> deleteAllDebtsForDebtor(Person debtor) async {
+    await dbDataSource.deleteAllDebtsByDebtor(PersonModel.fromEntity(debtor));
   }
 
   @override
-  Future<void> deleteDebt(DebtModel debt) async {
-    await dbDataSource.deleteDebt(debt);
+  Future<void> deleteDebt(Debt debt) async {
+    await dbDataSource.deleteDebt(DebtModel.fromEntity(debt));
   }
 
   @override
-  Future<void> deleteDebtor(DebtorModel debtor) async {
-    await dbDataSource.deleteDebtor(debtor);
+  Future<void> deleteDebtor(Person debtor) async {
+    await dbDataSource.deleteDebtor(PersonModel.fromEntity(debtor));
   }
 
   @override
-  Future<List<DebtorModel>> getDebtors() async {
+  Future<List<Person>> getDebtors() async {
     return dbDataSource.getDebtors();
   }
 
   @override
-  Future<List<DebtModel>> getDebts() async {
+  Future<List<Debt>> getDebts() async {
     return dbDataSource.getDebts();
   }
 
   @override
-  Future<List<DebtModel>> getDebtsForDebtor(DebtorModel debtor) {
-    return dbDataSource.getDebtsByDebtor(debtor);
+  Future<List<Debt>> getDebtsForDebtor(Person debtor) {
+    return dbDataSource.getDebtsByDebtor(PersonModel.fromEntity(debtor));
   }
 
   @override
-  Future<void> updateDebt(DebtModel debt) async {
-    await dbDataSource.updateDebt(debt);
+  Future<void> updateDebt(Debt debt) async {
+    await dbDataSource.updateDebt(DebtModel.fromEntity(debt));
   }
 
   @override
-  Future<void> updateDebtor(DebtorModel debtor) async {
-    await dbDataSource.updateDebtor(debtor);
+  Future<void> updateDebtor(Person debtor) async {
+    await dbDataSource.updateDebtor(PersonModel.fromEntity(debtor));
   }
 }

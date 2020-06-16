@@ -1,16 +1,17 @@
-import 'package:debts_app/features/i_owe/presentation/bloc/add_loan_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:debts_app/core/data/models/index.dart';
+import 'package:debts_app/core/domain/entities/debt.dart';
+import 'package:debts_app/core/domain/entities/person.dart';
 import 'package:debts_app/core/locale/app_localizations.dart';
 import 'package:debts_app/core/presentation/bloc/inherited_bloc.dart';
 import 'package:debts_app/core/presentation/widgets/index.dart';
 import 'package:debts_app/core/utils/index.dart' as utils;
+import 'package:debts_app/features/i_owe/presentation/bloc/add_loan_bloc.dart';
 
 class AddLoanPage extends StatefulWidget {
-  final LenderModel lender;
-  final LoanModel loan;
+  final Person lender;
+  final Debt loan;
 
   const AddLoanPage({
     Key key,
@@ -47,8 +48,8 @@ class _AddLoanPageState extends State<AddLoanPage> {
 
   Future<void> _addLoan() async {
     final bloc = InheritedBloc.of(context);
-    final loan = LoanModel(
-      lenderId: widget.lender.id,
+    final loan = Debt(
+      parentId: widget.lender.id,
       value: double.parse(_bloc.value),
       description: _bloc.note,
       date: DateTime.now().toString(),
@@ -59,9 +60,9 @@ class _AddLoanPageState extends State<AddLoanPage> {
 
   Future<void> _updateLoan() async {
     final bloc = InheritedBloc.of(context);
-    final loan = LoanModel(
+    final loan = Debt(
       id: widget.loan.id,
-      lenderId: widget.lender.id,
+      parentId: widget.lender.id,
       value: double.parse(_bloc.value),
       description: _bloc.note,
       date: widget.loan.date,

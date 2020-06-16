@@ -1,26 +1,29 @@
 import 'package:rxdart/rxdart.dart';
-import 'package:debts_app/core/data/models/index.dart';
+
+import 'package:debts_app/core/domain/entities/debt.dart';
+import 'package:debts_app/core/domain/entities/person.dart';
+import 'package:debts_app/core/domain/entities/resume.dart';
 import 'package:debts_app/core/data/repositories/debtors_repository_impl.dart';
 import 'package:debts_app/core/domain/repositories/debtors_repository.dart';
 
 class DebtorsBloc {
   // Properties
-  List<DebtorModel> _debtors = [];
-  List<DebtModel> _debts = [];
-  final _debtorsController = BehaviorSubject<List<DebtorModel>>();
-  final _debtsController = BehaviorSubject<List<DebtModel>>();
-  final _resumeController = BehaviorSubject<DebtorsResumeModel>();
+  List<Person> _debtors = [];
+  List<Debt> _debts = [];
+  final _debtorsController = BehaviorSubject<List<Person>>();
+  final _debtsController = BehaviorSubject<List<Debt>>();
+  final _resumeController = BehaviorSubject<Resume>();
   final DebtorsRepository _repository = DebtorsRepositoryImpl();
 
   // Getters
-  Stream<List<DebtorModel>> get debtorsStream => _debtorsController.stream;
-  Stream<List<DebtModel>> get debtsStream => _debtsController.stream;
-  Stream<DebtorsResumeModel> get resumeStream => _resumeController.stream;
+  Stream<List<Person>> get debtorsStream => _debtorsController.stream;
+  Stream<List<Debt>> get debtsStream => _debtsController.stream;
+  Stream<Resume> get resumeStream => _resumeController.stream;
 
   /// Get all debtors
   Future<void> getDebtors() async {
     _debtors = await _repository.getDebtors();
-    _debtors.sort((a, b) => b.debt.compareTo(a.debt));
+    _debtors.sort((a, b) => b.total.compareTo(a.total));
     _debtorsController.sink.add(_debtors);
   }
 
@@ -31,36 +34,36 @@ class DebtorsBloc {
   }
 
   /// Get debts for corresponding debtor
-  Future<void> getDebtsByDebtor(DebtorModel debtor) async {
+  Future<void> getDebtsByDebtor(Person debtor) async {
     _debts = await _repository.getDebtsForDebtor(debtor);
     _debts.sort((a, b) => b.date.compareTo(a.date));
     _debtsController.sink.add(_debts);
   }
 
   /// Add debtor
-  Future<void> addDebtor(DebtorModel debtor) async {
+  Future<void> addDebtor(Person debtor) async {
     await _repository.addDebtor(debtor);
     await getDebtors();
   }
 
   /// Add debt
-  Future<void> addDebt(DebtModel debt, DebtorModel debtor) async {
+  Future<void> addDebt(Debt debt, Person debtor) async {
     await _repository.addDebt(debt);
-    debtor.debt += debt.value;
+    debtor.total += debt.value;
     await _repository.updateDebtor(debtor);
     await getDebtsByDebtor(debtor);
     await getDebtors();
   }
 
   /// Update debt
-  Future<void> updateDebt(DebtModel debt, DebtorModel debtor) async {
+  Future<void> updateDebt(Debt debt, Person debtor) async {
     await _repository.updateDebt(debt);
     final debts = await _repository.getDebtsForDebtor(debtor);
     double totalDebt = 0.0;
     for (final d in debts) {
       totalDebt += d.value;
     }
-    debtor.debt = totalDebt;
+    debtor.total = totalDebt;
     await _repository.updateDebtor(debtor);
     await getDebtsByDebtor(debtor);
     await getDebtors();
@@ -68,25 +71,25 @@ class DebtorsBloc {
 
   /// Update debtor's total debt
   Future<void> updateResume() async {
-    final resume = DebtorsResumeModel();
+    final resume = Resume();
     final debtors = await _repository.getDebtors();
     for (final d in debtors) {
-      if (d.debt > 0) resume.people++;
-      resume.value += d.debt;
+      if (d.total > 0) resume.people++;
+      resume.value += d.total;
     }
     _resumeController.sink.add(resume);
   }
 
   /// Delete debt
-  Future<void> deleteDebt(DebtModel debt, DebtorModel debtor) async {
+  Future<void> deleteDebt(Debt debt, Person debtor) async {
     await _repository.deleteDebt(debt);
-    debtor.debt -= debt.value;
+    debtor.total -= debt.value;
     await _repository.updateDebtor(debtor);
     await getDebtors();
   }
 
   /// Delete debtor and corresponding debts
-  Future<void> deleteDebtor(DebtorModel debtor) async {
+  Future<void> deleteDebtor(Person debtor) async {
     await _repository.deleteDebtor(debtor);
     await _repository.deleteAllDebtsForDebtor(debtor);
     getDebtors();

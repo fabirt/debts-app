@@ -1,32 +1,44 @@
-class DebtModel {
-  int id;
-  int debtorId;
-  String date;
-  double value;
-  String description;
+import 'package:debts_app/core/domain/entities/debt.dart';
 
+class DebtModel extends Debt {
   DebtModel({
-    this.id,
-    this.debtorId,
-    this.date,
-    this.description,
-    this.value = 0.0,
-  });
+    int id,
+    int parentId,
+    String date,
+    double value,
+    String description,
+  }) : super(
+          id: id,
+          parentId: parentId,
+          date: date,
+          value: value,
+          description: description,
+        );
 
   factory DebtModel.fromJson(Map<String, dynamic> json) {
     return DebtModel(
       id: json['id'],
-      debtorId: json['debtor_id'],
+      parentId: json['parent_id'],
       date: json['date'],
       value: json['value'],
       description: json['description'],
     );
   }
 
+  factory DebtModel.fromEntity(Debt debt) {
+    return DebtModel(
+      id: debt.id,
+      parentId: debt.parentId,
+      date: debt.date,
+      value: debt.value,
+      description: debt.description,
+    );
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'debtor_id': debtorId,
+      'parent_id': parentId,
       'date': date,
       'value': value,
       'description': description,

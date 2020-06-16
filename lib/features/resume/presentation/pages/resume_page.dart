@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:debts_app/core/data/models/index.dart';
+import 'package:debts_app/core/domain/entities/resume.dart';
 import 'package:debts_app/core/locale/app_localizations.dart';
 import 'package:debts_app/core/presentation/widgets/index.dart';
 import 'package:debts_app/core/presentation/bloc/inherited_bloc.dart';
@@ -125,9 +125,9 @@ class _ResumePageState extends State<ResumePage>
   }
 
   Widget _buildOweMeCard(InheritedBloc bloc) {
-    return StreamBuilder<DebtorsResumeModel>(
+    return StreamBuilder<Resume>(
       stream: bloc.debtorsBloc.resumeStream,
-      initialData: DebtorsResumeModel(),
+      initialData: Resume(),
       builder: (context, snapshot) {
         final localizations = AppLocalizations.of(context);
         final label = snapshot.data.people == 1
@@ -145,9 +145,9 @@ class _ResumePageState extends State<ResumePage>
   }
 
   Widget _buildIOweCard(InheritedBloc bloc) {
-    return StreamBuilder<DebtorsResumeModel>(
+    return StreamBuilder<Resume>(
       stream: bloc.lendersBloc.resumeStream,
-      initialData: DebtorsResumeModel(),
+      initialData: Resume(),
       builder: (context, snapshot) {
         final people = snapshot.data.people;
         final localizations = AppLocalizations.of(context);

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:debts_app/core/domain/entities/person.dart';
 import 'package:debts_app/core/locale/app_localizations.dart';
 import 'package:debts_app/core/presentation/bloc/inherited_bloc.dart';
-import 'package:debts_app/core/data/models/index.dart';
 import 'package:debts_app/core/presentation/widgets/index.dart';
 import 'package:debts_app/core/utils/index.dart' as utils;
 import 'package:debts_app/features/owe_me/presentation/bloc/add_debtor_bloc.dart';
@@ -28,7 +28,7 @@ class _AddDebtorPageState extends State<AddDebtorPage> {
 
   Future<void> _saveDebtor() async {
     final bloc = InheritedBloc.of(context);
-    final debtor = DebtorModel(name: _bloc.name);
+    final debtor = Person(name: _bloc.name);
     await bloc.debtorsBloc.addDebtor(debtor);
     Navigator.of(context).pop();
   }

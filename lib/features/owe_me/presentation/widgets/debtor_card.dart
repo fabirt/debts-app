@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'package:debts_app/core/data/models/index.dart';
+import 'package:debts_app/core/domain/entities/person.dart';
 import 'package:debts_app/core/utils/index.dart' as utils;
 
 class DebtorCard extends StatelessWidget {
-  final DebtorModel debtor;
-  final Function(DebtorModel) onTap;
-  final Function(DebtorModel) onDismissed;
+  final Person debtor;
+  final Function(Person) onTap;
+  final Function(Person) onDismissed;
 
   const DebtorCard({this.debtor, this.onTap, this.onDismissed});
 
@@ -65,7 +65,7 @@ class DebtorCard extends StatelessWidget {
   }
 
   Container _buildContent() {
-    final debt = utils.formatCurrency(debtor.debt);
+    final debt = utils.formatCurrency(debtor.total);
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:debts_app/core/data/models/index.dart';
+import 'package:debts_app/core/domain/entities/person.dart';
 import 'package:debts_app/core/presentation/widgets/index.dart';
 import 'package:debts_app/core/router/argument_models.dart';
 import 'package:debts_app/core/router/routes.dart';
@@ -39,12 +39,12 @@ class Router {
         return FadeRoute(page: AddDebtorPage());
 
       case Routes.singleDebtor:
-        if (args is DebtorModel) {
+        if (args is Person) {
           return FadeRoute(page: DebtorDebtsPage(debtor: args));
         }
         return _errorRoute(
           settings.name,
-          _invalidArgmuents(args.runtimeType, DebtorModel),
+          _invalidArgmuents(args.runtimeType, Person),
         );
 
       case Routes.addDebt:
@@ -52,7 +52,7 @@ class Router {
           return FadeRoute(
             page: AddDebtPage(
               debt: args.debt,
-              debtor: args.debtor,
+              debtor: args.person,
             ),
           );
         }
@@ -68,26 +68,23 @@ class Router {
         return FadeRoute(page: AddLenderPage());
 
       case Routes.singleLender:
-        if (args is LenderModel) {
+        if (args is Person) {
           return FadeRoute(page: LoansPage(lender: args));
         }
         return _errorRoute(
           settings.name,
-          _invalidArgmuents(args.runtimeType, LenderModel),
+          _invalidArgmuents(args.runtimeType, Person),
         );
 
       case Routes.addLoan:
-        if (args is AddLoanArguments) {
+        if (args is AddDebtArguments) {
           return FadeRoute(
-            page: AddLoanPage(
-              loan: args.loan,
-              lender: args.lender,
-            ),
+            page: AddLoanPage(loan: args.debt, lender: args.person),
           );
         }
         return _errorRoute(
           settings.name,
-          _invalidArgmuents(args.runtimeType, AddLoanArguments),
+          _invalidArgmuents(args.runtimeType, AddDebtArguments),
         );
 
       default:

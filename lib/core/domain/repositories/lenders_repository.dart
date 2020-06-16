@@ -1,33 +1,34 @@
-import 'package:debts_app/core/data/models/index.dart';
+import 'package:debts_app/core/domain/entities/debt.dart';
+import 'package:debts_app/core/domain/entities/person.dart';
 
 abstract class LendersRepository {
   /// Get all lenders.
-  Future<List<LenderModel>> getLenders();
+  Future<List<Person>> getLenders();
 
   /// Get all loans.
-  Future<List<DebtModel>> getLoans();
+  Future<List<Debt>> getLoans();
 
   /// Get loans for corresponding lender.
-  Future<List<LoanModel>> getLoansForLender(LenderModel lender);
+  Future<List<Debt>> getLoansForLender(Person lender);
 
   /// Add lender.
-  Future<void> addLender(LenderModel lender);
+  Future<void> addLender(Person lender);
 
   /// Add loan.
-  Future<void> addLoan(LoanModel loan);
+  Future<void> addLoan(Debt loan);
 
   /// Update lender.
-  Future<void> updateLender(LenderModel lender);
+  Future<void> updateLender(Person lender);
 
   /// Update loan.
-  Future<void> updateLoan(LoanModel loan);
+  Future<void> updateLoan(Debt loan);
 
   /// Delete loan.
-  Future<void> deleteLoan(LoanModel loan);
+  Future<void> deleteLoan(Debt loan);
 
   /// Delete lender.
-  Future<void> deleteLender(LenderModel lender);
+  Future<void> deleteLender(Person lender);
 
   /// Delete all loans for corresponding lender.
-  Future<void> deleteAllLoansForLender(LenderModel lender);
+  Future<void> deleteAllLoansForLender(Person lender);
 }

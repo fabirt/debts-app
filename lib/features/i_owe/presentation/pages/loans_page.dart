@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:debts_app/core/data/models/index.dart';
+import 'package:debts_app/core/domain/entities/debt.dart';
+import 'package:debts_app/core/domain/entities/person.dart';
 import 'package:debts_app/core/locale/app_localizations.dart';
 import 'package:debts_app/core/presentation/bloc/inherited_bloc.dart';
 import 'package:debts_app/core/presentation/widgets/index.dart';
@@ -8,7 +9,7 @@ import 'package:debts_app/core/router/index.dart';
 import 'package:debts_app/features/i_owe/presentation/widgets/loan_card.dart';
 
 class LoansPage extends StatefulWidget {
-  final LenderModel lender;
+  final Person lender;
 
   const LoansPage({@required this.lender});
 
@@ -27,18 +28,18 @@ class _LoansPageState extends State<LoansPage> {
   void _addLoan(BuildContext context) {
     Router.navigator.pushNamed(
       Routes.addLoan,
-      arguments: AddLoanArguments(lender: widget.lender),
+      arguments: AddDebtArguments(person: widget.lender),
     );
   }
 
-  void _updateLoan(BuildContext context, LoanModel loan) {
+  void _updateLoan(BuildContext context, Debt loan) {
     Router.navigator.pushNamed(
       Routes.addLoan,
-      arguments: AddLoanArguments(lender: widget.lender, loan: loan),
+      arguments: AddDebtArguments(person: widget.lender, debt: loan),
     );
   }
 
-  Future<void> _deleteLoan(LoanModel loan, InheritedBloc bloc) async {
+  Future<void> _deleteLoan(Debt loan, InheritedBloc bloc) async {
     await bloc.lendersBloc.deleteLoan(loan, widget.lender);
     await bloc.lendersBloc.getLoansByLender(widget.lender);
   }
@@ -74,7 +75,7 @@ class _LoansPageState extends State<LoansPage> {
     final bloc = InheritedBloc.of(context);
     return StreamBuilder(
       stream: bloc.lendersBloc.loansStream,
-      builder: (BuildContext context, AsyncSnapshot<List<LoanModel>> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<List<Debt>> snapshot) {
         if (snapshot.hasData) {
           final data = snapshot.data;
           if (data.isEmpty) return _buildEmptyState(context);
@@ -84,8 +85,8 @@ class _LoansPageState extends State<LoansPage> {
             itemBuilder: (BuildContext context, int i) {
               return LoanCard(
                 loan: data[i],
-                onTap: (LoanModel l) => _updateLoan(context, l),
-                onDismissed: (LoanModel l) => _deleteLoan(l, bloc),
+                onTap: (Debt l) => _updateLoan(context, l),
+                onDismissed: (Debt l) => _deleteLoan(l, bloc),
               );
             },
           );

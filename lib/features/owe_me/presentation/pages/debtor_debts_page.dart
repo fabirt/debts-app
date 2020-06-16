@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:debts_app/core/data/models/index.dart';
+import 'package:debts_app/core/domain/entities/debt.dart';
+import 'package:debts_app/core/domain/entities/person.dart';
 import 'package:debts_app/core/locale/app_localizations.dart';
 import 'package:debts_app/core/presentation/bloc/inherited_bloc.dart';
 import 'package:debts_app/core/presentation/widgets/index.dart';
@@ -8,7 +9,7 @@ import 'package:debts_app/core/router/index.dart';
 import 'package:debts_app/features/owe_me/presentation/widgets/debt_card.dart';
 
 class DebtorDebtsPage extends StatefulWidget {
-  final DebtorModel debtor;
+  final Person debtor;
 
   const DebtorDebtsPage({@required this.debtor});
 
@@ -27,21 +28,21 @@ class _DebtorDebtsPageState extends State<DebtorDebtsPage> {
   void _addDebt(BuildContext context) {
     Router.navigator.pushNamed(
       Routes.addDebt,
-      arguments: AddDebtArguments(debtor: widget.debtor),
+      arguments: AddDebtArguments(person: widget.debtor),
     );
   }
 
-  void _updateDebt(BuildContext context, DebtModel debt) {
+  void _updateDebt(BuildContext context, Debt debt) {
     Router.navigator.pushNamed(
       Routes.addDebt,
       arguments: AddDebtArguments(
-        debtor: widget.debtor,
+        person: widget.debtor,
         debt: debt,
       ),
     );
   }
 
-  Future<void> _deleteDebt(DebtModel debt, InheritedBloc bloc) async {
+  Future<void> _deleteDebt(Debt debt, InheritedBloc bloc) async {
     await bloc.debtorsBloc.deleteDebt(debt, widget.debtor);
     await bloc.debtorsBloc.getDebtsByDebtor(widget.debtor);
   }
@@ -77,7 +78,7 @@ class _DebtorDebtsPageState extends State<DebtorDebtsPage> {
     final bloc = InheritedBloc.of(context);
     return StreamBuilder(
       stream: bloc.debtorsBloc.debtsStream,
-      builder: (BuildContext context, AsyncSnapshot<List<DebtModel>> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<List<Debt>> snapshot) {
         if (snapshot.hasData) {
           final data = snapshot.data;
           if (data.isEmpty) return _buildEmptyState(context);
@@ -87,8 +88,8 @@ class _DebtorDebtsPageState extends State<DebtorDebtsPage> {
             itemBuilder: (BuildContext context, int i) {
               return DebtCard(
                 debt: data[i],
-                onTap: (DebtModel d) => _updateDebt(context, d),
-                onDismissed: (DebtModel d) => _deleteDebt(d, bloc),
+                onTap: (Debt d) => _updateDebt(context, d),
+                onDismissed: (Debt d) => _deleteDebt(d, bloc),
               );
             },
           );

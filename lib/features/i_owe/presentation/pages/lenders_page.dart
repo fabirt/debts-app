@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:debts_app/core/data/models/index.dart';
+import 'package:debts_app/core/domain/entities/person.dart';
+import 'package:debts_app/core/domain/entities/resume.dart';
 import 'package:debts_app/core/locale/app_localizations.dart';
 import 'package:debts_app/core/presentation/widgets/index.dart';
 import 'package:debts_app/core/presentation/bloc/inherited_bloc.dart';
@@ -33,7 +34,7 @@ class _LendersPageState extends State<LendersPage>
   }
 
   @override
-  void dispose() { 
+  void dispose() {
     _animationController.dispose();
     super.dispose();
   }
@@ -98,9 +99,8 @@ class _LendersPageState extends State<LendersPage>
   Widget _buildHeaderDebt(InheritedBloc bloc) {
     return StreamBuilder(
       stream: bloc.lendersBloc.resumeStream,
-      initialData: DebtorsResumeModel(),
-      builder:
-          (BuildContext context, AsyncSnapshot<DebtorsResumeModel> snapshot) {
+      initialData: Resume(),
+      builder: (BuildContext context, AsyncSnapshot<Resume> snapshot) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -130,8 +130,7 @@ class _LendersPageState extends State<LendersPage>
   Widget _buildContent(InheritedBloc bloc) {
     return StreamBuilder(
       stream: bloc.lendersBloc.lendersStream,
-      builder:
-          (BuildContext context, AsyncSnapshot<List<LenderModel>> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<List<Person>> snapshot) {
         if (snapshot.hasData) {
           final data = snapshot.data;
           if (data.isEmpty) return _buildEmptyState(context);
@@ -143,7 +142,7 @@ class _LendersPageState extends State<LendersPage>
               return LenderCard(
                 lender: data[i],
                 onTap: _onTapLender,
-                onDismissed: (LenderModel l) => _deleteLender(bloc, l),
+                onDismissed: (Person l) => _deleteLender(bloc, l),
               );
             },
           );
@@ -161,11 +160,11 @@ class _LendersPageState extends State<LendersPage>
     );
   }
 
-  Future<void> _deleteLender(InheritedBloc bloc, LenderModel lender) async {
+  Future<void> _deleteLender(InheritedBloc bloc, Person lender) async {
     await bloc.lendersBloc.deleteLender(lender);
   }
 
-  void _onTapLender(LenderModel lender) {
+  void _onTapLender(Person lender) {
     Router.navigator.pushNamed(Routes.singleLender, arguments: lender);
   }
 

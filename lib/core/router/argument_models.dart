@@ -1,22 +1,13 @@
 import 'package:flutter/foundation.dart';
-import 'package:debts_app/core/data/models/index.dart';
+import 'package:debts_app/core/domain/entities/debt.dart';
+import 'package:debts_app/core/domain/entities/person.dart';
 
 class AddDebtArguments {
-  final DebtModel debt;
-  final DebtorModel debtor;
+  final Debt debt;
+  final Person person;
 
   AddDebtArguments({
     this.debt,
-    @required this.debtor,
-  });
-}
-
-class AddLoanArguments {
-  final LoanModel loan;
-  final LenderModel lender;
-
-  AddLoanArguments({
-    this.loan,
-    @required this.lender,
+    @required this.person,
   });
 }
