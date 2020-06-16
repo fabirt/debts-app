@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:debts_app/core/domain/entities/debt.dart';
-import 'package:debts_app/core/utils/index.dart' as utils;
+import 'package:debts_app/core/utils/utils.dart' as utils;
 
 class LoanCard extends StatelessWidget {
   final Debt loan;

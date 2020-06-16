@@ -5,8 +5,8 @@ import 'package:debts_app/core/domain/entities/debt.dart';
 import 'package:debts_app/core/domain/entities/person.dart';
 import 'package:debts_app/core/locale/app_localizations.dart';
 import 'package:debts_app/core/presentation/bloc/inherited_bloc.dart';
-import 'package:debts_app/core/presentation/widgets/index.dart';
-import 'package:debts_app/core/utils/index.dart' as utils;
+import 'package:debts_app/core/presentation/widgets/widgets.dart';
+import 'package:debts_app/core/utils/utils.dart' as utils;
 import 'package:debts_app/features/i_owe/presentation/bloc/add_loan_bloc.dart';
 
 class AddLoanPage extends StatefulWidget {

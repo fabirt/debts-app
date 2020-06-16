@@ -1,5 +1,5 @@
 import 'package:rxdart/rxdart.dart';
-import 'package:debts_app/core/utils/index.dart';
+import 'package:debts_app/core/utils/utils.dart';
 
 class AddDebtBloc {
   final _valueController = BehaviorSubject<String>();

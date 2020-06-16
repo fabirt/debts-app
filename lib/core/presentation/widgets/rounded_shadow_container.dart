@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:debts_app/core/utils/index.dart' as utils;
+import 'package:debts_app/core/utils/utils.dart' as utils;
 
 class RoundedShadowContainer extends StatelessWidget {
   final Widget child;

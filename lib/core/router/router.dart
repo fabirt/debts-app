@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:debts_app/core/domain/entities/person.dart';
-import 'package:debts_app/core/presentation/widgets/index.dart';
+import 'package:debts_app/core/presentation/widgets/widgets.dart';
 import 'package:debts_app/core/router/argument_models.dart';
 import 'package:debts_app/core/router/routes.dart';
 import 'package:debts_app/features/i_owe/presentation/pages/add_lender_page.dart';
@@ -13,6 +13,9 @@ import 'package:debts_app/features/owe_me/presentation/pages/add_debtor_page.dar
 import 'package:debts_app/features/owe_me/presentation/pages/debtor_debts_page.dart';
 import 'package:debts_app/features/owe_me/presentation/pages/debtors_page.dart';
 import 'package:debts_app/features/resume/presentation/pages/resume_page.dart';
+
+export 'package:debts_app/core/router/argument_models.dart';
+export 'package:debts_app/core/router/routes.dart';
 
 /// App navigation router.
 class Router {

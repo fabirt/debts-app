@@ -1,5 +1,5 @@
 import 'package:rxdart/subjects.dart';
-import 'package:debts_app/core/utils/index.dart';
+import 'package:debts_app/core/utils/utils.dart';
 
 class AddLenderBloc {
   final _nameController = BehaviorSubject<String>();

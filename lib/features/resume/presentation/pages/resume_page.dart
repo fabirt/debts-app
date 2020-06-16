@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'package:debts_app/core/domain/entities/resume.dart';
 import 'package:debts_app/core/locale/app_localizations.dart';
-import 'package:debts_app/core/presentation/widgets/index.dart';
+import 'package:debts_app/core/presentation/widgets/widgets.dart';
 import 'package:debts_app/core/presentation/bloc/inherited_bloc.dart';
-import 'package:debts_app/core/router/index.dart';
-import 'package:debts_app/core/utils/index.dart' as utils;
+import 'package:debts_app/core/router/router.dart';
+import 'package:debts_app/core/utils/utils.dart' as utils;
 
 class ResumePage extends StatefulWidget {
   @override
