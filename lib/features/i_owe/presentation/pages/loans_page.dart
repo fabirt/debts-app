@@ -6,7 +6,6 @@ import 'package:debts_app/core/locale/app_localizations.dart';
 import 'package:debts_app/core/presentation/bloc/inherited_bloc.dart';
 import 'package:debts_app/core/presentation/widgets/widgets.dart';
 import 'package:debts_app/core/router/router.dart';
-import 'package:debts_app/features/i_owe/presentation/widgets/loan_card.dart';
 
 class LoansPage extends StatefulWidget {
   final Person lender;
@@ -83,8 +82,8 @@ class _LoansPageState extends State<LoansPage> {
             itemCount: data.length,
             padding: const EdgeInsets.only(bottom: 110.0, top: 20.0),
             itemBuilder: (BuildContext context, int i) {
-              return LoanCard(
-                loan: data[i],
+              return DebtCard(
+                debt: data[i],
                 onTap: (Debt l) => _updateLoan(context, l),
                 onDismissed: (Debt l) => _deleteLoan(l, bloc),
               );

@@ -6,7 +6,6 @@ import 'package:debts_app/core/locale/app_localizations.dart';
 import 'package:debts_app/core/presentation/bloc/inherited_bloc.dart';
 import 'package:debts_app/core/presentation/widgets/widgets.dart';
 import 'package:debts_app/core/router/router.dart';
-import 'package:debts_app/features/owe_me/presentation/widgets/debt_card.dart';
 
 class DebtorDebtsPage extends StatefulWidget {
   final Person debtor;

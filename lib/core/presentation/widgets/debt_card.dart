@@ -1,27 +1,31 @@
 import 'package:flutter/material.dart';
 
-import 'package:debts_app/core/domain/entities/person.dart';
+import 'package:debts_app/core/domain/entities/debt.dart';
 import 'package:debts_app/core/utils/utils.dart' as utils;
 
-class LenderCard extends StatelessWidget {
-  final Person lender;
-  final Function(Person) onTap;
-  final Function(Person) onDismissed;
+class DebtCard extends StatelessWidget {
+  final Debt debt;
+  final Function(Debt debt) onTap;
+  final Function(Debt debt) onDismissed;
 
-  const LenderCard({this.lender, this.onTap, this.onDismissed});
+  const DebtCard({
+    @required this.debt,
+    this.onTap,
+    this.onDismissed,
+  });
 
   void _onTap() {
-    onTap(lender);
+    onTap(debt);
   }
 
   void _onDismissed(DismissDirection direction) {
-    onDismissed(lender);
+    onDismissed(debt);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
       child: Dismissible(
         key: UniqueKey(),
         onDismissed: _onDismissed,
@@ -64,36 +68,52 @@ class LenderCard extends StatelessWidget {
     );
   }
 
-  Container _buildContent() {
-    final debt = utils.formatCurrency(lender.total);
-
+  Widget _buildContent() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          CircleAvatar(
-            backgroundColor: utils.Colors.athensGray,
-            child: Text(
-              lender.getInitials(),
-              style: TextStyle(
-                color: utils.Colors.towerGray,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ),
-          const SizedBox(width: 12.0),
-          Expanded(
-            child: Text(
-              lender.name,
-              style: TextStyle(fontWeight: FontWeight.w500),
-            ),
-          ),
-          const SizedBox(width: 12.0),
+          _buildRow(),
+          const SizedBox(height: 10.0),
           Text(
-            debt,
-            style: TextStyle(fontWeight: FontWeight.w700),
+            debt.description,
+            textAlign: TextAlign.justify,
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildRow() {
+    final value = utils.formatCurrency(debt.value);
+    return Row(
+      children: <Widget>[
+        _buildDate(),
+        const Expanded(child: SizedBox()),
+        Text(
+          value,
+          style: TextStyle(fontWeight: FontWeight.w700),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDate() {
+    final formattedDate = utils.formatDate(DateTime.parse(debt.date));
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+      decoration: BoxDecoration(
+        color: const Color(0x0F154FC2),
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      child: Text(
+        formattedDate,
+        style: TextStyle(
+          fontSize: 11.0,
+          fontWeight: FontWeight.w600,
+          color: utils.Colors.denim,
+        ),
       ),
     );
   }

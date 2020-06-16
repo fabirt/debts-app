@@ -1,27 +1,31 @@
 import 'package:flutter/material.dart';
 
-import 'package:debts_app/core/domain/entities/debt.dart';
+import 'package:debts_app/core/domain/entities/person.dart';
 import 'package:debts_app/core/utils/utils.dart' as utils;
 
-class DebtCard extends StatelessWidget {
-  final Debt debt;
-  final Function(Debt debt) onTap;
-  final Function(Debt debt) onDismissed;
+class PersonCard extends StatelessWidget {
+  final Person person;
+  final Function(Person) onTap;
+  final Function(Person) onDismissed;
 
-  const DebtCard({this.debt, this.onTap, this.onDismissed});
+  const PersonCard({
+    @required this.person,
+    this.onTap,
+    this.onDismissed,
+  });
 
   void _onTap() {
-    onTap(debt);
+    onTap(person);
   }
 
   void _onDismissed(DismissDirection direction) {
-    onDismissed(debt);
+    onDismissed(person);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
       child: Dismissible(
         key: UniqueKey(),
         onDismissed: _onDismissed,
@@ -64,52 +68,36 @@ class DebtCard extends StatelessWidget {
     );
   }
 
-  Widget _buildContent() {
+  Container _buildContent() {
+    final debt = utils.formatCurrency(person.total);
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: <Widget>[
-          _buildRow(),
-          const SizedBox(height: 10.0),
+          CircleAvatar(
+            backgroundColor: utils.Colors.athensGray,
+            child: Text(
+              person.getInitials(),
+              style: TextStyle(
+                color: utils.Colors.towerGray,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+          const SizedBox(width: 12.0),
+          Expanded(
+            child: Text(
+              person.name,
+              style: TextStyle(fontWeight: FontWeight.w500),
+            ),
+          ),
+          const SizedBox(width: 12.0),
           Text(
-            debt.description,
-            textAlign: TextAlign.justify,
+            debt,
+            style: TextStyle(fontWeight: FontWeight.w700),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildRow() {
-    final value = utils.formatCurrency(debt.value);
-    return Row(
-      children: <Widget>[
-        _buildDate(),
-        const Expanded(child: SizedBox()),
-        Text(
-          value,
-          style: TextStyle(fontWeight: FontWeight.w700),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildDate() {
-    final formattedDate = utils.formatDate(DateTime.parse(debt.date));
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-      decoration: BoxDecoration(
-        color: const Color(0x0F154FC2),
-        borderRadius: BorderRadius.circular(20.0),
-      ),
-      child: Text(
-        formattedDate,
-        style: TextStyle(
-          fontSize: 11.0,
-          fontWeight: FontWeight.w600,
-          color: utils.Colors.denim,
-        ),
       ),
     );
   }

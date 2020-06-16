@@ -7,7 +7,6 @@ import 'package:debts_app/core/presentation/widgets/widgets.dart';
 import 'package:debts_app/core/presentation/bloc/inherited_bloc.dart';
 import 'package:debts_app/core/router/router.dart';
 import 'package:debts_app/core/utils/utils.dart' as utils;
-import 'package:debts_app/features/owe_me/presentation/widgets/debtor_card.dart';
 
 class DebtorsPage extends StatefulWidget {
   @override
@@ -141,8 +140,8 @@ class _DebtorsPageState extends State<DebtorsPage>
             itemCount: data.length,
             padding: const EdgeInsets.only(bottom: 110.0, top: 20.0),
             itemBuilder: (BuildContext context, int i) {
-              return DebtorCard(
-                debtor: data[i],
+              return PersonCard(
+                person: data[i],
                 onTap: _onTapDebtor,
                 onDismissed: (Person d) => _deleteDebtor(bloc, d),
               );
