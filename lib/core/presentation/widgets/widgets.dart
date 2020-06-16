@@ -2,6 +2,7 @@ export 'package:debts_app/core/presentation/widgets/add_button.dart';
 export 'package:debts_app/core/presentation/widgets/background_painter.dart';
 export 'package:debts_app/core/presentation/widgets/blue_header_container.dart';
 export 'package:debts_app/core/presentation/widgets/custom_appbar.dart';
+export 'package:debts_app/core/presentation/widgets/date_picker_field.dart';
 export 'package:debts_app/core/presentation/widgets/debt_card.dart';
 export 'package:debts_app/core/presentation/widgets/debt_resume_card.dart';
 export 'package:debts_app/core/presentation/widgets/decorated_text_field.dart';

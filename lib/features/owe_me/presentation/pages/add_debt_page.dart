@@ -35,6 +35,7 @@ class _AddDebtPageState extends State<AddDebtPage> {
       final description = widget.debt.description;
       _bloc.changeValue(value);
       _bloc.changeNote(description);
+      _bloc.changeDate(widget.debt.date);
     }
   }
 
@@ -58,7 +59,7 @@ class _AddDebtPageState extends State<AddDebtPage> {
       parentId: widget.debtor.id,
       value: double.parse(_bloc.value),
       description: _bloc.note,
-      date: DateTime.now().toString(),
+      date: _bloc.date,
     );
     await bloc.debtorsBloc.addDebt(debt, widget.debtor);
     Navigator.of(context).pop();
@@ -71,7 +72,7 @@ class _AddDebtPageState extends State<AddDebtPage> {
       parentId: widget.debtor.id,
       value: double.parse(_bloc.value),
       description: _bloc.note,
-      date: widget.debt.date,
+      date: _bloc.date,
     );
     await bloc.debtorsBloc.updateDebt(debt, widget.debtor);
     Navigator.of(context).pop();
@@ -122,6 +123,11 @@ class _AddDebtPageState extends State<AddDebtPage> {
           _buildValueTextField(),
           const SizedBox(height: 24.0),
           _buildNoteTextField(),
+          const SizedBox(height: 32.0),
+          DatePickerField(
+            initialValue: _bloc.date,
+            onChanged: _bloc.changeDate,
+          ),
         ],
       ),
     );

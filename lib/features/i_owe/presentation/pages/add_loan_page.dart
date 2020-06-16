@@ -35,6 +35,7 @@ class _AddLoanPageState extends State<AddLoanPage> {
       final description = widget.loan.description;
       _bloc.changeValue(value);
       _bloc.changeNote(description);
+      _bloc.changeDate(widget.loan.date);
     }
   }
 
@@ -52,7 +53,7 @@ class _AddLoanPageState extends State<AddLoanPage> {
       parentId: widget.lender.id,
       value: double.parse(_bloc.value),
       description: _bloc.note,
-      date: DateTime.now().toString(),
+      date: _bloc.date,
     );
     await bloc.lendersBloc.addLoan(loan, widget.lender);
     Navigator.of(context).pop();
@@ -65,7 +66,7 @@ class _AddLoanPageState extends State<AddLoanPage> {
       parentId: widget.lender.id,
       value: double.parse(_bloc.value),
       description: _bloc.note,
-      date: widget.loan.date,
+      date: _bloc.date,
     );
     await bloc.lendersBloc.updateLoan(loan, widget.lender);
     Navigator.of(context).pop();
@@ -116,6 +117,11 @@ class _AddLoanPageState extends State<AddLoanPage> {
           _buildValueTextField(),
           const SizedBox(height: 24.0),
           _buildNoteTextField(),
+          const SizedBox(height: 32.0),
+          DatePickerField(
+            initialValue: _bloc.date,
+            onChanged: _bloc.changeDate,
+          ),
         ],
       ),
     );

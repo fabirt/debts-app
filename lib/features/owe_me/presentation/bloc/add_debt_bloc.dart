@@ -4,6 +4,7 @@ import 'package:debts_app/core/utils/utils.dart';
 class AddDebtBloc {
   final _valueController = BehaviorSubject<String>();
   final _noteController = BehaviorSubject<String>();
+  String _date = DateTime.now().toIso8601String();
 
   Stream<String> get valueStream => _valueController.stream.transform(
         Validators.validateExistingField,
@@ -28,13 +29,13 @@ class AddDebtBloc {
 
   Function(String) get changeNote => _changeNote;
 
-  String get value {
-    return _valueController.value;
-  }
+  Function(String) get changeDate => _changeDate;
 
-  String get note {
-    return _noteController.value;
-  }
+  String get value => _valueController.value;
+
+  String get note => _noteController.value;
+
+  String get date => _date;
 
   void _changeValue(String event) {
     final replaced = event.replaceAll('.', '');
@@ -43,6 +44,10 @@ class AddDebtBloc {
 
   void _changeNote(String event) {
     _noteController.sink.add(event);
+  }
+
+  void _changeDate(String event) {
+    _date = event;
   }
 
   void dispose() {
