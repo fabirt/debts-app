@@ -42,6 +42,7 @@ class LendersBloc {
     await _repository.addLoan(loan);
     lender.loan += loan.value;
     await _repository.updateLender(lender);
+    await getLoansByLender(lender);
     await getLenders();
   }
 
@@ -55,6 +56,7 @@ class LendersBloc {
     }
     lender.loan = totalLoan;
     await _repository.updateLender(lender);
+    await getLoansByLender(lender);
     await getLenders();
   }
 

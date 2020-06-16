@@ -48,6 +48,7 @@ class DebtorsBloc {
     await _repository.addDebt(debt);
     debtor.debt += debt.value;
     await _repository.updateDebtor(debtor);
+    await getDebtsByDebtor(debtor);
     await getDebtors();
   }
 
@@ -61,6 +62,7 @@ class DebtorsBloc {
     }
     debtor.debt = totalDebt;
     await _repository.updateDebtor(debtor);
+    await getDebtsByDebtor(debtor);
     await getDebtors();
   }
 
