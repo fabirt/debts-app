@@ -121,6 +121,10 @@ class _AddLoanPageState extends State<AddLoanPage> {
           DatePickerField(
             initialValue: _bloc.date,
             onChanged: _bloc.changeDate,
+            dialogTheme: ThemeData(
+              fontFamily: Theme.of(context).textTheme.bodyText2.fontFamily,
+              primarySwatch: utils.Swatchs.blueSwatch,
+            ),
           ),
         ],
       ),

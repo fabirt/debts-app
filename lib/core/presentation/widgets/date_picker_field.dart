@@ -4,11 +4,13 @@ import 'package:debts_app/core/utils/utils.dart' as utils;
 
 class DatePickerField extends StatefulWidget {
   final String initialValue;
+  final ThemeData dialogTheme;
   final ValueChanged<String> onChanged;
 
   const DatePickerField({
     Key key,
     this.initialValue,
+    this.dialogTheme,
     this.onChanged,
   }) : super(key: key);
 
@@ -64,6 +66,12 @@ class _DatePickerFieldState extends State<DatePickerField> {
       helpText: 'Seleccionar fecha'.toUpperCase(),
       errorFormatText: 'Fecha inválida.',
       fieldLabelText: 'Ingresar Fecha',
+      builder: (context, child) {
+        return Theme(
+          data: widget.dialogTheme ?? Theme.of(context),
+          child: child,
+        );
+      },
     );
     if (date != null) {
       _selectedDate = date;
