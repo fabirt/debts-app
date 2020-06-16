@@ -69,6 +69,11 @@ class DebtorsBloc {
     await getDebtors();
   }
 
+  Future<void> updateDebtor(Person debtor) async {
+    await _repository.updateDebtor(debtor);
+    await getDebtors();
+  }
+
   /// Update debtor's total debt
   Future<void> updateResume() async {
     final resume = Resume();

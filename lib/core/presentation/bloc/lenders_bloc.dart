@@ -63,6 +63,11 @@ class LendersBloc {
     await getLenders();
   }
 
+  Future<void> updateLender(Person lender) async {
+    await _repository.updateLender(lender);
+    await getLenders();
+  }
+
   /// Update lenders total loan
   Future<void> updateResume() async {
     final resume = Resume();
