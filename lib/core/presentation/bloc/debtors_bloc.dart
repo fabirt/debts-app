@@ -27,6 +27,14 @@ class DebtorsBloc {
     _debtorsController.sink.add(_debtors);
   }
 
+  /// Get current debtor
+  Person getCurrentDebtor(Person person) {
+    return _debtors.firstWhere(
+      (e) => e.id == person.id,
+      orElse: () => null,
+    );
+  }
+
   /// Get all debts
   Future<void> getDebts() async {
     _debts = await _repository.getDebts();

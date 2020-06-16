@@ -29,6 +29,7 @@ class _DebtorsPageState extends State<DebtorsPage>
     super.didChangeDependencies();
     final bloc = InheritedBloc.of(context);
     bloc.debtorsBloc.getDebtors();
+    bloc.debtorsBloc.updateResume();
   }
 
   @override

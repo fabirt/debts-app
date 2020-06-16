@@ -17,33 +17,44 @@ class DebtorDebtsPage extends StatefulWidget {
 }
 
 class _DebtorDebtsPageState extends State<DebtorDebtsPage> {
+  Person _debtor;
+
+  @override
+  void initState() {
+    super.initState();
+    _debtor = widget.debtor.copyWith();
+  }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     final bloc = InheritedBloc.of(context);
-    bloc.debtorsBloc.getDebtsByDebtor(widget.debtor);
+    bloc.debtorsBloc.getDebtsByDebtor(_debtor);
   }
 
-  void _addDebt(BuildContext context) {
-    Router.navigator.pushNamed(
+  Future<void> _addDebt(BuildContext context) async {
+    await Router.navigator.pushNamed(
       Routes.addDebt,
-      arguments: AddDebtArguments(person: widget.debtor),
+      arguments: AddDebtArguments(person: _debtor),
     );
+    _debtor = InheritedBloc.of(context).debtorsBloc.getCurrentDebtor(_debtor);
   }
 
-  void _updateDebt(BuildContext context, Debt debt) {
-    Router.navigator.pushNamed(
+  Future<void> _updateDebt(BuildContext context, Debt debt) async {
+    await Router.navigator.pushNamed(
       Routes.addDebt,
       arguments: AddDebtArguments(
-        person: widget.debtor,
+        person: _debtor,
         debt: debt,
       ),
     );
+    _debtor = InheritedBloc.of(context).debtorsBloc.getCurrentDebtor(_debtor);
   }
 
   Future<void> _deleteDebt(Debt debt, InheritedBloc bloc) async {
-    await bloc.debtorsBloc.deleteDebt(debt, widget.debtor);
-    await bloc.debtorsBloc.getDebtsByDebtor(widget.debtor);
+    await bloc.debtorsBloc.deleteDebt(debt, _debtor);
+    await bloc.debtorsBloc.getDebtsByDebtor(_debtor);
+    _debtor = InheritedBloc.of(context).debtorsBloc.getCurrentDebtor(_debtor);
   }
 
   @override
@@ -53,7 +64,7 @@ class _DebtorDebtsPageState extends State<DebtorDebtsPage> {
         child: Column(
           children: <Widget>[
             CustomAppBar(
-              titleText: widget.debtor.name,
+              titleText: _debtor.name,
             ),
             Expanded(
               child: RoundedShadowContainer(

@@ -17,30 +17,41 @@ class LoansPage extends StatefulWidget {
 }
 
 class _LoansPageState extends State<LoansPage> {
+  Person _lender;
+
+  @override
+  void initState() {
+    super.initState();
+    _lender = widget.lender.copyWith();
+  }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     final bloc = InheritedBloc.of(context);
-    bloc.lendersBloc.getLoansByLender(widget.lender);
+    bloc.lendersBloc.getLoansByLender(_lender);
   }
 
-  void _addLoan(BuildContext context) {
-    Router.navigator.pushNamed(
+  Future<void> _addLoan(BuildContext context) async {
+    await Router.navigator.pushNamed(
       Routes.addLoan,
-      arguments: AddDebtArguments(person: widget.lender),
+      arguments: AddDebtArguments(person: _lender),
     );
+    _lender = InheritedBloc.of(context).lendersBloc.getCurrentLender(_lender);
   }
 
-  void _updateLoan(BuildContext context, Debt loan) {
-    Router.navigator.pushNamed(
+  Future<void> _updateLoan(BuildContext context, Debt loan) async {
+    await Router.navigator.pushNamed(
       Routes.addLoan,
-      arguments: AddDebtArguments(person: widget.lender, debt: loan),
+      arguments: AddDebtArguments(person: _lender, debt: loan),
     );
+    _lender = InheritedBloc.of(context).lendersBloc.getCurrentLender(_lender);
   }
 
   Future<void> _deleteLoan(Debt loan, InheritedBloc bloc) async {
-    await bloc.lendersBloc.deleteLoan(loan, widget.lender);
-    await bloc.lendersBloc.getLoansByLender(widget.lender);
+    await bloc.lendersBloc.deleteLoan(loan, _lender);
+    await bloc.lendersBloc.getLoansByLender(_lender);
+    _lender = InheritedBloc.of(context).lendersBloc.getCurrentLender(_lender);
   }
 
   @override
@@ -50,7 +61,7 @@ class _LoansPageState extends State<LoansPage> {
         child: Column(
           children: <Widget>[
             CustomAppBar(
-              titleText: widget.lender.name,
+              titleText: _lender.name,
             ),
             Expanded(
               child: RoundedShadowContainer(

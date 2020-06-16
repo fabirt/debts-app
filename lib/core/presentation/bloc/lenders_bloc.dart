@@ -27,6 +27,14 @@ class LendersBloc {
     _lendersController.sink.add(_lenders);
   }
 
+  /// Get current lender
+  Person getCurrentLender(Person person) {
+    return _lenders.firstWhere(
+      (e) => e.id == person.id,
+      orElse: () => null,
+    );
+  }
+
   /// Get loans for corresponding lender
   Future<void> getLoansByLender(Person lender) async {
     _loans = await _repository.getLoansForLender(lender);
