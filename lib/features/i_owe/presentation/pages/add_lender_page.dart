@@ -4,7 +4,6 @@ import 'package:debts_app/core/domain/entities/person.dart';
 import 'package:debts_app/core/locale/app_localizations.dart';
 import 'package:debts_app/core/presentation/bloc/inherited_bloc.dart';
 import 'package:debts_app/core/presentation/widgets/widgets.dart';
-import 'package:debts_app/core/utils/utils.dart' as utils;
 import 'package:debts_app/features/i_owe/presentation/bloc/add_lender_bloc.dart';
 
 class AddLenderPage extends StatefulWidget {
@@ -79,40 +78,22 @@ class _AddLenderPageState extends State<AddLenderPage> {
 
   Widget _buildContent() {
     return Padding(
-      padding: const EdgeInsets.all(28.0),
+      padding: const EdgeInsets.fromLTRB(28.0, 28.0, 28.0, 0.0),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          const FractionallySizedBox(widthFactor: 1.0),
-          Text(
-            AppLocalizations.of(context).translate('name'),
-            style: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w600),
-          ),
-          const SizedBox(height: 10.0),
-          _buildTextField(),
-          const Expanded(child: SizedBox()),
-          _buildButton()
-        ],
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[_buildTextField(), const Spacer(), _buildButton()],
       ),
     );
   }
 
   Widget _buildTextField() {
-    return Theme(
-      data: Theme.of(context).copyWith(
-        primaryColor: utils.Colors.towerGray,
-      ),
-      child: TextField(
-        autofocus: true,
-        controller: _editingController,
-        textCapitalization: TextCapitalization.words,
-        cursorColor: utils.Colors.towerGray,
-        decoration: InputDecoration(
-          hintText: AppLocalizations.of(context).translate('name_hint'),
-          focusColor: Colors.red,
-        ),
-        onChanged: _bloc.changeName,
-      ),
+    return DecoratedTextField(
+      autofocus: true,
+      titleText: AppLocalizations.of(context).translate('name'),
+      hintText: AppLocalizations.of(context).translate('name_hint'),
+      controller: _editingController,
+      textCapitalization: TextCapitalization.words,
+      onChanged: _bloc.changeName,
     );
   }
 

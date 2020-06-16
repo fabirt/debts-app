@@ -4,6 +4,7 @@ export 'package:debts_app/core/presentation/widgets/blue_header_container.dart';
 export 'package:debts_app/core/presentation/widgets/custom_appbar.dart';
 export 'package:debts_app/core/presentation/widgets/debt_card.dart';
 export 'package:debts_app/core/presentation/widgets/debt_resume_card.dart';
+export 'package:debts_app/core/presentation/widgets/decorated_text_field.dart';
 export 'package:debts_app/core/presentation/widgets/empty_state.dart';
 export 'package:debts_app/core/presentation/widgets/fade_route.dart';
 export 'package:debts_app/core/presentation/widgets/green_header_container.dart';

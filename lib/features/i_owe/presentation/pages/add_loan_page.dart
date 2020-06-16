@@ -111,21 +111,10 @@ class _AddLoanPageState extends State<AddLoanPage> {
       padding: const EdgeInsets.all(28.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          const FractionallySizedBox(widthFactor: 1.0),
-          Text(
-            AppLocalizations.of(context).translate('value'),
-            style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w600),
-          ),
-          const SizedBox(height: 6.0),
           _buildValueTextField(),
           const SizedBox(height: 24.0),
-          Text(
-            AppLocalizations.of(context).translate('note'),
-            style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w600),
-          ),
-          const SizedBox(height: 6.0),
           _buildNoteTextField(),
         ],
       ),
@@ -133,44 +122,33 @@ class _AddLoanPageState extends State<AddLoanPage> {
   }
 
   Widget _buildValueTextField() {
-    return Theme(
-      data: Theme.of(context).copyWith(primaryColor: utils.Colors.towerGray),
-      child: TextFormField(
-        autofocus: true,
-        initialValue: _bloc.value,
-        keyboardType: TextInputType.number,
-        textInputAction: TextInputAction.next,
-        cursorColor: utils.Colors.towerGray,
-        onChanged: _bloc.changeValue,
-        maxLength: 11,
-        inputFormatters: [
-          WhitelistingTextInputFormatter.digitsOnly,
-          utils.NumberFormatter(),
-        ],
-        decoration: InputDecoration(
-          hintText: AppLocalizations.of(context).translate('value_hint'),
-          counterText: null,
-        ),
-        onFieldSubmitted: (_) {
-          FocusScope.of(context).requestFocus(_focusNode);
-        },
-      ),
+    return DecoratedTextField(
+      autofocus: true,
+      titleText: AppLocalizations.of(context).translate('value'),
+      hintText: AppLocalizations.of(context).translate('value_hint'),
+      initialValue: _bloc.value,
+      keyboardType: TextInputType.number,
+      textInputAction: TextInputAction.next,
+      maxLength: 11,
+      inputFormatters: [
+        WhitelistingTextInputFormatter.digitsOnly,
+        utils.NumberFormatter(),
+      ],
+      onChanged: _bloc.changeValue,
+      onFieldSubmitted: (_) {
+        FocusScope.of(context).requestFocus(_focusNode);
+      },
     );
   }
 
   Widget _buildNoteTextField() {
-    return Theme(
-      data: Theme.of(context).copyWith(primaryColor: utils.Colors.towerGray),
-      child: TextFormField(
-        focusNode: _focusNode,
-        initialValue: _bloc.note,
-        textCapitalization: TextCapitalization.sentences,
-        cursorColor: utils.Colors.towerGray,
-        onChanged: _bloc.changeNote,
-        decoration: InputDecoration(
-          hintText: AppLocalizations.of(context).translate('note_hint'),
-        ),
-      ),
+    return DecoratedTextField(
+      titleText: AppLocalizations.of(context).translate('note'),
+      hintText: AppLocalizations.of(context).translate('note_hint'),
+      focusNode: _focusNode,
+      initialValue: _bloc.note,
+      textCapitalization: TextCapitalization.sentences,
+      onChanged: _bloc.changeNote,
     );
   }
 
