@@ -14,7 +14,8 @@ class Worker {
   static void setupRecurrentWork() {
     final now = DateTime.now();
     final month = now.month < 12 ? now.month + 1 : 1;
-    final startAt = DateTime(now.year, month, 1, 9, 30);
+    final year = now.month == 12 ? now.year + 1 : now.year;
+    final startAt = DateTime(year, month, 1, 9, 30);
     AndroidAlarmManager.periodic(
       _duration,
       _alarmId,
